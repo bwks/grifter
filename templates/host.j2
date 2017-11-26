@@ -1,0 +1,22 @@
+{% extends 'base.j2' %}
+
+{% block host_config %}
+
+{% for host in hosts %}
+  config.vm.define "{{ host.name  }}" do |node|
+
+
+{% block provider_config %}
+  {% include provider.j2 %}
+{% endblock provider_config %}
+
+{% block interface_config %}
+{% for interface in host.interfaces %}
+
+{% endfor %}
+{% endblock interface_config %}
+
+  end
+{% endfor %}
+
+{% endblock host_config %}
