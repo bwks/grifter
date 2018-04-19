@@ -1,6 +1,8 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
+{% include 'get-mac.rb' %}
+
 Vagrant.configure("2") do |config|
 
 {% block host_config %}
