@@ -99,3 +99,9 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+# editors
+.idea/
+
+# Pipenv
+Pipfile*
