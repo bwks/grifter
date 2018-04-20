@@ -3,8 +3,10 @@ from .custom_filters import (
 )
 
 from .utils import (
+    get_mac,
     generate_loopbacks,
-    get_mac
+    update_interfaces,
+    update_hosts,
 )
 
 from .loaders import (
