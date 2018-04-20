@@ -14,7 +14,7 @@ def generate_loopbacks(host_dict=None, network='127.255.1'):
         raise ValueError('dict of hosts is empty')
 
     hosts = [i['name'] for i in host_dict['hosts']]
-    loopbacks = ['{0}.{1}'.format(network, i) for i in range(1, len(hosts) + 1)]
+    loopbacks = [f'{network}.{i}' for i in range(1, len(hosts) + 1)]
 
     return dict(zip(hosts, loopbacks))
 
@@ -26,4 +26,5 @@ def get_mac(oui='28:b7:ad'):
     return: MAC address as a string
     """
     nic = ':'.join([format(random.randint(0, 255), '02x') for _ in range(0, 3)])
-    return '{0}:{1}'.format(oui, nic)
+    return f'{oui}:{nic}'
+
