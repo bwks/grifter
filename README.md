@@ -155,9 +155,9 @@ Note: this will change slightly, its just a reminder to me at this point
 ```python
 import yaml
 
-from utils.custom_filters import explode_port
-from utils.utils import generate_loopbacks
-from utils.loaders import render_from_template
+from utils import explode_port
+from utils import generate_loopbacks
+from utils import render_from_template
 
 custom_filters = [explode_port]
 
