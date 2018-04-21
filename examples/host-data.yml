@@ -1,27 +1,28 @@
 ---
-hosts:
-  - name: # string - required
-    vagrant_box:
-      name: # string - required
-      version: # string - default ""
-      provider: # string - default: libvirt
+# The Jinja2 templates are build around data input in this format.
+# Every host must follow use this data format.
+- name: # string - required
+  vagrant_box:
+    name: # string - required
+    version: # string - optional | default: ""
+    provider: # string - optional | default: libvirt
 
-    insert_ssh_key: # boolean - default: False
-    synced_folder: # dict - default: None
-      enabled: # boolean - default: False
-      id: # string - default "vagrant-root"
-      src: # string - default "."
-      dst: # string - default "/vagrant"
+  insert_ssh_key: # boolean - optional | default: False
+  synced_folder: # dict - optional | default: None
+    enabled: # boolean - default: False
+    id: # string - default "vagrant-root"
+    src: # string - default "."
+    dst: # string - default "/vagrant"
 
-    provider_config:
-      nic_adapter_count: # integer - default: 8
-      disk_bus: # string - default ""
-      cpus: # integer - default 1
-      memory: # integer - default 1024
-      management_network_mac: # string - default: ""
+  provider_config:
+    nic_adapter_count: # integer - optional | default: 8
+    disk_bus: # string - optional | default ""
+    cpus: # integer - optional | default 1
+    memory: # integer - optional | default 1024
+    management_network_mac: # string - optional | default: ""
 
-    interfaces: # optional
-      - name: # string
-        local_port: # integer
-        remote_host: # string
-        remote_port: # integer
+  interfaces: # optional | None
+    - name: # string
+      local_port: # integer
+      remote_host: # string
+      remote_port: # integer
