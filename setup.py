@@ -16,7 +16,7 @@ setup(
     long_description=read('README.md'),
     include_package_data=True,
     packages=find_packages(),
-    package_dir={'hammer': ''},
+    # package_dir={'hammer': ''},
 
     install_requires=[
         'jinja2',
