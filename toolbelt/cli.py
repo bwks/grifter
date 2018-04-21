@@ -7,7 +7,7 @@ from toolbelt import generate_vagrant_file
 
 
 @click.command()
-@click.opitons('--build', default=True, help='Build Vagrantfile')
+@click.option('--build', default=True, help='Build Vagrantfile')
 @click.argument('data_file')
 def cli(data_file):
     data = load_host_data(data_file)
