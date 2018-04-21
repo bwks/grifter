@@ -22,4 +22,9 @@ setup(
         'pyyaml',
         'click',
     ],
+
+    entry_points='''
+    [console_scripts]
+    tweaker=cli:main
+    ''',
 )
