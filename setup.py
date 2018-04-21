@@ -20,5 +20,6 @@ setup(
     install_requires=[
         'jinja2',
         'pyyaml',
+        'click',
     ],
 )
