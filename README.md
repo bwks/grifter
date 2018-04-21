@@ -150,6 +150,11 @@ end
 
 ```
 
+#### Installation
+```
+pip install https://github.com/bobthebutcher/vagrant-topology-builder/archive/master.zip
+```
+
 #### Example Usage
 Note: this will change slightly, its just a reminder to me at this point
 ```python
