@@ -1,4 +1,5 @@
 import yaml
+from os import path
 
 from utils import (
     explode_port,
@@ -13,6 +14,8 @@ from constants import (
 custom_filters = [
     explode_port,
 ]
+
+templates_dir = path.join(path.dirname(__file__), 'templates')
 
 
 def load_host_data(location):
@@ -94,7 +97,7 @@ def update_hosts(hosts):
 
 def generate_vagrant_file(
         data, loopbacks, template_name,
-        template_directory=f'{BASE_DIR}/templates', vagrantfile_location='.'
+        template_directory=f'{templates_dir}/', vagrantfile_location='.'
         ):
     """
     Generate a vagrant file
