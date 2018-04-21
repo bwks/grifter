@@ -4,9 +4,6 @@ from .custom_filters import (
 
 from .utils import (
     get_mac,
-    generate_loopbacks,
-    update_interfaces,
-    update_hosts,
 )
 
 from .loaders import (
