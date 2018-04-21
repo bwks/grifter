@@ -1,0 +1,223 @@
+---
+hosts:
+  - name: "spine01"
+    vagrant_box:
+      name: "CumulusCommunity/cumulus-vx"
+      version:
+      provider: "libvirt"
+
+    insert_ssh_key: False
+    synced_folder:
+
+    provider_config:
+      nic_adapter_count: 52
+      disk_bus:
+      cpus: 1
+      memory: 1024
+      management_network_mac: "52:54:00:00:02:00"
+
+    interfaces:
+      - name: "eth1"
+        local_port: 1
+        remote_host: "leaf01"
+        remote_port: 51
+      - name: "eth2"
+        local_port: 2
+        remote_host: "leaf02"
+        remote_port: 51
+      - name: "eth1"
+        local_port: 3
+        remote_host: "leaf03"
+        remote_port: 51
+      - name: "eth2"
+        local_port: 4
+        remote_host: "leaf04"
+        remote_port: 51
+      - name: "eth49"
+        local_port: 49
+        remote_host: "spine02"
+        remote_port: 49
+      - name: "eth50"
+        local_port: 50
+        remote_host: "spine02"
+        remote_port: 50
+
+
+  - name: "spine02"
+    vagrant_box:
+      name: "CumulusCommunity/cumulus-vx"
+      version:
+      provider: "libvirt"
+
+    insert_ssh_key: False
+    synced_folder:
+
+    provider_config:
+      nic_adapter_count: 52
+      disk_bus:
+      cpus: 1
+      memory: 1024
+      management_network_mac: "52:54:00:00:02:01"
+
+    interfaces:
+      - name: "eth1"
+        local_port: 1
+        remote_host: "leaf01"
+        remote_port: 52
+      - name: "eth2"
+        local_port: 2
+        remote_host: "leaf02"
+        remote_port: 52
+      - name: "eth1"
+        local_port: 3
+        remote_host: "leaf03"
+        remote_port: 52
+      - name: "eth2"
+        local_port: 4
+        remote_host: "leaf04"
+        remote_port: 52
+      - name: "eth49"
+        local_port: 49
+        remote_host: "spine01"
+        remote_port: 49
+      - name: "eth50"
+        local_port: 50
+        remote_host: "spine01"
+        remote_port: 50
+
+
+  - name: "leaf01"
+    vagrant_box:
+      name: "CumulusCommunity/cumulus-vx"
+      version:
+      provider: "libvirt"
+
+    insert_ssh_key: False
+    synced_folder:
+
+    provider_config:
+      nic_adapter_count: 52
+      disk_bus:
+      cpus: 1
+      memory: 1024
+      management_network_mac: "52:54:00:00:02:02"
+
+    interfaces:
+      - name: "eth49"
+        local_port: 49
+        remote_host: "leaf02"
+        remote_port: 49
+      - name: "eth50"
+        local_port: 50
+        remote_host: "leaf02"
+        remote_port: 50
+      - name: "eth51"
+        local_port: 51
+        remote_host: "spine01"
+        remote_port: 1
+      - name: "eth52"
+        local_port: 52
+        remote_host: "spine02"
+        remote_port: 1
+
+  - name: "leaf02"
+    vagrant_box:
+      name: "CumulusCommunity/cumulus-vx"
+      version:
+      provider: "libvirt"
+
+    insert_ssh_key: False
+    synced_folder:
+
+    provider_config:
+      nic_adapter_count: 52
+      disk_bus:
+      cpus: 1
+      memory: 1024
+      management_network_mac: "52:54:00:00:02:03"
+
+    interfaces:
+      - name: "eth49"
+        local_port: 49
+        remote_host: "leaf01"
+        remote_port: 49
+      - name: "eth50"
+        local_port: 50
+        remote_host: "leaf01"
+        remote_port: 50
+      - name: "eth51"
+        local_port: 51
+        remote_host: "spine01"
+        remote_port: 2
+      - name: "eth52"
+        local_port: 52
+        remote_host: "spine02"
+        remote_port: 2
+
+  - name: "leaf03"
+    vagrant_box:
+      name: "CumulusCommunity/cumulus-vx"
+      version:
+      provider: "libvirt"
+
+    insert_ssh_key: False
+    synced_folder:
+
+    provider_config:
+      nic_adapter_count: 52
+      disk_bus:
+      cpus: 1
+      memory: 1024
+      management_network_mac: "52:54:00:00:02:04"
+
+    interfaces:
+      - name: "eth49"
+        local_port: 49
+        remote_host: "leaf04"
+        remote_port: 49
+      - name: "eth50"
+        local_port: 50
+        remote_host: "leaf04"
+        remote_port: 50
+      - name: "eth51"
+        local_port: 51
+        remote_host: "spine01"
+        remote_port: 3
+      - name: "eth52"
+        local_port: 52
+        remote_host: "spine02"
+        remote_port: 3
+
+  - name: "leaf04"
+    vagrant_box:
+      name: "CumulusCommunity/cumulus-vx"
+      version:
+      provider: "libvirt"
+
+    insert_ssh_key: False
+    synced_folder:
+
+    provider_config:
+      nic_adapter_count: 52
+      disk_bus:
+      cpus: 1
+      memory: 1024
+      management_network_mac: "52:54:00:00:02:05"
+
+    interfaces:
+      - name: "eth49"
+        local_port: 49
+        remote_host: "leaf03"
+        remote_port: 49
+      - name: "eth50"
+        local_port: 50
+        remote_host: "leaf03"
+        remote_port: 50
+      - name: "eth51"
+        local_port: 51
+        remote_host: "spine01"
+        remote_port: 4
+      - name: "eth52"
+        local_port: 52
+        remote_host: "spine02"
+        remote_port: 4

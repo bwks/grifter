@@ -1,0 +1,27 @@
+---
+hosts:
+  - name: # string - required
+    vagrant_box:
+      name: # string - required
+      version: # string - default ""
+      provider: # string - default: libvirt
+
+    insert_ssh_key: # boolean - default: False
+    synced_folder: # dict - default: None
+      enabled: # boolean - default: False
+      id: # string - default "vagrant-root"
+      src: # string - default "."
+      dst: # string - default "/vagrant"
+
+    provider_config:
+      nic_adapter_count: # integer - default: 8
+      disk_bus: # string - default ""
+      cpus: # integer - default 1
+      memory: # integer - default 1024
+      management_network_mac: # string - default: ""
+
+    interfaces: # optional
+      - name: # string
+        local_port: # integer
+        remote_host: # string
+        remote_port: # integer
