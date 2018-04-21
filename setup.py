@@ -8,7 +8,7 @@ def read(file_name):
 
 
 setup(
-    name='hammer',
+    name='toolbelt',
     version='0.1',
     author='Brad Searle',
     author_email='bradleysearle@gmail.com',
