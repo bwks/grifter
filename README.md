@@ -153,18 +153,16 @@ end
 #### Example Usage
 Note: this will change slightly, its just a reminder to me at this point
 ```python
-import yaml
+from toolbelt import generate_loopbacks
+from toolbelt import load_host_data
+from toolbelt import update_hosts
+from toolbelt import generate_vagrant_file
 
-from utils import explode_port
-from utils import generate_loopbacks
-from utils import render_from_template
+data = load_host_data('/path/to/data/file/hosts.yml')
 
-custom_filters = [explode_port]
+loopbacks = generate_loopbacks(data['hosts'])
 
-with open('examples/hosts.yml', 'r') as f:
-    data = yaml.load(f)
+update_hosts(data['hosts'])
 
-loopbacks = generate_loopbacks(data)
-
-print(render_from_template('./templates', 'host.j2', custom_filters, hosts=data['hosts'], loopbacks=loopbacks))
+generate_vagrant_file(data, loopbacks)
 ```
