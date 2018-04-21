@@ -18,8 +18,6 @@ custom_filters = [
 ]
 
 
-
-
 def load_host_data(location):
     """
     Load yaml file from location
