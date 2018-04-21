@@ -25,6 +25,6 @@ setup(
 
     entry_points='''
     [console_scripts]
-    tweaker=toolbelt:cli:main
+    tweaker=toolbelt:cli
     ''',
 )
