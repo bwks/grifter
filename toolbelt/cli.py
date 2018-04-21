@@ -15,5 +15,5 @@ def main(data_file):
     return generate_vagrant_file(data, loopbacks)
 
 
-if __name__ == '__main':
+if __name__ == '__main__':
     main()
