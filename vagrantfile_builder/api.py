@@ -61,7 +61,7 @@ def update_interfaces(total_interfaces, interface_list):
     updated_interface_list = []
     for i in range(1, total_interfaces + 1):
         blackhole_interface = {
-            'name': 'blackhole',
+            'name': f'bh-int{i}',
             'local_port': i,
             'remote_host': 'blackhole',
             'remote_port': 666
