@@ -151,23 +151,20 @@ end
 ```
 
 #### Installation
+Create and activate virtualenv. I will use pipenv for this example
+as it is my preferred method for handling virtual evironments.
+```
+mkdir ~/test; cd ~/test
+pipenv install
+pipenv shell
+```
+
+Install `vagrant-topology-builder` with `pip`
 ```
 pip install https://github.com/bobthebutcher/vagrant-topology-builder/archive/master.zip
 ```
 
 #### Example Usage
-Note: this will change slightly, its just a reminder to me at this point
-```python
-from toolbelt import generate_loopbacks
-from toolbelt import load_host_data
-from toolbelt import update_hosts
-from toolbelt import generate_vagrant_file
-
-data = load_host_data('/path/to/data/file/hosts.yml')
-
-loopbacks = generate_loopbacks(data['hosts'])
-
-update_hosts(data['hosts'])
-
-generate_vagrant_file(data, loopbacks)
+```
+vagrant-builder hosts.yml
 ```
