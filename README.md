@@ -21,7 +21,7 @@ pip install https://github.com/bobthebutcher/vagrant-topology-builder/archive/ma
 
 #### Example Usage
 ```
-vagrant-builder hosts.yml
+vagrantfile-create hosts.yml
 ```
 
 

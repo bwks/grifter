@@ -8,7 +8,7 @@ def read(file_name):
 
 
 setup(
-    name='vagrant-topology-builder',
+    name='vagrantfile-builder',
     version='0.1',
     author='Brad Searle',
     author_email='bradleysearle@gmail.com',
@@ -25,6 +25,6 @@ setup(
 
     entry_points='''
     [console_scripts]
-    vagrant-builder=toolbelt:cli
+    vagrantfile-create=vagrantfile_builder:cli
     ''',
 )

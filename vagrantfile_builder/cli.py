@@ -1,9 +1,9 @@
 import click
 
-from toolbelt import generate_loopbacks
-from toolbelt import load_host_data
-from toolbelt import update_hosts
-from toolbelt import generate_vagrant_file
+from vagrantfile_builder import generate_loopbacks
+from vagrantfile_builder import load_host_data
+from vagrantfile_builder import update_hosts
+from vagrantfile_builder import generate_vagrant_file
 
 
 @click.command()
