@@ -1,1 +1,1 @@
-include toolbelt/templates/*
+include vagrantfile_builder/templates/*
