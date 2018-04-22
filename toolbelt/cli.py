@@ -7,7 +7,7 @@ from toolbelt import generate_vagrant_file
 
 
 @click.command()
-@click.argument('data_file')
+@click.argument('DATAFILE')
 def cli(data_file):
     data = load_host_data(data_file)
     loopbacks = generate_loopbacks(data['hosts'])
