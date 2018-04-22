@@ -47,7 +47,7 @@ def generate_loopbacks(host_list=None, network='127.255.1'):
     return {**host_to_loopback_map, **BLACKHOLE_LOOPBACK_MAP}
 
 
-def update_interfaces(host_name, total_interfaces, interface_list):
+def update_interfaces(total_interfaces, interface_list):
     """
     Adds blackhole interfaces to host data by inserting a
     dict of blackhole config in the correct interface index position.
@@ -61,7 +61,7 @@ def update_interfaces(host_name, total_interfaces, interface_list):
     updated_interface_list = []
     for i in range(1, total_interfaces + 1):
         blackhole_interface = {
-            'name': f'{host_name}-bh-int{i}',
+            'name': f'bh-int{i}',
             'local_port': i,
             'remote_host': 'blackhole',
             'remote_port': 666
@@ -88,7 +88,7 @@ def update_hosts(hosts):
     updated_host_list = []
     for host in hosts:
         host['interfaces'] = update_interfaces(
-            host['name'], host['provider_config']['nic_adapter_count'], host['interfaces']
+            host['provider_config']['nic_adapter_count'], host['interfaces']
         )
         updated_host_list.append(host)
 
