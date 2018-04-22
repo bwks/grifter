@@ -7,14 +7,14 @@ from toolbelt import generate_vagrant_file
 
 
 @click.command()
-@click.argument('DATAFILE')
-def cli(data_file):
+@click.argument('datafile')
+def cli(datafile):
     """
     Create a Vagrantfile from a YAML data input file.
 
     DATAFILE: Location of DATAFILE
     """
-    data = load_host_data(data_file)
+    data = load_host_data(datafile)
     loopbacks = generate_loopbacks(data['hosts'])
     update_hosts(data['hosts'])
     return generate_vagrant_file(data, loopbacks)
