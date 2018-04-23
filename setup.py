@@ -23,8 +23,10 @@ setup(
         'click',
     ],
 
-    entry_points='''
-    [console_scripts]
-    vagrantfile-create=vagrantfile_builder:cli
-    ''',
+    entry_points={
+        'console_scripts': [
+            'vagrantfile-create = vagrantfile_builder:cli',
+        ]
+    },
+
 )
