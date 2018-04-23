@@ -7,6 +7,7 @@ from vagrantfile_builder import generate_vagrant_file
 
 
 @click.command()
+@click.option('-c', '--create', help='Create Vagrantfile')
 @click.argument('datafile')
 def cli(datafile):
     """

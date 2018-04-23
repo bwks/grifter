@@ -27,7 +27,7 @@ setup(
 
     entry_points={
         'console_scripts': [
-            'vagrantfile-create = vagrantfile_builder:cli',
+            'vagrantfile = vagrantfile_builder:cli',
         ]
     },
 
