@@ -1,5 +1,5 @@
     node.vm.network :private_network,
-      # {{ host.name }}-{{ interface.local_port }} <--> {{ interface.remote_host }}-{{ interface.remote_port }}
+      # {{ host.name }}-int{{ interface.local_port }} <--> {{ interface.remote_host }}-int{{ interface.remote_port }}
       :mac => "#{get_mac()}",
       :libvirt__tunnel_type => "udp",
       :libvirt__tunnel_local_ip => "{{ loopbacks[host.name] }}",
