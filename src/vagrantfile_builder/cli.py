@@ -15,14 +15,11 @@ def cli():
     pass
 
 
-help_message = """
+@cli.command(help="""
     Create a Vagrantfile
     
     DATAFILE: Location of DATAFILE
-    """
-
-
-@cli.command(help=help_message)
+    """)
 @click.argument('datafile')
 def create(datafile):
     data = load_host_data(datafile)
