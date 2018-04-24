@@ -9,18 +9,18 @@ from vagrantfile_builder import generate_vagrant_file
 @click.group(context_settings={'help_option_names': ['-h', '--help']})
 @click.version_option(version='0.1.0')
 def cli():
-    """
-    Create a Vagrantfile from a YAML data input file.
-    """
+    """Create a Vagrantfile from a YAML data input file."""
     pass
 
 
-@cli.command(help="Create a Vagrantfile")
+@cli.command(help="""
+    Create a Vagrantfile.
+    
+    DATAFILE: Location of DATAFILE.
+    """)
 @click.argument('datafile')
 def create(datafile):
-    """
-    DATAFILE: Location of DATAFILE
-    """
+    """Create a Vagrantfile."""
     data = load_host_data(datafile)
     loopbacks = generate_loopbacks(data['hosts'])
     update_hosts(data['hosts'])
