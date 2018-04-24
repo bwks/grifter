@@ -11,20 +11,20 @@ from vagrantfile_builder import generate_vagrant_file
 def cli():
     """
     Create a Vagrantfile from a YAML data input file.
-
-    DATAFILE: Location of DATAFILE
     """
     pass
 
 
-@cli.command(help="Create a Vagrantfile")
-@click.argument('datafile')
-def create(datafile):
-    """
-    Create a Vagrantfile from a YAML data input file.
-
+help_message = """
+    Create a Vagrantfile
+    
     DATAFILE: Location of DATAFILE
     """
+
+
+@cli.command(help=help_message)
+@click.argument('datafile')
+def create(datafile):
     data = load_host_data(datafile)
     loopbacks = generate_loopbacks(data['hosts'])
     update_hosts(data['hosts'])
