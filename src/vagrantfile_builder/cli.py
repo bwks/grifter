@@ -6,34 +6,21 @@ from vagrantfile_builder import update_hosts
 from vagrantfile_builder import generate_vagrant_file
 
 
-@click.group(context_settings={'help_option_names':['-h','--help']})
+@click.group(context_settings={'help_option_names': ['-h', '--help']})
+@click.version_option(version='0.1.0')
 def cli():
     pass
 
 
-@click.command()
-@click.option('-c', '--create', help='Create Vagrantfile')
+@cli.command(help="Create a Vagrantfile")
 @click.argument('datafile')
-def command(create, datafile):
+def create(datafile):
     """
     Create a Vagrantfile from a YAML data input file.
 
     DATAFILE: Location of DATAFILE
     """
-    if create:
-        data = load_host_data(datafile)
-        loopbacks = generate_loopbacks(data['hosts'])
-        update_hosts(data['hosts'])
-        return generate_vagrant_file(data, loopbacks)
-    else:
-        cli.help()
-
-
-@click.command()
-@click.pass_context
-def help(ctx):
-    print(ctx.parent.get_help())
-
-
-cli.add_command(command)
-cli.add_command(help)
+    data = load_host_data(datafile)
+    loopbacks = generate_loopbacks(data['hosts'])
+    update_hosts(data['hosts'])
+    return generate_vagrant_file(data, loopbacks)
