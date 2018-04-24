@@ -18,6 +18,8 @@ def cli(create, datafile):
     data = load_host_data(datafile)
     loopbacks = generate_loopbacks(data['hosts'])
     update_hosts(data['hosts'])
-    vagrantfile = generate_vagrant_file(data, loopbacks)
 
-    return vagrantfile if create else click.echo(vagrantfile)
+    if create:
+        return generate_vagrant_file(data, loopbacks)
+    else:
+        click.echo('help')
