@@ -15,11 +15,10 @@ def cli(create, datafile):
 
     DATAFILE: Location of DATAFILE
     """
-    data = load_host_data(datafile)
-    loopbacks = generate_loopbacks(data['hosts'])
-    update_hosts(data['hosts'])
-
     if create:
+        data = load_host_data(datafile)
+        loopbacks = generate_loopbacks(data['hosts'])
+        update_hosts(data['hosts'])
         return generate_vagrant_file(data, loopbacks)
     else:
         click.help_option()
