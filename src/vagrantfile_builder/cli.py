@@ -9,6 +9,11 @@ from vagrantfile_builder import generate_vagrant_file
 @click.group(context_settings={'help_option_names': ['-h', '--help']})
 @click.version_option(version='0.1.0')
 def cli():
+    """
+    Create a Vagrantfile from a YAML data input file.
+
+    DATAFILE: Location of DATAFILE
+    """
     pass
 
 
