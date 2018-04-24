@@ -9,7 +9,7 @@ from vagrantfile_builder import generate_vagrant_file
 @click.command()
 @click.option('-c', '--create', help='Create Vagrantfile')
 @click.argument('datafile')
-def cli(create, location, datafile):
+def cli(create, datafile):
     """
     Create a Vagrantfile from a YAML data input file.
 
@@ -20,6 +20,6 @@ def cli(create, location, datafile):
     update_hosts(data['hosts'])
 
     if create:
-        return generate_vagrant_file(data, loopbacks, vagrantfile_location=location)
+        return generate_vagrant_file(data, loopbacks)
     else:
         click.help_option()
