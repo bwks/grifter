@@ -21,4 +21,4 @@ def cli(create, datafile):
         update_hosts(data['hosts'])
         return generate_vagrant_file(data, loopbacks)
     else:
-        click.help_option()
+        click.help_option('-h', '--help')
