@@ -5,6 +5,7 @@ from .api import (
     update_hosts,
     generate_vagrant_file,
 )
+
 from .cli import (
     cli,
 )

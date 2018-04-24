@@ -14,8 +14,10 @@ setup(
     author_email='bradleysearle@gmail.com',
     license='GNU GENERAL PUBLIC LICENSE Version 3',
     long_description=read('README.md'),
+
     include_package_data=True,
-    packages=find_packages(),
+    packages=find_packages(where='src'),
+    package_dir={'': 'src'},
 
     install_requires=[
         'jinja2',
@@ -25,7 +27,7 @@ setup(
 
     entry_points={
         'console_scripts': [
-            'vagrantfile-create = vagrantfile_builder:cli',
+            'vagrantfile = vagrantfile_builder:cli',
         ]
     },
 
