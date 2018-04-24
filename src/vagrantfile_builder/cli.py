@@ -7,7 +7,7 @@ from vagrantfile_builder import generate_vagrant_file
 
 
 @click.command()
-@click.option('-c', '--create', is_flag=True, help='Create Vagrantfile')
+@click.option('-c', '--create', help='Create Vagrantfile')
 @click.argument('datafile')
 def cli(create, datafile):
     """
@@ -18,8 +18,9 @@ def cli(create, datafile):
     data = load_host_data(datafile)
     loopbacks = generate_loopbacks(data['hosts'])
     update_hosts(data['hosts'])
+    return generate_vagrant_file(data, loopbacks)
 
-    if create:
-        return generate_vagrant_file(data, loopbacks)
-    else:
-        click.echo('help')
+    # if create:
+    #     return generate_vagrant_file(data, loopbacks)
+    # else:
+    #     click.echo('help')
