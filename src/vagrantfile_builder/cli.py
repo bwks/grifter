@@ -8,7 +8,6 @@ from vagrantfile_builder import generate_vagrant_file
 
 @click.command()
 @click.option('-c', '--create', help='Create Vagrantfile')
-@click.option('-l', '--location', default='./', help='Location to save Vagrantfile')
 @click.argument('datafile')
 def cli(create, location, datafile):
     """
@@ -23,4 +22,4 @@ def cli(create, location, datafile):
     if create:
         return generate_vagrant_file(data, loopbacks, vagrantfile_location=location)
     else:
-        click.echo('help')
+        click.help_option()
