@@ -15,13 +15,12 @@ def cli():
     pass
 
 
-@cli.command(help="""
-    Create a Vagrantfile
-    
-    DATAFILE: Location of DATAFILE
-    """)
+@cli.command(help="Create a Vagrantfile")
 @click.argument('datafile')
 def create(datafile):
+    """
+    DATAFILE: Location of DATAFILE
+    """
     data = load_host_data(datafile)
     loopbacks = generate_loopbacks(data['hosts'])
     update_hosts(data['hosts'])
