@@ -110,7 +110,7 @@ Vagrant.configure("2") do |config|
     end
 
     node.vm.network :private_network,
-      # sw01-1 <--> sw02-1
+      # sw01-int1 <--> sw02-int1
       :mac => "#{get_mac()}",
       :libvirt__tunnel_type => "udp",
       :libvirt__tunnel_local_ip => "127.255.1.1",
@@ -121,7 +121,7 @@ Vagrant.configure("2") do |config|
       auto_config: false
 
     node.vm.network :private_network,
-      # sw01-2 <--> sw02-2
+      # sw01-int2 <--> sw02-int2
       :mac => "#{get_mac()}",
       :libvirt__tunnel_type => "udp",
       :libvirt__tunnel_local_ip => "127.255.1.1",
@@ -146,7 +146,7 @@ Vagrant.configure("2") do |config|
     end
 
     node.vm.network :private_network,
-      # sw02-1 <--> sw01-1
+      # sw02-int1 <--> sw01-int1
       :mac => "#{get_mac()}",
       :libvirt__tunnel_type => "udp",
       :libvirt__tunnel_local_ip => "127.255.1.2",
@@ -157,7 +157,7 @@ Vagrant.configure("2") do |config|
       auto_config: false
 
     node.vm.network :private_network,
-      # sw02-2 <--> sw01-2
+      # sw02-int2 <--> sw01-int2
       :mac => "#{get_mac()}",
       :libvirt__tunnel_type => "udp",
       :libvirt__tunnel_local_ip => "127.255.1.2",
