@@ -11,7 +11,7 @@
     node.vm.guest = :{{ host.vagrant_box.guest_type }}
     {% endif %}
     {% if host.vagrant_box.boot_timeout %}
-    node.vm.guest = {{ host.vagrant_box.boot_timeout }}
+    node.vm.boot_timeout = {{ host.vagrant_box.boot_timeout }}
     {% endif %}
     {% if host.synced_folder.enabled %}
     node.vm.synced_folder "{{ host.synced_folder.src }}", "{{ host.synced_folder.dst }}", id: "{{ host.synced_folder.id }}"
