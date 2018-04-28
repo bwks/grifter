@@ -1,1 +1,1 @@
-include src/vagrantfile_builder/templates/*
+include vagrantfile_builder/templates/*
