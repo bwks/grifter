@@ -1,7 +1,7 @@
 # vagrant-topology-builder
-Python library to building large scale Vagrant topologies for the networking space, but can also be used the build small scale labs for non-networking devices.
+Python library to build large scale Vagrant topologies for the networking space, but can also be used the build small scale labs for non-networking devices.
 
-Python 3.6+ is supported.
+Note: Python 3.6+ is supported.
 
 The main goal of this project is to build Vagrant topologies from yaml files.
 As a secondary objective I would like to also generate graphviz dot files as well.
