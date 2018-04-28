@@ -16,8 +16,7 @@ setup(
     long_description=read('README.md'),
 
     include_package_data=True,
-    packages=find_packages(where='vagrantfile_builder'),
-    package_dir={'': 'vagrantfile_builder'},
+    packages=find_packages(),
 
     install_requires=[
         'jinja2',
