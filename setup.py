@@ -16,8 +16,7 @@ setup(
     long_description=read('README.md'),
 
     include_package_data=True,
-    packages=find_packages(where='src'),
-    package_dir={'': 'src'},
+    packages=find_packages(),
 
     install_requires=[
         'jinja2',
