@@ -2,6 +2,10 @@
 Python library to build large scale Vagrant topologies for the networking space, but can also be used the build small scale labs for non-networking devices.
 
 Note: Python 3.6+ is supported.
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
 
 The main goal of this project is to build Vagrant topologies from yaml files.
 As a secondary objective I would like to also generate graphviz dot files as well.
