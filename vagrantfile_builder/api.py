@@ -38,7 +38,7 @@ def generate_loopbacks(host_list=None, network='127.255.1'):
     if host_list is None or not isinstance(host_list, list):
         raise AttributeError('host_list should contain a list of hosts')
     elif not host_list:
-        raise ValueError('dict of hosts is empty')
+        raise ValueError('list of hosts is empty')
 
     hosts = [i['name'] for i in host_list]
     loopbacks = [f'{network}.{i}' for i in range(1, len(hosts) + 1)]
