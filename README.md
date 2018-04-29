@@ -1,11 +1,15 @@
 # vagrant-topology-builder
-Python library to building large scale Vagrant topologies for the networking space, but can also be used the build small scale labs for non-networking devices.
+Python library to build large scale Vagrant topologies for the networking space, but can also be used the build small scale labs for non-networking devices.
 
-Python 3.6+ is supported.
+Note: Python 3.6+ is supported.
+
 
 The main goal of this project is to build Vagrant topologies from yaml files.
 As a secondary objective I would like to also generate graphviz dot files as well.
 Currently only a vagrant-libvirt compatible Vagrantfile will be generated.
+
+[![Build Status](https://travis-ci.org/bobthebutcher/vagrant-topology-builder.svg?branch=master)](https://travis-ci.org/bobthebutcher/vagrant-topology-builder)
+[![Coverage Status](https://coveralls.io/repos/github/bobthebutcher/vagrant-topology-builder/badge.svg?branch=master)](https://coveralls.io/github/bobthebutcher/vagrant-topology-builder?branch=master)
 
 #### Installation
 Create and activate virtualenv. I will use pipenv for this example
