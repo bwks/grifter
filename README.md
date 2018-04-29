@@ -3,7 +3,6 @@ Python library to build large scale Vagrant topologies for the networking space,
 
 Note: Python 3.6+ is supported.
 
-
 The main goal of this project is to build Vagrant topologies from yaml files.
 As a secondary objective I would like to also generate graphviz dot files as well.
 Currently only a vagrant-libvirt compatible Vagrantfile will be generated.
