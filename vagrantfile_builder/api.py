@@ -70,10 +70,15 @@ def update_interfaces(total_interfaces, interface_list):
             for interface in interface_list:
                 if interface['local_port'] == i:
                     updated_interface_list.append(interface)
+                    # When a port number is matched terminate the
+                    # loop to prevent adding unnecessary interfaces.
                     break
-            else:
-                updated_interface_list.append(blackhole_interface)
+                else:
+                    # No match on the port number so add a blackhole interface.
+                    updated_interface_list.append(blackhole_interface)
         except IndexError:
+            # Have run out of interfaces in the original list.
+            # Blackhole interfaces will populate the rest of the list
             updated_interface_list.append(blackhole_interface)
 
     return updated_interface_list
