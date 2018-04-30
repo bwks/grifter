@@ -64,3 +64,5 @@ mock_load_host_data = {
     }
   ]
 }
+
+mock_host_interfaces = mock_load_host_data['hosts'][0]['interfaces']
