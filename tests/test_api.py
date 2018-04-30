@@ -25,3 +25,12 @@ def test_generate_loopbacks_host_list_is_none_raises_exception():
 def test_generate_loopbacks_host_list_empty_raises_exception():
     with pytest.raises(ValueError):
         generate_loopbacks(host_list=[])
+
+
+def test_generate_loopbacks_returned_loopback_dict():
+    expected_loopback_dict = {
+        'blackhole': '127.6.6.6',
+        'sw01': '127.255.1.1',
+        'sw02': '127.255.1.2'
+    }
+    assert generate_loopbacks(mock_load_host_data['hosts']) == expected_loopback_dict
