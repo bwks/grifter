@@ -9,7 +9,7 @@ def read(file_name):
 
 setup(
     name='vagrantfile-builder',
-    version='0.1',
+    version=read('VERSION'),
     author='Brad Searle',
     author_email='bradleysearle@gmail.com',
     license='GNU GENERAL PUBLIC LICENSE Version 3',
