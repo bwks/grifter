@@ -92,10 +92,13 @@ def update_hosts(hosts):
     """
     updated_host_list = []
     for host in hosts:
-        host['interfaces'] = update_interfaces(
-            host['provider_config']['nic_adapter_count'], host['interfaces']
-        )
-        updated_host_list.append(host)
+        if not host.get('interfaces'):
+            updated_host_list.append(host)
+        else:
+            host['interfaces'] = update_interfaces(
+                host['provider_config']['nic_adapter_count'], host['interfaces']
+            )
+            updated_host_list.append(host)
 
     return updated_host_list
 
