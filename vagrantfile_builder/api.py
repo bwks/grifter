@@ -1,5 +1,3 @@
-import yaml
-
 from .custom_filters import (
     explode_port,
 )
@@ -16,16 +14,6 @@ from .constants import (
 custom_filters = [
     explode_port,
 ]
-
-
-def load_host_data(location):
-    """
-    Load yaml file from location
-    :param location: Location of YAML file
-    :return: Dictionary of data
-    """
-    with open(location, 'r') as f:
-        return yaml.load(f)
 
 
 def generate_loopbacks(host_list=None, network='127.255.1'):
@@ -84,23 +72,23 @@ def update_interfaces(total_interfaces, interface_list):
     return updated_interface_list
 
 
-def update_hosts(hosts):
+def update_guests(guests):
     """
-    Entrypoint to updating host data parameters.
-    :param hosts: List of host dicts.
+    Entrypoint to updating guest data parameters.
+    :param guests: List of host dicts.
     :return: New list of host dicts.
     """
-    updated_host_list = []
-    for host in hosts:
-        if not host.get('interfaces'):
-            updated_host_list.append(host)
+    updated_guest_list = []
+    for guest in guests:
+        if not guest.get('interfaces'):
+            updated_guest_list.append(guest)
         else:
-            host['interfaces'] = update_interfaces(
-                host['provider_config']['nic_adapter_count'], host['interfaces']
+            guest['interfaces'] = update_interfaces(
+                guest['provider_config']['nic_adapter_count'], guest['interfaces']
             )
-            updated_host_list.append(host)
+            updated_guest_list.append(guest)
 
-    return updated_host_list
+    return updated_guest_list
 
 
 def generate_vagrant_file(

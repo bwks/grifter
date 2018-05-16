@@ -1,5 +1,8 @@
 import random
 
+from .defaults import defaults
+from .loaders import render_from_template
+
 
 def get_mac(oui='28:b7:ad'):
     """
@@ -11,7 +14,7 @@ def get_mac(oui='28:b7:ad'):
     return f'{oui}:{nic}'
 
 
-def create_host_data():
+def create_host_data(data):
     """
     Build a base data file for host.
     :return:

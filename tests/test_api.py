@@ -1,21 +1,24 @@
 import copy
 import pytest
 
+from vagrantfile_builder.loaders import (
+    load_data,
+)
+
 from vagrantfile_builder.api import (
-    load_host_data,
     generate_loopbacks,
-    update_hosts,
+    update_guests,
     update_interfaces,
 )
 
 from .mock_data import (
-    mock_load_host_data,
-    mock_host_interfaces,
+    mock_guest_data,
+    mock_guest_interfaces,
 )
 
 
 def test_host_data_matches_dict():
-    assert load_host_data('examples/hosts.yml') == mock_load_host_data
+    assert load_data('examples/guests.yml') == mock_guest_data
 
 
 def test_generate_loopbacks_host_list_not_list_type_raises_exception():
@@ -39,12 +42,12 @@ def test_generate_loopbacks_returned_loopback_dict():
         'sw01': '127.255.1.1',
         'sw02': '127.255.1.2'
     }
-    assert generate_loopbacks(mock_load_host_data['hosts']) == expected_loopback_dict
+    assert generate_loopbacks(mock_guest_data['guests']) == expected_loopback_dict
 
 
 def test_host_without_interfaces():
     expected = {
-        'hosts': [
+        'guests': [
             {
                 'insert_ssh_key': False,
                 'name': 'sw01',
@@ -96,13 +99,13 @@ def test_host_without_interfaces():
         ]
     }
 
-    hosts = copy.deepcopy(mock_load_host_data)
-    hosts['hosts'][0].pop('interfaces')
-    assert update_hosts(hosts['hosts']) == expected['hosts']
+    guests = copy.deepcopy(mock_guest_data)
+    guests['guests'][0].pop('interfaces')
+    assert update_guests(guests['guests']) == expected['guests']
 
 
 def test_update_interfaces_with_same_interface_count_returns_same_list_of_interfaces():
-    assert update_interfaces(2, mock_host_interfaces) == mock_host_interfaces
+    assert update_interfaces(2, mock_guest_interfaces) == mock_guest_interfaces
 
 
 def test_update_interfaces_with_blackhole_interfaces():
@@ -121,6 +124,6 @@ def test_update_interfaces_with_blackhole_interfaces():
         }
       ]
 
-    expected_intefaces = mock_host_interfaces + blackhole_interfaces
+    expected_intefaces = mock_guest_interfaces + blackhole_interfaces
 
-    assert update_interfaces(4, mock_host_interfaces) == expected_intefaces
+    assert update_interfaces(4, mock_guest_interfaces) == expected_intefaces

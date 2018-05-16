@@ -1,3 +1,5 @@
+import yaml
+
 from jinja2 import Environment, FileSystemLoader
 
 
@@ -17,3 +19,13 @@ def render_from_template(
 
     template = env.get_template(template_name)
     return template.render(**kwargs)
+
+
+def load_data(location):
+    """
+    Load yaml file from location
+    :param location: Location of YAML file
+    :return: Dictionary of data
+    """
+    with open(location, 'r') as f:
+        return yaml.load(f)

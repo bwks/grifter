@@ -1,5 +1,5 @@
-mock_load_host_data = {
-  'hosts': [
+mock_guest_data = {
+  'guests': [
     {
       'insert_ssh_key': False,
       'interfaces': [
@@ -65,4 +65,4 @@ mock_load_host_data = {
   ]
 }
 
-mock_host_interfaces = mock_load_host_data['hosts'][0]['interfaces']
+mock_guest_interfaces = mock_guest_data['guests'][0]['interfaces']

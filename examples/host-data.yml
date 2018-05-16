@@ -10,7 +10,7 @@
     boot_timeout: # integer - optional | none
 
   insert_ssh_key: # boolean - optional | default: False
-  synced_folder: # dict - optional | default: None
+  synced_folder: # dict - optional | default:
     enabled: # boolean - default: False
     id: # string - default "vagrant-root"
     src: # string - default "."
@@ -18,12 +18,12 @@
 
   provider_config:
     nic_adapter_count: # integer - optional | default: 8
-    disk_bus: # string - optional | default ""
+    disk_bus: # string - optional | default "virtio"
     cpus: # integer - optional | default 1
-    memory: # integer - optional | default 1024
+    memory: # integer - optional | default 512
     management_network_mac: # string - optional | default: ""
 
-  interfaces: # optional | None
+  interfaces: # optional | default: []
     - name: # string
       local_port: # integer
       remote_host: # string

@@ -33,7 +33,7 @@ vagrantfile create hosts.yml
 #### Example Datafile
 ```yaml
 ---
-hosts:
+guests:
   - name: "sw01"
     vagrant_box:
       name: "arista/veos"
