@@ -21,7 +21,7 @@ custom_filters = [
     explode_port,
 ]
 
-logging.basicConfig(format='%(levelname)s %(message)s')
+logging.basicConfig(format='%(levelname)s - %(message)s')
 
 
 def generate_loopbacks(guest_list=None, network='127.255.1'):
