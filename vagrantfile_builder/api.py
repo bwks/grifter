@@ -21,6 +21,7 @@ custom_filters = [
     explode_port,
 ]
 
+logging.getLogger(__name__).addHandler(logging.NullHandler())
 logging.basicConfig(format='%(levelname)s - %(message)s')
 
 
