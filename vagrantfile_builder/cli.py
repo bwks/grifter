@@ -28,7 +28,7 @@ def cli():
 def create(datafile):
     """Create a Vagrantfile."""
     data = load_data(datafile)
-    loopbacks = generate_loopbacks(data['hosts'])
+    loopbacks = generate_loopbacks(data['guests'])
     update_guest_data(data)
-    update_guest_interfaces(data['hosts'])
+    update_guest_interfaces(data['guests'])
     return generate_vagrant_file(data, loopbacks)
