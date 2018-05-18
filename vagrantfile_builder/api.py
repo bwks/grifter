@@ -21,23 +21,23 @@ custom_filters = [
 ]
 
 
-def generate_loopbacks(host_list=None, network='127.255.1'):
+def generate_loopbacks(guest_list=None, network='127.255.1'):
     """
     Generate a dict of loopback addresses
-    :param host_list: List of hosts
+    :param guest_list: List of guests
     :param network: Network portion of the loopback addresses
     :return: Dictionary of loopback addresses
     """
-    if host_list is None or not isinstance(host_list, list):
-        raise AttributeError('host_list should contain a list of hosts')
-    elif not host_list:
-        raise ValueError('list of hosts is empty')
+    if guest_list is None or not isinstance(guest_list, list):
+        raise AttributeError('guest_list should contain a list of guests')
+    elif not guest_list:
+        raise ValueError('list of guests is empty')
 
-    hosts = [i['name'] for i in host_list]
-    loopbacks = [f'{network}.{i}' for i in range(1, len(hosts) + 1)]
-    host_to_loopback_map = dict(zip(hosts, loopbacks))
+    guests = [i['name'] for i in guest_list]
+    loopbacks = [f'{network}.{i}' for i in range(1, len(guests) + 1)]
+    guest_to_loopback_map = dict(zip(guests, loopbacks))
 
-    return {**host_to_loopback_map, **BLACKHOLE_LOOPBACK_MAP}
+    return {**guest_to_loopback_map, **BLACKHOLE_LOOPBACK_MAP}
 
 
 def update_context(source, target):
@@ -166,7 +166,7 @@ def generate_vagrant_file(
             template_name=template_name,
             template_directory=template_directory,
             custom_filters=custom_filters,
-            hosts=data['hosts'],
+            guests=data['guests'],
             loopbacks=loopbacks
         )
 
