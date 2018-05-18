@@ -1,14 +1,20 @@
 import copy
 import pytest
 
+from vagrantfile_builder.constants import (
+    BASE_DIR,
+)
+
 from vagrantfile_builder.loaders import (
     load_data,
 )
 
 from vagrantfile_builder.api import (
     generate_loopbacks,
-    update_guests,
-    update_interfaces,
+    update_guest_interfaces,
+    add_blackhole_interfaces,
+    update_guest_data,
+    update_context,
 )
 
 from .mock_data import (
@@ -101,11 +107,11 @@ def test_host_without_interfaces():
 
     guests = copy.deepcopy(mock_guest_data)
     guests['guests'][0].pop('interfaces')
-    assert update_guests(guests['guests']) == expected['guests']
+    assert update_guest_interfaces(guests['guests']) == expected['guests']
 
 
 def test_update_interfaces_with_same_interface_count_returns_same_list_of_interfaces():
-    assert update_interfaces(2, mock_guest_interfaces) == mock_guest_interfaces
+    assert add_blackhole_interfaces(2, mock_guest_interfaces) == mock_guest_interfaces
 
 
 def test_update_interfaces_with_blackhole_interfaces():
@@ -126,4 +132,88 @@ def test_update_interfaces_with_blackhole_interfaces():
 
     expected_intefaces = mock_guest_interfaces + blackhole_interfaces
 
-    assert update_interfaces(4, mock_guest_interfaces) == expected_intefaces
+    assert add_blackhole_interfaces(4, mock_guest_interfaces) == expected_intefaces
+
+
+def test_update_context_with_dict():
+    default_data = {'guest': {'name': ''}, 'insert_ssh_key': False}
+    seed_data = {'guest': {'name': 'sw01'}}
+
+    expected = {'guest': {'name': 'sw01'}, 'insert_ssh_key': False}
+
+    assert expected == update_context(seed_data, default_data)
+
+
+def test_update_context_with_non_dict():
+    default_data = {'guest': {'name': ''}, 'insert_ssh_key': False}
+    seed_data = {'guest': {'name': 'sw01'}, 'insert_ssh_key': True}
+
+    expected = {'guest': {'name': 'sw01'}, 'insert_ssh_key': True}
+
+    assert expected == update_context(seed_data, default_data)
+
+
+def test_create_guest_with_group_vars():
+    seed_data = {'guests': [{'name': 'sw01', 'vagrant_box': {'name': 'arista/veos'}}]}
+
+    expected = {
+      'guests': [
+        {
+          'insert_ssh_key': False,
+          'interfaces': [],
+          'name': 'sw01',
+          'provider_config': {
+            'cpus': 2,
+            'disk_bus': 'ide',
+            'management_network_mac': '',
+            'memory': 2048,
+            'nic_adapter_count': 8
+          },
+          'synced_folder': {
+            'enabled': False
+          },
+          'vagrant_box': {
+            'boot_timeout': 0,
+            'name': 'arista/veos',
+            'provider': 'libvirt',
+            'type': 'other',
+            'version': '4.20.1F'
+          }
+        }
+      ]
+    }
+
+    assert expected == update_guest_data(seed_data, f'{BASE_DIR}/../examples/guest-defaults.yml')
+
+
+def test_create_guest_without_group_vars():
+    seed_data = {'guests': [{'name': 'sw01'}]}
+
+    expected = {
+      'guests': [
+        {
+          'insert_ssh_key': False,
+          'interfaces': [],
+          'name': 'sw01',
+          'provider_config': {
+            'cpus': 1,
+            'disk_bus': 'virtio',
+            'management_network_mac': '',
+            'memory': 512,
+            'nic_adapter_count': 0
+          },
+          'synced_folder': {
+            'enabled': False
+          },
+          'vagrant_box': {
+            'boot_timeout': 0,
+            'name': '',
+            'provider': 'libvirt',
+            'type': 'other',
+            'version': ''
+          }
+        }
+      ]
+    }
+
+    assert expected == update_guest_data(seed_data, 'does-not-exist.yml')

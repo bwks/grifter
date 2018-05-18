@@ -38,4 +38,3 @@ def load_data(location, data_type='yaml'):
             return yaml.load(f)
         elif data_type.lower() == 'json':
             return json.loads(f)
-

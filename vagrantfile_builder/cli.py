@@ -6,8 +6,9 @@ from .loaders import (
 
 from vagrantfile_builder import (
     generate_loopbacks,
-    update_guests,
+    update_guest_interfaces,
     generate_vagrant_file,
+    update_guest_data,
 )
 
 
@@ -28,5 +29,6 @@ def create(datafile):
     """Create a Vagrantfile."""
     data = load_data(datafile)
     loopbacks = generate_loopbacks(data['hosts'])
-    update_guests(data['hosts'])
+    update_guest_data(data)
+    update_guest_interfaces(data['hosts'])
     return generate_vagrant_file(data, loopbacks)

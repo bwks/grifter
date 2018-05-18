@@ -1,7 +1,8 @@
 from .api import (
     generate_loopbacks,
-    update_interfaces,
-    update_guests,
+    add_blackhole_interfaces,
+    update_guest_data,
+    update_guest_interfaces,
     generate_vagrant_file,
 )
 
