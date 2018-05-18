@@ -1,21 +1,18 @@
-from vagrantfile_builder.defaults import defaults
+from vagrantfile_builder.constants import ALL_GUEST_DEFAULTS
 
-all_defaults = {
+expected_all_guest_defaults = {
     'guest_defaults': {
         'name': '',
         'vagrant_box': {
             'name': '',
             'version': '',
             'provider': 'libvirt',
-            'guest_type': 'other',
+            'type': 'other',
             'boot_timeout': 0
         },
         'insert_ssh_key': False,
         'synced_folder': {
             'enabled': False,
-            'id': 'vagrant-root',
-            'src': '.',
-            'dst': '/vagrant'
         },
         'provider_config': {
             'nic_adapter_count': 0,
@@ -30,4 +27,4 @@ all_defaults = {
 
 
 def test_default_values():
-    assert all_defaults == defaults()
+    assert expected_all_guest_defaults == ALL_GUEST_DEFAULTS

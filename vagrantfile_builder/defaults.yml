@@ -4,15 +4,12 @@ guest_defaults:
     name: ""
     version: ""
     provider: "libvirt"
-    guest_type: "other"
+    type: "other"
     boot_timeout: 0
 
   insert_ssh_key: False
   synced_folder:
     enabled: False
-    id: "vagrant-root"
-    src: "."
-    dst: "/vagrant"
 
   provider_config:
     nic_adapter_count: 0

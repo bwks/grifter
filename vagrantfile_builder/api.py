@@ -92,7 +92,7 @@ def update_guests(guests):
 
 
 def generate_vagrant_file(
-        data, loopbacks, template_name='host.j2',
+        data, loopbacks, template_name='guest.j2',
         template_directory=f'{TEMPLATE_DIR}/', vagrantfile_location='.'
         ):
     """

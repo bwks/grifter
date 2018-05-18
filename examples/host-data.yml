@@ -6,7 +6,7 @@
     name: # string - required
     version: # string - optional | default: ""
     provider: # string - optional | default: libvirt
-    guest_type: # string - optional | default: ""
+    type: # string - optional | default: ""
     boot_timeout: # integer - optional | none
 
   insert_ssh_key: # boolean - optional | default: False

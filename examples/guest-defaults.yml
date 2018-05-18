@@ -3,7 +3,7 @@ arista/veos:
     version: "4.20.1F"
   insert_ssh_key: False
   synced_folder:
-    disabled: True
+    enabled: False
   provider_config:
     nic_adapter_count: 2
     disk_bus: "ide"
