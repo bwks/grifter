@@ -60,7 +60,7 @@ def update_context(source, target):
 
 def update_guest_data(
         guest_data,
-        guest_defaults='./guest-defaults.yml',
+        guest_defaults='guest-defaults.yml',
         all_guest_defaults=ALL_GUEST_DEFAULTS):
     """
     Build data vars for guests. This function will take all_guest_defaults and merge in
@@ -73,7 +73,7 @@ def update_guest_data(
     try:
         guest_defaults = load_data(guest_defaults)
     except FileNotFoundError:
-        print(f'File: {guest_defaults} not found')
+        print(f'WARNING: File {guest_defaults} not found')
         guest_defaults = {}
 
     new_guest_data = {'guests': []}
