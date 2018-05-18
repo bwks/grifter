@@ -21,6 +21,8 @@ custom_filters = [
     explode_port,
 ]
 
+logging.basicConfig(format='%(levelname)s %(message)s')
+
 
 def generate_loopbacks(guest_list=None, network='127.255.1'):
     """
@@ -74,7 +76,7 @@ def update_guest_data(
     try:
         guest_defaults = load_data(guest_defaults)
     except FileNotFoundError:
-        logging.warning(f'WARNING: File {guest_defaults} not found')
+        logging.warning(f'File {guest_defaults} not found')
         guest_defaults = {}
 
     new_guest_data = {'guests': []}
