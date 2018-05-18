@@ -1,4 +1,5 @@
 import copy
+import logging
 
 from .custom_filters import (
     explode_port,
@@ -73,7 +74,7 @@ def update_guest_data(
     try:
         guest_defaults = load_data(guest_defaults)
     except FileNotFoundError:
-        print(f'WARNING: File {guest_defaults} not found')
+        logging.warning(f'WARNING: File {guest_defaults} not found')
         guest_defaults = {}
 
     new_guest_data = {'guests': []}
