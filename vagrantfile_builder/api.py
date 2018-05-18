@@ -76,7 +76,7 @@ def update_guest_data(
     try:
         guest_defaults = load_data(guest_defaults)
     except FileNotFoundError:
-        logging.warning(f'File {guest_defaults} not found')
+        logging.warning(f'File "{guest_defaults}" not found')
         guest_defaults = {}
 
     new_guest_data = {'guests': []}
