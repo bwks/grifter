@@ -20,15 +20,17 @@ mock_guest_data = {
       'provider_config': {
         'cpus': 2,
         'disk_bus': 'ide',
-        'management_network_mac': None,
+        'management_network_mac': '',
         'memory': 2048,
         'nic_adapter_count': 2
       },
-      'synced_folder': None,
+      'synced_folder': {
+        'enabled': False,
+      },
       'vagrant_box': {
         'name': 'arista/veos',
         'provider': 'libvirt',
-        'version': None
+        'version': ''
       }
     },
     {
@@ -51,15 +53,17 @@ mock_guest_data = {
       'provider_config': {
         'cpus': 2,
         'disk_bus': 'ide',
-        'management_network_mac': None,
+        'management_network_mac': '',
         'memory': 2048,
         'nic_adapter_count': 2
       },
-      'synced_folder': None,
+      'synced_folder': {
+        'enabled': False,
+      },
       'vagrant_box': {
         'name': 'arista/veos',
         'provider': 'libvirt',
-        'version': None
+        'version': ''
       }
     }
   ]

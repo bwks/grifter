@@ -60,15 +60,17 @@ def test_guest_without_interfaces():
                 'provider_config': {
                     'cpus': 2,
                     'disk_bus': 'ide',
-                    'management_network_mac': None,
+                    'management_network_mac': '',
                     'memory': 2048,
                     'nic_adapter_count': 2
                 },
-                'synced_folder': None,
+                'synced_folder': {
+                    'enabled': False,
+                },
                 'vagrant_box': {
                     'name': 'arista/veos',
                     'provider': 'libvirt',
-                    'version': None
+                    'version': ''
                 }
             },
             {
@@ -91,15 +93,17 @@ def test_guest_without_interfaces():
                 'provider_config': {
                     'cpus': 2,
                     'disk_bus': 'ide',
-                    'management_network_mac': None,
+                    'management_network_mac': '',
                     'memory': 2048,
                     'nic_adapter_count': 2
                 },
-                'synced_folder': None,
+                'synced_folder': {
+                    'enabled': False,
+                },
                 'vagrant_box': {
                     'name': 'arista/veos',
                     'provider': 'libvirt',
-                    'version': None
+                    'version': ''
                 }
             }
         ]
