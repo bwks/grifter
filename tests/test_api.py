@@ -176,7 +176,7 @@ def test_create_guest_with_group_vars():
             'boot_timeout': 0,
             'name': 'arista/veos',
             'provider': 'libvirt',
-            'type': 'other',
+            'type': '',
             'version': '4.20.1F'
           }
         }
@@ -209,7 +209,7 @@ def test_create_guest_without_group_vars():
             'boot_timeout': 0,
             'name': '',
             'provider': 'libvirt',
-            'type': 'other',
+            'type': '',
             'version': ''
           }
         }
