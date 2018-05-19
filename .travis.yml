@@ -3,10 +3,10 @@ language: python
 python:
   - "3.6"
 before_install:
-    - pip install pytest pytest-cov
-    - pip install coveralls
-    - pip install mock
+  - pip install pytest pytest-cov
+  - pip install coveralls
+  - pip install mock
 script:
-    - pytest --cov=vagrantfile_builder
+  - pytest --cov=vagrantfile_builder
 after_success:
-- coveralls
+  - coveralls

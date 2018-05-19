@@ -5,7 +5,7 @@ Note: Python 3.6+ is supported.
 
 ```
 *****************************************************************
-This project is in beta and stability is not currently gauranteed
+This project is in beta and stability is not currently guaranteed
 Breadking API changes can be expected
 *****************************************************************
 ```
@@ -45,18 +45,19 @@ guests:
   - name: "sw01"
     vagrant_box:
       name: "arista/veos"
-      version:
+      version: ""
       provider: "libvirt"
 
     insert_ssh_key: False
     synced_folder:
+      enabled: False
 
     provider_config:
       nic_adapter_count: 2
       disk_bus: "ide"
       cpus: 2
       memory: 2048
-      management_network_mac:
+      management_network_mac: ""
 
     interfaces:
       - name: "eth1"
@@ -71,18 +72,19 @@ guests:
   - name: "sw02"
     vagrant_box:
       name: "arista/veos"
-      version:
+      version: ""
       provider: "libvirt"
 
     insert_ssh_key: False
     synced_folder:
+      enabled: False
 
     provider_config:
       nic_adapter_count: 2
       disk_bus: "ide"
       cpus: 2
       memory: 2048
-      management_network_mac:
+      management_network_mac: ""
 
     interfaces:
       - name: "eth1"
@@ -184,3 +186,37 @@ Vagrant.configure("2") do |config|
 
 end
 ```
+
+#### Defaults Per-Guest Type
+It is possible to defined default values per guest group type. The application will look for a
+file name `guest-defaults.yml` in the current working directory that the `vagrantfile`
+command is executed.
+```yaml
+arista/veos:
+  vagrant_box:
+    version: "4.20.1F"
+  insert_ssh_key: False
+  synced_folder:
+    enabled: False
+  provider_config:
+    nic_adapter_count: 8
+    disk_bus: "ide"
+    cpus: 2
+    memory: 2048
+
+juniper/vsrx:
+  vagrant_box:
+    version: "18.1R1.9-packetmode"
+  insert_ssh_key: False
+  synced_folder:
+    enabled: False
+  provider_config:
+    nic_adapter_count: 8
+    disk_bus: "ide"
+    cpus: 2
+    memory: 4096
+```
+
+Group variables can be over-written by variables at the guest variable level. The values of
+the group and guest variables will be merged prior to building a `Vagrantfile` with the guest
+variables taking precedence over the group variables.
