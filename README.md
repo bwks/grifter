@@ -6,7 +6,7 @@ Note: Python 3.6+ is supported.
 ```
 *****************************************************************
 This project is in beta and stability is not currently guaranteed
-Breadking API changes can be expected
+Breaking API changes can be expected
 *****************************************************************
 ```
 
