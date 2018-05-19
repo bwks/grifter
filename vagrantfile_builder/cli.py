@@ -34,12 +34,7 @@ def create(datafile):
     return generate_vagrant_file(merged_data, loopbacks)
 
 
-@cli.command(help='''
-    Print default variables.
-    
-    --guest - Print default guest variables. 
-    --group - Print default group variables. 
-    ''')
+@cli.command(help='Print default variables.')
 @click.option('--guest', is_flag=True)
 @click.option('--group', is_flag=True)
 def variables(guest, group):
