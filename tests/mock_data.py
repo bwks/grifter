@@ -1,5 +1,5 @@
-mock_load_host_data = {
-  'hosts': [
+mock_guest_data = {
+  'guests': [
     {
       'insert_ssh_key': False,
       'interfaces': [
@@ -20,15 +20,17 @@ mock_load_host_data = {
       'provider_config': {
         'cpus': 2,
         'disk_bus': 'ide',
-        'management_network_mac': None,
+        'management_network_mac': '',
         'memory': 2048,
         'nic_adapter_count': 2
       },
-      'synced_folder': None,
+      'synced_folder': {
+        'enabled': False,
+      },
       'vagrant_box': {
         'name': 'arista/veos',
         'provider': 'libvirt',
-        'version': None
+        'version': ''
       }
     },
     {
@@ -51,18 +53,20 @@ mock_load_host_data = {
       'provider_config': {
         'cpus': 2,
         'disk_bus': 'ide',
-        'management_network_mac': None,
+        'management_network_mac': '',
         'memory': 2048,
         'nic_adapter_count': 2
       },
-      'synced_folder': None,
+      'synced_folder': {
+        'enabled': False,
+      },
       'vagrant_box': {
         'name': 'arista/veos',
         'provider': 'libvirt',
-        'version': None
+        'version': ''
       }
     }
   ]
 }
 
-mock_host_interfaces = mock_load_host_data['hosts'][0]['interfaces']
+mock_guest_interfaces = mock_guest_data['guests'][0]['interfaces']

@@ -1,20 +1,21 @@
 ---
-hosts:
+guests:
   - name: "sw01"
     vagrant_box:
       name: "arista/veos"
-      version:
+      version: ""
       provider: "libvirt"
 
     insert_ssh_key: False
     synced_folder:
+      enabled: False
 
     provider_config:
       nic_adapter_count: 2
       disk_bus: "ide"
       cpus: 2
       memory: 2048
-      management_network_mac:
+      management_network_mac: ""
 
     interfaces:
       - name: "eth1"
@@ -29,18 +30,19 @@ hosts:
   - name: "sw02"
     vagrant_box:
       name: "arista/veos"
-      version:
+      version: ""
       provider: "libvirt"
 
     insert_ssh_key: False
     synced_folder:
+      enabled: False
 
     provider_config:
       nic_adapter_count: 2
       disk_bus: "ide"
       cpus: 2
       memory: 2048
-      management_network_mac:
+      management_network_mac: ""
 
     interfaces:
       - name: "eth1"

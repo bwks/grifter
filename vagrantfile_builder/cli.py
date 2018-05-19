@@ -1,9 +1,15 @@
 import click
 
-from vagrantfile_builder import generate_loopbacks
-from vagrantfile_builder import load_host_data
-from vagrantfile_builder import update_hosts
-from vagrantfile_builder import generate_vagrant_file
+from .loaders import (
+    load_data,
+)
+
+from vagrantfile_builder import (
+    generate_loopbacks,
+    update_guest_interfaces,
+    generate_vagrant_file,
+    update_guest_data,
+)
 
 
 @click.group(context_settings={'help_option_names': ['-h', '--help']})
@@ -21,7 +27,8 @@ def cli():
 @click.argument('datafile')
 def create(datafile):
     """Create a Vagrantfile."""
-    data = load_host_data(datafile)
-    loopbacks = generate_loopbacks(data['hosts'])
-    update_hosts(data['hosts'])
-    return generate_vagrant_file(data, loopbacks)
+    data = load_data(datafile)
+    loopbacks = generate_loopbacks(data['guests'])
+    merged_data = update_guest_data(data)
+    update_guest_interfaces(merged_data['guests'])
+    return generate_vagrant_file(merged_data, loopbacks)

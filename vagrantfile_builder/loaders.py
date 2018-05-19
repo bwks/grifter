@@ -1,3 +1,6 @@
+import yaml
+import json
+
 from jinja2 import Environment, FileSystemLoader
 
 
@@ -17,3 +20,21 @@ def render_from_template(
 
     template = env.get_template(template_name)
     return template.render(**kwargs)
+
+
+def load_data(location, data_type='yaml'):
+    """
+    Load data file from location
+    :param location: Location of YAML file
+    :param data_type: Type of source data YAML|JSON
+    :return: Dictionary of data
+    """
+    valid_types = ['yaml', 'json']
+    if data_type.lower() not in valid_types:
+        raise AttributeError('Valid data types are yaml or json')
+
+    with open(location, 'r') as f:
+        if data_type.lower() == 'yaml':
+            return yaml.load(f)
+        elif data_type.lower() == 'json':
+            return json.loads(f)

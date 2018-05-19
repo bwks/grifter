@@ -1,4 +1,5 @@
-import yaml
+import copy
+import logging
 
 from .custom_filters import (
     explode_port,
@@ -6,48 +7,96 @@ from .custom_filters import (
 
 from .loaders import (
     render_from_template,
+    load_data,
 )
 
 from .constants import (
     TEMPLATE_DIR,
     BLACKHOLE_LOOPBACK_MAP,
+    ALL_GUEST_DEFAULTS,
 )
+
 
 custom_filters = [
     explode_port,
 ]
 
-
-def load_host_data(location):
-    """
-    Load yaml file from location
-    :param location: Location of YAML file
-    :return: Dictionary of data
-    """
-    with open(location, 'r') as f:
-        return yaml.load(f)
+logging.getLogger(__name__).addHandler(logging.NullHandler())
+logging.basicConfig(format='%(levelname)s - %(message)s')
 
 
-def generate_loopbacks(host_list=None, network='127.255.1'):
+def generate_loopbacks(guest_list=None, network='127.255.1'):
     """
     Generate a dict of loopback addresses
-    :param host_list: List of hosts
+    :param guest_list: List of guests
     :param network: Network portion of the loopback addresses
     :return: Dictionary of loopback addresses
     """
-    if host_list is None or not isinstance(host_list, list):
-        raise AttributeError('host_list should contain a list of hosts')
-    elif not host_list:
-        raise ValueError('list of hosts is empty')
+    if guest_list is None or not isinstance(guest_list, list):
+        raise AttributeError('guest_list should contain a list of guests')
+    elif not guest_list:
+        raise ValueError('list of guests is empty')
 
-    hosts = [i['name'] for i in host_list]
-    loopbacks = [f'{network}.{i}' for i in range(1, len(hosts) + 1)]
-    host_to_loopback_map = dict(zip(hosts, loopbacks))
+    guests = [i['name'] for i in guest_list]
+    loopbacks = [f'{network}.{i}' for i in range(1, len(guests) + 1)]
+    guest_to_loopback_map = dict(zip(guests, loopbacks))
 
-    return {**host_to_loopback_map, **BLACKHOLE_LOOPBACK_MAP}
+    return {**guest_to_loopback_map, **BLACKHOLE_LOOPBACK_MAP}
 
 
-def update_interfaces(total_interfaces, interface_list):
+def update_context(source, target):
+    """
+    Take a source dict and update it with target data
+    :param source: Source data dictionary
+    :param target: Target data dictionary to update
+    :return: Return new dict with merged data
+    """
+    new_context = copy.deepcopy(target)
+    for k, v in source.items():
+        if k in target:
+            if isinstance(target[k], dict):
+                new_context[k].update(source[k])
+            else:
+                new_context[k] = source[k]
+
+    return new_context
+
+
+def update_guest_data(
+        guest_data,
+        guest_defaults='guest-defaults.yml',
+        all_guest_defaults=ALL_GUEST_DEFAULTS):
+    """
+    Build data vars for guests. This function will take all_guest_defaults and merge in
+    guest and guest group vars.
+    :param guest_data: Dict of guest data
+    :param guest_defaults: Location of guest defaults file
+    :param all_guest_defaults: All guest default data
+    :return: Updated Dict of guest data
+    """
+    try:
+        guest_defaults = load_data(guest_defaults)
+    except FileNotFoundError:
+        logging.warning(f'File "{guest_defaults}" not found')
+        guest_defaults = {}
+
+    new_guest_data = {'guests': []}
+    for guest in guest_data['guests']:
+        # Copy the default dict, that contains all top level variables
+        # Group vars, then host vars will be merged into this dict
+        default_context = copy.deepcopy(all_guest_defaults['guest_defaults'])
+        if guest_defaults and guest['vagrant_box'].get('name') in guest_defaults:
+            # Merge group vars with host vars
+            group_context = guest_defaults.get(guest['vagrant_box']['name'])
+            new_context = update_context(group_context, default_context)
+            new_guest_data['guests'].append(update_context(guest, new_context))
+        else:
+            # No group vars found, just merge host vars
+            new_guest_data['guests'].append(update_context(guest, default_context))
+    return new_guest_data
+
+
+def add_blackhole_interfaces(total_interfaces, interface_list):
     """
     Adds blackhole interfaces to host data by inserting a
     dict of blackhole config in the correct interface index position.
@@ -84,27 +133,27 @@ def update_interfaces(total_interfaces, interface_list):
     return updated_interface_list
 
 
-def update_hosts(hosts):
+def update_guest_interfaces(guest_data):
     """
-    Entrypoint to updating host data parameters.
-    :param hosts: List of host dicts.
+    Entrypoint to updating guest data parameters.
+    :param guest_data: List of host dicts.
     :return: New list of host dicts.
     """
-    updated_host_list = []
-    for host in hosts:
-        if not host.get('interfaces'):
-            updated_host_list.append(host)
+    updated_guest_list = []
+    for guest in guest_data:
+        if not guest.get('interfaces'):
+            updated_guest_list.append(guest)
         else:
-            host['interfaces'] = update_interfaces(
-                host['provider_config']['nic_adapter_count'], host['interfaces']
+            guest['interfaces'] = add_blackhole_interfaces(
+                guest['provider_config']['nic_adapter_count'], guest['interfaces']
             )
-            updated_host_list.append(host)
+            updated_guest_list.append(guest)
 
-    return updated_host_list
+    return updated_guest_list
 
 
 def generate_vagrant_file(
-        data, loopbacks, template_name='host.j2',
+        data, loopbacks, template_name='guest.j2',
         template_directory=f'{TEMPLATE_DIR}/', vagrantfile_location='.'
         ):
     """
@@ -121,7 +170,7 @@ def generate_vagrant_file(
             template_name=template_name,
             template_directory=template_directory,
             custom_filters=custom_filters,
-            hosts=data['hosts'],
+            guests=data['guests'],
             loopbacks=loopbacks
         )
 

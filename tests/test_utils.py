@@ -1,4 +1,10 @@
-from vagrantfile_builder.utils import get_mac
+from vagrantfile_builder.constants import (
+    BASE_DIR,
+)
+
+from vagrantfile_builder.utils import (
+    get_mac,
+)
 
 
 def test_get_mac_returns_default_oui():

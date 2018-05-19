@@ -3,6 +3,14 @@ Python library to build large scale Vagrant topologies for the networking space,
 
 Note: Python 3.6+ is supported.
 
+```
+*****************************************************************
+This project is in beta and stability is not currently gauranteed
+Breadking API changes can be expected
+*****************************************************************
+```
+
+
 The main goal of this project is to build Vagrant topologies from yaml files.
 As a secondary objective I would like to also generate graphviz dot files as well.
 Currently only a vagrant-libvirt compatible Vagrantfile will be generated.
@@ -33,7 +41,7 @@ vagrantfile create hosts.yml
 #### Example Datafile
 ```yaml
 ---
-hosts:
+guests:
   - name: "sw01"
     vagrant_box:
       name: "arista/veos"

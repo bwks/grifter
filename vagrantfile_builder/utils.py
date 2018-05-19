@@ -9,11 +9,3 @@ def get_mac(oui='28:b7:ad'):
     """
     nic = ':'.join([format(random.randint(0, 255), '02x') for _ in range(0, 3)])
     return f'{oui}:{nic}'
-
-
-def create_host_data():
-    """
-    Build a base data file for host.
-    :return:
-    """
-    pass

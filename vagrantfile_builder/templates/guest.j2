@@ -1,0 +1,34 @@
+{% extends 'base.j2' %}
+
+{% block guest_config %}
+  {% for guest in guests %}
+  config.vm.define "{{ guest.name }}" do |node|
+    node.vm.box = "{{ guest.vagrant_box.name }}"
+    {% if guest.vagrant_box.version %}
+    node.vm.box_version = "{{ guest.vagrant_box.version }}"
+    {% endif %}
+    {% if guest.vagrant_box.type %}
+    node.vm.guest = :{{ guest.vagrant_box.type }}
+    {% endif %}
+    {% if guest.vagrant_box.boot_timeout %}
+    node.vm.boot_timeout = {{ guest.vagrant_box.boot_timeout }}
+    {% endif %}
+    {% if guest.synced_folder.enabled %}
+    node.vm.synced_folder "{{ guest.synced_folder.src }}", "{{ guest.synced_folder.dst }}", id: "{{ guest.synced_folder.id }}"
+    {% else %}
+    node.vm.synced_folder ".", "/vagrant", id: "vagrant-root", disabled: true
+    {% endif %}
+
+    {% if not guest.insert_ssh_key %}
+    node.ssh.insert_key = false
+    {% endif %}
+
+    {% include 'libvirt-config.j2' %}
+
+    {% for interface in guest.interfaces %}
+    {% include 'libvirt-interface-config.j2' %}
+
+    {% endfor %}
+  end
+  {% endfor %}
+{% endblock guest_config %}
