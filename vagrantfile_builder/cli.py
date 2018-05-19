@@ -22,7 +22,7 @@ def cli():
 @cli.command(help='''
     Create a Vagrantfile.
     
-    DATAFILE: Location of DATAFILE.
+    DATAFILE - Location of DATAFILE.
     ''')
 @click.argument('datafile')
 def create(datafile):
@@ -34,7 +34,12 @@ def create(datafile):
     return generate_vagrant_file(merged_data, loopbacks)
 
 
-@cli.command(help='Print default variables.')
+@cli.command(help='''
+    Print default variables.
+    
+    --guest - Print default guest variables.
+    --group - Print default group variables. 
+    ''')
 @click.option('--guest', is_flag=True)
 @click.option('--group', is_flag=True)
 def variables(guest, group):
