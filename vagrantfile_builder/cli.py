@@ -40,6 +40,7 @@ def create(datafile):
 def variables(guest, group):
     """Create a blank Variables file"""
     if guest:
-        click.echo(load_data(GUEST_DEFAULTS_FILE))
+        with open(GUEST_DEFAULTS_FILE, 'r') as f:
+            click.echo(f.read())
     if group:
         click.echo('add group option')
