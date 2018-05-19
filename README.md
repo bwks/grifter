@@ -225,7 +225,8 @@ variables taking precedence over the group variables.
 
 
 This means you can have a much more succinct guests variable file by reducing alot of duplication.
-```
+Here is a reduced guest variable file.
+```yaml
 guests:
   - name: "sw01"
     vagrant_box:
