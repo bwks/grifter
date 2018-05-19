@@ -1,8 +1,8 @@
 import click
 
-from .loaders import (
-    load_data,
-)
+from .constants import GUEST_DEFAULTS_FILE
+
+from .loaders import load_data
 
 from vagrantfile_builder import (
     generate_loopbacks,
@@ -19,11 +19,11 @@ def cli():
     pass
 
 
-@cli.command(help="""
+@cli.command(help='''
     Create a Vagrantfile.
     
     DATAFILE: Location of DATAFILE.
-    """)
+    ''')
 @click.argument('datafile')
 def create(datafile):
     """Create a Vagrantfile."""
@@ -32,3 +32,12 @@ def create(datafile):
     merged_data = update_guest_data(data)
     update_guest_interfaces(merged_data['guests'])
     return generate_vagrant_file(merged_data, loopbacks)
+
+
+@cli.command(help='Print default variables.')
+@click.option('--guest', help='Sample guest variables')
+@click.option('--group', help='Sample group variables')
+def variables(guest, group):
+    """Create a blank Variables file"""
+    if guest:
+        print(load_data(GUEST_DEFAULTS_FILE))
