@@ -37,7 +37,7 @@ def create(datafile):
 @cli.command(help='''
     Print default variables.
     
-    --guest - Print default guest variables.
+    --guest - Print default guest variables. 
     --group - Print default group variables. 
     ''')
 @click.option('--guest', is_flag=True)
