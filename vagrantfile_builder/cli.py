@@ -37,7 +37,7 @@ def create(datafile):
 @cli.command(help='Print default variables.')
 @click.option('--guest', help='Sample guest variables')
 @click.option('--group', help='Sample group variables')
-def variables(guest, group):
+def variables():
     """Create a blank Variables file"""
-    if guest:
+    if '--guest':
         print(load_data(GUEST_DEFAULTS_FILE))
