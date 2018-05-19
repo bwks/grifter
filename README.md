@@ -34,7 +34,7 @@ pip install https://github.com/bobthebutcher/vagrant-topology-builder/archive/ma
 
 #### Example Usage
 ```
-vagrantfile create hosts.yml
+vagrantfile create guests.yml
 ```
 
 
