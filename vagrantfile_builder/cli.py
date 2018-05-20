@@ -38,18 +38,6 @@ def create(datafile):
     return generate_vagrant_file(merged_data, loopbacks)
 
 
-@cli.command(help='Print default variables.')
-@click.option('--guest', is_flag=True)
-@click.option('--group', is_flag=True)
-def variables(guest, group):
-    """Create a blank Variables file"""
-    if guest:
-        with open(GUEST_DEFAULTS_FILE, 'r') as f:
-            click.echo(f.read())
-    if group:
-        click.echo('add group option')
-
-
 @cli.command(help='Print example file declaration.')
 @click.option('--guest', is_flag=True)
 @click.option('--group', is_flag=True)
