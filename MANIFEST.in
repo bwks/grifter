@@ -1,2 +1,3 @@
 include vagrantfile_builder/templates/*
+include vagrantfile_builder/examples/*
 include vagrantfile_builder/defaults.yml

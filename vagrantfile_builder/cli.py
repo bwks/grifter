@@ -1,6 +1,10 @@
 import click
 
-from .constants import GUEST_DEFAULTS_FILE
+from .constants import (
+    GUESTS_EXAMPLE_FILE,
+    GROUPS_EXAMPLE_FILE,
+    GUEST_DEFAULTS_FILE
+)
 
 from .loaders import load_data
 
@@ -44,3 +48,16 @@ def variables(guest, group):
             click.echo(f.read())
     if group:
         click.echo('add group option')
+
+
+@cli.command(help='Print example file declaration.')
+@click.option('--guest', is_flag=True)
+@click.option('--group', is_flag=True)
+def example(guest, group):
+    """Display example variable file"""
+    if guest:
+        with open(GUESTS_EXAMPLE_FILE, 'r') as f:
+            click.echo(f.read())
+    if group:
+        with open(GROUPS_EXAMPLE_FILE, 'r') as f:
+            click.echo(f.read())

@@ -11,7 +11,7 @@ from .loaders import (
 )
 
 from .constants import (
-    TEMPLATE_DIR,
+    TEMPLATES_DIR,
     BLACKHOLE_LOOPBACK_MAP,
     ALL_GUEST_DEFAULTS,
 )
@@ -154,7 +154,7 @@ def update_guest_interfaces(guest_data):
 
 def generate_vagrant_file(
         data, loopbacks, template_name='guest.j2',
-        template_directory=f'{TEMPLATE_DIR}/', vagrantfile_location='.'
+        template_directory=f'{TEMPLATES_DIR}/', vagrantfile_location='.'
         ):
     """
     Generate a vagrant file
