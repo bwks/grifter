@@ -1,6 +1,7 @@
 import copy
 import pytest
 
+
 from vagrantfile_builder.constants import (
     BASE_DIR,
 )
