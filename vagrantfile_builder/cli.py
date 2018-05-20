@@ -3,7 +3,6 @@ import click
 from .constants import (
     GUESTS_EXAMPLE_FILE,
     GROUPS_EXAMPLE_FILE,
-    GUEST_DEFAULTS_FILE
 )
 
 from .loaders import load_data
