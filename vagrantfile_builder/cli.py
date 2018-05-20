@@ -1,8 +1,11 @@
 import click
 
-from .loaders import (
-    load_data,
+from .constants import (
+    GUESTS_EXAMPLE_FILE,
+    GROUPS_EXAMPLE_FILE,
 )
+
+from .loaders import load_data
 
 from vagrantfile_builder import (
     generate_loopbacks,
@@ -19,11 +22,11 @@ def cli():
     pass
 
 
-@cli.command(help="""
+@cli.command(help='''
     Create a Vagrantfile.
     
-    DATAFILE: Location of DATAFILE.
-    """)
+    DATAFILE - Location of DATAFILE.
+    ''')
 @click.argument('datafile')
 def create(datafile):
     """Create a Vagrantfile."""
@@ -32,3 +35,16 @@ def create(datafile):
     merged_data = update_guest_data(data)
     update_guest_interfaces(merged_data['guests'])
     return generate_vagrant_file(merged_data, loopbacks)
+
+
+@cli.command(help='Print example file declaration.')
+@click.option('--guest', is_flag=True)
+@click.option('--group', is_flag=True)
+def example(guest, group):
+    """Display example variable file"""
+    if guest:
+        with open(GUESTS_EXAMPLE_FILE, 'r') as f:
+            click.echo(f.read())
+    if group:
+        with open(GROUPS_EXAMPLE_FILE, 'r') as f:
+            click.echo(f.read())
