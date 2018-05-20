@@ -1,10 +1,4 @@
     node.vm.provider :libvirt do |domain|
-      {% if guest.provider_config.nic_adapter_count %}
-      domain.nic_adapter_count = {{ guest.provider_config.nic_adapter_count }}
-      {% endif %}
-      {% if guest.provider_config.disk_bus %}
-      domain.disk_bus = "{{ guest.provider_config.disk_bus }}"
-      {% endif %}
       {% if guest.provider_config.cpus %}
       domain.cpus = {{ guest.provider_config.cpus }}
       {% endif %}
@@ -12,10 +6,16 @@
       domain.memory = {{ guest.provider_config.memory }}
       {% endif %}
       {% if guest.provider_config.storage_pool %}
-      domain.storage_pool_name = {{ guest.provider_config.storage_pool }}
+      domain.storage_pool_name = "{{ guest.provider_config.storage_pool }}"
+      {% endif %}
+      {% if guest.provider_config.disk_bus %}
+      domain.disk_bus = "{{ guest.provider_config.disk_bus }}"
       {% endif %}
       {% if guest.provider_config.management_network_mac %}
       domain.management_network_mac = "{{ guest.provider_config.management_network_mac }}"
+      {% endif %}
+      {% if guest.provider_config.nic_adapter_count %}
+      domain.nic_adapter_count = {{ guest.provider_config.nic_adapter_count }}
       {% endif %}
     end
     {#  #}
