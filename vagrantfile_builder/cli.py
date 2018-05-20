@@ -16,7 +16,7 @@ from vagrantfile_builder import (
 
 
 @click.group(context_settings={'help_option_names': ['-h', '--help']})
-@click.version_option(version='0.1.0')
+@click.version_option(version='0.1.1')
 def cli():
     """Create a Vagrantfile from a YAML data input file."""
     pass
