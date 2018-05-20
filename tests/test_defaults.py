@@ -19,7 +19,8 @@ expected_all_guest_defaults = {
             'disk_bus': 'virtio',
             'cpus': 1,
             'memory': 512,
-            'management_network_mac': ''
+            'management_network_mac': '',
+            'storage_pool': ''
         },
         'interfaces': []
     }

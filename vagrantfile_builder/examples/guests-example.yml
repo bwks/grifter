@@ -16,6 +16,7 @@ guests:
       cpus: 2
       memory: 2048
       management_network_mac: ""
+      storage_pool: ""
 
     interfaces:
       - name: "eth1"

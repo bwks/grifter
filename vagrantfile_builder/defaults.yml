@@ -16,6 +16,7 @@ guest_defaults:
     disk_bus: "virtio"
     cpus: 1
     memory: 512
+    storage_pool: ""
     management_network_mac: ""
 
   interfaces: []

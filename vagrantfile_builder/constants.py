@@ -12,4 +12,7 @@ GUESTS_EXAMPLE_FILE = f'{EXAMPLES_DIR}/guests-example.yml'
 GUEST_DEFAULTS_FILE = f'{BASE_DIR}/defaults.yml'
 ALL_GUEST_DEFAULTS = load_data(GUEST_DEFAULTS_FILE)
 
+TESTS_DIR = os.path.join(BASE_DIR, '../tests')
+
 BLACKHOLE_LOOPBACK_MAP = {'blackhole': '127.6.6.6'}
+
