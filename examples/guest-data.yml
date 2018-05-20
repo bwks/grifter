@@ -5,22 +5,23 @@
   vagrant_box:
     name: # string - required
     version: # string - optional | default: ""
-    provider: # string - optional | default: libvirt
+    provider: # string - optional | default: "libvirt"
     type: # string - optional | default: ""
-    boot_timeout: # integer - optional | none
+    boot_timeout: # integer - optional | default: 0
 
   insert_ssh_key: # boolean - optional | default: False
   synced_folder: # dict - optional | default:
     enabled: # boolean - default: False
-    id: # string - default "vagrant-root"
-    src: # string - default "."
-    dst: # string - default "/vagrant"
+    id: # string - default: "vagrant-root"
+    src: # string - default: "."
+    dst: # string - default: "/vagrant"
 
   provider_config:
     nic_adapter_count: # integer - optional | default: 8
-    disk_bus: # string - optional | default "virtio"
-    cpus: # integer - optional | default 1
-    memory: # integer - optional | default 512
+    disk_bus: # string - optional | default: "virtio"
+    cpus: # integer - optional | default: 1
+    memory: # integer - optional | default: 512
+    storage_pool: # string - optional | default: ""
     management_network_mac: # string - optional | default: ""
 
   interfaces: # optional | default: []

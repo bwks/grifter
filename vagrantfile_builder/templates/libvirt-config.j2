@@ -11,6 +11,9 @@
       {% if guest.provider_config.memory %}
       domain.memory = {{ guest.provider_config.memory }}
       {% endif %}
+      {% if guest.provider_config.storage_pool %}
+      domain.storage_pool_name = {{ guest.provider_config.storage_pool }}
+      {% endif %}
       {% if guest.provider_config.management_network_mac %}
       domain.management_network_mac = "{{ guest.provider_config.management_network_mac }}"
       {% endif %}

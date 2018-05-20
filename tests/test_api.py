@@ -171,7 +171,8 @@ def test_create_guest_with_group_vars():
             'disk_bus': 'ide',
             'management_network_mac': '',
             'memory': 2048,
-            'nic_adapter_count': 8
+            'nic_adapter_count': 8,
+            'storage_pool': ''
           },
           'synced_folder': {
             'enabled': False
@@ -204,7 +205,8 @@ def test_create_guest_without_group_vars():
             'disk_bus': 'virtio',
             'management_network_mac': '',
             'memory': 512,
-            'nic_adapter_count': 0
+            'nic_adapter_count': 0,
+            'storage_pool': ''
           },
           'synced_folder': {
             'enabled': False
