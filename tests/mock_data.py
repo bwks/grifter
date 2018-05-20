@@ -1,3 +1,5 @@
+from vagrantfile_builder.constants import TESTS_DIR
+
 mock_guest_data = {
   'guests': [
     {
@@ -71,5 +73,5 @@ mock_guest_data = {
 
 mock_guest_interfaces = mock_guest_data['guests'][0]['interfaces']
 
-with open('mock_vagrantfile.rb', 'r') as f:
+with open(f'{TESTS_DIR}/mock_vagrantfile.rb', 'r') as f:
     mock_vagrantfile = f.read()
