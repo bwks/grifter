@@ -1,0 +1,83 @@
+---
+name:
+  type: "string"
+  required: True
+  empty: False
+vagrant_box:
+  type: "dict"
+  required: True
+  schema:
+    name:
+      type: "string"
+      required: True
+      empty: False
+    version:
+      type: "string"
+    provider:
+      type: "string"
+      allowed:
+        - "libvirt"
+    type:
+      type: "string"
+    boot_timeout:
+      type: "integer"
+      min: 0
+      max: 300
+
+insert_ssh_key:
+  type: "boolean"
+synced_folder:
+  type: "dict"
+  schema:
+    enabled:
+      type: "boolean"
+    id:
+      type: "string"
+    src:
+      type: "string"
+    dst:
+      type: "string"
+
+provider_config:
+  type: "dict"
+  schema:
+    nic_adapter_count:
+      type: "integer"
+      min: 0
+      max: 96
+    disk_bus:
+      type: "string"
+      allowed:
+        - "virtio"
+        - "ide"
+        - "sata"
+    cpus:
+      type: "integer"
+      min: 1
+      max: 16
+    memory:
+      type: "integer"
+      min: 256
+      max: 32768
+    storage_pool:
+      type: "string"
+    management_network_mac:
+      type: "string"
+
+interfaces:
+  type: "list"
+  schema:
+    type: "dict"
+    schema:
+      name:
+        type: "string"
+      local_port:
+        type: "integer"
+        min: 1
+        max: 96
+      remote_host:
+        type: "string"
+      remote_port:
+        type: "integer"
+        min: 1
+        max: 96

@@ -1,3 +1,6 @@
+from cerberus import Validator
+
+
 required_keys = ['name', 'vagrant_box']
 
 
@@ -14,3 +17,9 @@ def validate_required_values(guest):
         raise ValueError('name is a required value and cannot be empty')
     if not guest['vagrant_box']['name']:
         raise ValueError('vagrant_box["name"] is a required value and cannot be empty')
+
+
+def validate_schema(data, schema):
+    v = Validator()
+    v.validate(data, schema)
+    return v
