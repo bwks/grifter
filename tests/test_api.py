@@ -16,6 +16,7 @@ from vagrantfile_builder.api import (
     add_blackhole_interfaces,
     update_guest_data,
     update_context,
+    validate_data,
 )
 
 from .mock_data import (
@@ -224,3 +225,20 @@ def test_create_guest_without_group_vars():
     }
 
     assert expected == update_guest_data(seed_data, 'does-not-exist.yml')
+
+
+def test_validate_data_returns_list():
+    result = validate_data({'guests': {}})
+    assert isinstance(result, list)
+
+
+def test_validate_data_with_valid_data_returns_no_errors_in_empty_list():
+    result = validate_data(mock_guest_data)
+    assert not result
+
+
+def test_validate_data_with_invalid_data_returns_list_of_errors():
+    # missing name field value
+    data = {'guests': [{'name': '', 'vagrant_box': {'name': 'box-name'}}]}
+    result = validate_data(data)
+    assert result

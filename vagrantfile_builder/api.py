@@ -1,6 +1,8 @@
 import copy
 import logging
 
+from .validators import validate_schema
+
 from .custom_filters import (
     explode_port,
 )
@@ -14,6 +16,8 @@ from .constants import (
     TEMPLATES_DIR,
     BLACKHOLE_LOOPBACK_MAP,
     ALL_GUEST_DEFAULTS,
+    GUEST_SCHEMA_FILE,
+    GUESTS_SCHEMA_FILE,
 )
 
 
@@ -150,6 +154,23 @@ def update_guest_interfaces(guest_data):
             updated_guest_list.append(guest)
 
     return updated_guest_list
+
+
+def validate_data(data):
+    """
+    Validate data conforms to required schema
+    :param data: Guest data dict
+    :return: errors dict
+    """
+    result = validate_schema(data, load_data(GUESTS_SCHEMA_FILE))
+    errors = [result.errors] if result.errors else []
+
+    for guest in data['guests']:
+        result = validate_schema(guest, load_data(GUEST_SCHEMA_FILE))
+        if result.errors:
+            errors.append(result.errors)
+
+    return errors
 
 
 def generate_vagrant_file(

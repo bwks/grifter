@@ -22,6 +22,7 @@ setup(
         'jinja2',
         'pyyaml',
         'click',
+        'cerberus',
     ],
 
     entry_points={

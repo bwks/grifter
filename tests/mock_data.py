@@ -75,3 +75,6 @@ mock_guest_interfaces = mock_guest_data['guests'][0]['interfaces']
 
 with open(f'{TESTS_DIR}/mock_vagrantfile.rb', 'r') as f:
     mock_vagrantfile = f.read()
+
+
+mock_invalid_guest_data_file = f'{TESTS_DIR}/mock_invalid_guest_data.yml'
