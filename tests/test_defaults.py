@@ -7,7 +7,7 @@ expected_all_guest_defaults = {
             'name': '',
             'version': '',
             'provider': 'libvirt',
-            'type': '',
+            'guest_type': '',
             'boot_timeout': 0
         },
         'insert_ssh_key': False,

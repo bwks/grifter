@@ -17,7 +17,7 @@ vagrant_box:
       type: "string"
       allowed:
         - "libvirt"
-    type:
+    guest_type:
       type: "string"
     boot_timeout:
       type: "integer"
@@ -75,7 +75,7 @@ interfaces:
         type: "integer"
         min: 1
         max: 96
-      remote_host:
+      remote_guest:
         type: "string"
       remote_port:
         type: "integer"

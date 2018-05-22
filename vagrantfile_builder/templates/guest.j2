@@ -7,8 +7,8 @@
     {% if guest.vagrant_box.version %}
     node.vm.box_version = "{{ guest.vagrant_box.version }}"
     {% endif %}
-    {% if guest.vagrant_box.type %}
-    node.vm.guest = :{{ guest.vagrant_box.type }}
+    {% if guest.vagrant_box.guest_type %}
+    node.vm.guest = :{{ guest.vagrant_box.guest_type }}
     {% endif %}
     {% if guest.vagrant_box.boot_timeout %}
     node.vm.boot_timeout = {{ guest.vagrant_box.boot_timeout }}

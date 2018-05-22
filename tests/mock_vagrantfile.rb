@@ -23,23 +23,23 @@ Vagrant.configure("2") do |config|
     end
 
     node.vm.network :private_network,
-      # sw01-int1 <--> -int1
+      # sw01-int1 <--> sw02-int1
       :mac => "#{get_mac()}",
       :libvirt__tunnel_type => "udp",
       :libvirt__tunnel_local_ip => "127.255.1.1",
       :libvirt__tunnel_local_port => 10001,
-      :libvirt__tunnel_ip => "",
+      :libvirt__tunnel_ip => "127.255.1.2",
       :libvirt__tunnel_port => 10001,
       :libvirt__iface_name => "eth1",
       auto_config: false
 
     node.vm.network :private_network,
-      # sw01-int2 <--> -int2
+      # sw01-int2 <--> sw02-int2
       :mac => "#{get_mac()}",
       :libvirt__tunnel_type => "udp",
       :libvirt__tunnel_local_ip => "127.255.1.1",
       :libvirt__tunnel_local_port => 10002,
-      :libvirt__tunnel_ip => "",
+      :libvirt__tunnel_ip => "127.255.1.2",
       :libvirt__tunnel_port => 10002,
       :libvirt__iface_name => "eth2",
       auto_config: false
@@ -59,23 +59,23 @@ Vagrant.configure("2") do |config|
     end
 
     node.vm.network :private_network,
-      # sw02-int1 <--> -int1
+      # sw02-int1 <--> sw01-int1
       :mac => "#{get_mac()}",
       :libvirt__tunnel_type => "udp",
       :libvirt__tunnel_local_ip => "127.255.1.2",
       :libvirt__tunnel_local_port => 10001,
-      :libvirt__tunnel_ip => "",
+      :libvirt__tunnel_ip => "127.255.1.1",
       :libvirt__tunnel_port => 10001,
       :libvirt__iface_name => "eth1",
       auto_config: false
 
     node.vm.network :private_network,
-      # sw02-int2 <--> -int2
+      # sw02-int2 <--> sw01-int2
       :mac => "#{get_mac()}",
       :libvirt__tunnel_type => "udp",
       :libvirt__tunnel_local_ip => "127.255.1.2",
       :libvirt__tunnel_local_port => 10002,
-      :libvirt__tunnel_ip => "",
+      :libvirt__tunnel_ip => "127.255.1.1",
       :libvirt__tunnel_port => 10002,
       :libvirt__iface_name => "eth2",
       auto_config: false

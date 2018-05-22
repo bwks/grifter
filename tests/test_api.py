@@ -72,7 +72,8 @@ def test_guest_without_interfaces():
                 'vagrant_box': {
                     'name': 'arista/veos',
                     'provider': 'libvirt',
-                    'version': ''
+                    'version': '',
+                    'guest_type': ''
                 }
             },
             {
@@ -81,13 +82,13 @@ def test_guest_without_interfaces():
                     {
                         'local_port': 1,
                         'name': 'eth1',
-                        'remote_host': 'sw01',
+                        'remote_guest': 'sw01',
                         'remote_port': 1
                     },
                     {
                         'local_port': 2,
                         'name': 'eth2',
-                        'remote_host': 'sw01',
+                        'remote_guest': 'sw01',
                         'remote_port': 2
                     }
                 ],
@@ -105,7 +106,8 @@ def test_guest_without_interfaces():
                 'vagrant_box': {
                     'name': 'arista/veos',
                     'provider': 'libvirt',
-                    'version': ''
+                    'version': '',
+                    'guest_type': ''
                 }
             }
         ]
@@ -125,13 +127,13 @@ def test_update_interfaces_with_blackhole_interfaces():
         {
             'name': f'bh-int3',
             'local_port': 3,
-            'remote_host': 'blackhole',
+            'remote_guest': 'blackhole',
             'remote_port': 666
         },
         {
             'name': f'bh-int4',
             'local_port': 4,
-            'remote_host': 'blackhole',
+            'remote_guest': 'blackhole',
             'remote_port': 666
         }
       ]
@@ -183,7 +185,7 @@ def test_create_guest_with_group_vars():
             'boot_timeout': 0,
             'name': 'arista/veos',
             'provider': 'libvirt',
-            'type': '',
+            'guest_type': '',
             'version': '4.20.1F'
           }
         }
@@ -217,7 +219,7 @@ def test_create_guest_without_group_vars():
             'boot_timeout': 0,
             'name': '',
             'provider': 'libvirt',
-            'type': '',
+            'guest_type': '',
             'version': ''
           }
         }

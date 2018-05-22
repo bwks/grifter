@@ -62,11 +62,11 @@ guests:
     interfaces:
       - name: "eth1"
         local_port: 1
-        remote_host: "sw02"
+        remote_guest: "sw02"
         remote_port: 1
       - name: "eth2"
         local_port: 2
-        remote_host: "sw02"
+        remote_guest: "sw02"
         remote_port: 2
 
   - name: "sw02"
@@ -89,11 +89,11 @@ guests:
     interfaces:
       - name: "eth1"
         local_port: 1
-        remote_host: "sw01"
+        remote_guest: "sw01"
         remote_port: 1
       - name: "eth2"
         local_port: 2
-        remote_host: "sw01"
+        remote_guest: "sw01"
         remote_port: 2
 ```
 
@@ -195,7 +195,6 @@ command is executed.
 arista/veos:
   vagrant_box:
     version: "4.20.1F"
-    type: "other"
   insert_ssh_key: False
   synced_folder:
     enabled: False
@@ -208,7 +207,6 @@ arista/veos:
 juniper/vsrx:
   vagrant_box:
     version: "18.1R1.9-packetmode"
-    type: "other"
   insert_ssh_key: False
   synced_folder:
     enabled: False
