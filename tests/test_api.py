@@ -72,7 +72,8 @@ def test_guest_without_interfaces():
                 'vagrant_box': {
                     'name': 'arista/veos',
                     'provider': 'libvirt',
-                    'version': ''
+                    'version': '',
+                    'guest_type': ''
                 }
             },
             {
@@ -105,7 +106,8 @@ def test_guest_without_interfaces():
                 'vagrant_box': {
                     'name': 'arista/veos',
                     'provider': 'libvirt',
-                    'version': ''
+                    'version': '',
+                    'guest_type': ''
                 }
             }
         ]
@@ -183,7 +185,7 @@ def test_create_guest_with_group_vars():
             'boot_timeout': 0,
             'name': 'arista/veos',
             'provider': 'libvirt',
-            'type': '',
+            'guest_type': '',
             'version': '4.20.1F'
           }
         }
@@ -217,7 +219,7 @@ def test_create_guest_without_group_vars():
             'boot_timeout': 0,
             'name': '',
             'provider': 'libvirt',
-            'type': '',
+            'guest_type': '',
             'version': ''
           }
         }

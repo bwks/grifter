@@ -5,6 +5,7 @@ guests:
       name: "arista/veos"
       version: ""
       provider: "libvirt"
+      guest_type: ""
 
     insert_ssh_key: False
     synced_folder:
@@ -32,6 +33,7 @@ guests:
       name: "arista/veos"
       version: ""
       provider: "libvirt"
+      guest_type: ""
 
     insert_ssh_key: False
     synced_folder:

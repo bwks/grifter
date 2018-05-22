@@ -32,7 +32,8 @@ mock_guest_data = {
       'vagrant_box': {
         'name': 'arista/veos',
         'provider': 'libvirt',
-        'version': ''
+        'version': '',
+        'guest_type': '',
       }
     },
     {
@@ -65,7 +66,8 @@ mock_guest_data = {
       'vagrant_box': {
         'name': 'arista/veos',
         'provider': 'libvirt',
-        'version': ''
+        'version': '',
+        'guest_type': '',
       }
     }
   ]

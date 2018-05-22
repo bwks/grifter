@@ -195,7 +195,6 @@ command is executed.
 arista/veos:
   vagrant_box:
     version: "4.20.1F"
-    type: "other"
   insert_ssh_key: False
   synced_folder:
     enabled: False
@@ -208,7 +207,6 @@ arista/veos:
 juniper/vsrx:
   vagrant_box:
     version: "18.1R1.9-packetmode"
-    type: "other"
   insert_ssh_key: False
   synced_folder:
     enabled: False
