@@ -116,7 +116,7 @@ def add_blackhole_interfaces(total_interfaces, interface_list):
         blackhole_interface = {
             'name': f'bh-int{i}',
             'local_port': i,
-            'remote_host': 'blackhole',
+            'remote_guest': 'blackhole',
             'remote_port': 666
         }
         try:

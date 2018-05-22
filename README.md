@@ -62,11 +62,11 @@ guests:
     interfaces:
       - name: "eth1"
         local_port: 1
-        remote_host: "sw02"
+        remote_guest: "sw02"
         remote_port: 1
       - name: "eth2"
         local_port: 2
-        remote_host: "sw02"
+        remote_guest: "sw02"
         remote_port: 2
 
   - name: "sw02"
@@ -89,11 +89,11 @@ guests:
     interfaces:
       - name: "eth1"
         local_port: 1
-        remote_host: "sw01"
+        remote_guest: "sw01"
         remote_port: 1
       - name: "eth2"
         local_port: 2
-        remote_host: "sw01"
+        remote_guest: "sw01"
         remote_port: 2
 ```
 

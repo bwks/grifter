@@ -75,7 +75,7 @@ interfaces:
         type: "integer"
         min: 1
         max: 96
-      remote_host:
+      remote_guest:
         type: "string"
       remote_port:
         type: "integer"

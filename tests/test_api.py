@@ -82,13 +82,13 @@ def test_guest_without_interfaces():
                     {
                         'local_port': 1,
                         'name': 'eth1',
-                        'remote_host': 'sw01',
+                        'remote_guest': 'sw01',
                         'remote_port': 1
                     },
                     {
                         'local_port': 2,
                         'name': 'eth2',
-                        'remote_host': 'sw01',
+                        'remote_guest': 'sw01',
                         'remote_port': 2
                     }
                 ],
@@ -127,13 +127,13 @@ def test_update_interfaces_with_blackhole_interfaces():
         {
             'name': f'bh-int3',
             'local_port': 3,
-            'remote_host': 'blackhole',
+            'remote_guest': 'blackhole',
             'remote_port': 666
         },
         {
             'name': f'bh-int4',
             'local_port': 4,
-            'remote_host': 'blackhole',
+            'remote_guest': 'blackhole',
             'remote_port': 666
         }
       ]

@@ -27,5 +27,5 @@
   interfaces: # optional | default: []
     - name: # string
       local_port: # integer
-      remote_host: # string
+      remote_guest: # string
       remote_port: # integer
