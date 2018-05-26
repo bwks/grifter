@@ -18,7 +18,7 @@
       domain.nic_adapter_count = {{ guest.provider_config.nic_adapter_count }}
       {% endif %}
       {% if guest.provider_config.nic_model_type %}
-      domain.nic_model_type = {{ guest.provider_config.nic_model_type }}
+      domain.nic_model_type = "{{ guest.provider_config.nic_model_type }}"
       {% endif %}
     end
     {#  #}
