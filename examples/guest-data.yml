@@ -17,11 +17,12 @@
     dst: # string - default: "/vagrant"
 
   provider_config:
-    nic_adapter_count: # integer - optional | default: 8
-    disk_bus: # string - optional | default: "virtio"
+    nic_adapter_count: # integer - optional | default: 0
+    disk_bus: # string - optional | default: ""
     cpus: # integer - optional | default: 1
     memory: # integer - optional | default: 512
     storage_pool: # string - optional | default: ""
+    nic_model_type: # string - optional | default: ""
     management_network_mac: # string - optional | default: ""
 
   interfaces: # optional | default: []

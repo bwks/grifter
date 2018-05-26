@@ -61,6 +61,12 @@ provider_config:
       max: 32768
     storage_pool:
       type: "string"
+    nic_model_type:
+      type: "string"
+      empty: True
+      allowed:
+        - "virtio"
+        - "e1000"
     management_network_mac:
       type: "string"
 

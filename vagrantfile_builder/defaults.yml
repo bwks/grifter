@@ -13,10 +13,11 @@ guest_defaults:
 
   provider_config:
     nic_adapter_count: 0
-    disk_bus: "virtio"
+    disk_bus: ""
     cpus: 1
     memory: 512
     storage_pool: ""
+    nic_model_type: ""
     management_network_mac: ""
 
   interfaces: []
