@@ -23,6 +23,7 @@ mock_guest_data = {
         'cpus': 2,
         'disk_bus': 'ide',
         'management_network_mac': '',
+        'nic_model_type': '',
         'memory': 2048,
         'nic_adapter_count': 2
       },
@@ -57,6 +58,7 @@ mock_guest_data = {
         'cpus': 2,
         'disk_bus': 'ide',
         'management_network_mac': '',
+        'nic_model_type': '',
         'memory': 2048,
         'nic_adapter_count': 2
       },

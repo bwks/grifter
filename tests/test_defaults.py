@@ -16,10 +16,11 @@ expected_all_guest_defaults = {
         },
         'provider_config': {
             'nic_adapter_count': 0,
-            'disk_bus': 'virtio',
+            'disk_bus': '',
             'cpus': 1,
             'memory': 512,
             'management_network_mac': '',
+            'nic_model_type': '',
             'storage_pool': ''
         },
         'interfaces': []

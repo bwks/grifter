@@ -16,6 +16,7 @@ guests:
       disk_bus: "ide"
       cpus: 2
       memory: 2048
+      nic_model_type: ""
       management_network_mac: ""
 
     interfaces:
@@ -44,6 +45,7 @@ guests:
       disk_bus: "ide"
       cpus: 2
       memory: 2048
+      nic_model_type: ""
       management_network_mac: ""
 
     interfaces:

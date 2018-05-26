@@ -63,6 +63,7 @@ def test_guest_without_interfaces():
                     'cpus': 2,
                     'disk_bus': 'ide',
                     'management_network_mac': '',
+                    'nic_model_type': '',
                     'memory': 2048,
                     'nic_adapter_count': 2
                 },
@@ -97,6 +98,7 @@ def test_guest_without_interfaces():
                     'cpus': 2,
                     'disk_bus': 'ide',
                     'management_network_mac': '',
+                    'nic_model_type': '',
                     'memory': 2048,
                     'nic_adapter_count': 2
                 },
@@ -174,6 +176,7 @@ def test_create_guest_with_group_vars():
             'cpus': 2,
             'disk_bus': 'ide',
             'management_network_mac': '',
+            'nic_model_type': '',
             'memory': 2048,
             'nic_adapter_count': 8,
             'storage_pool': ''
@@ -206,8 +209,9 @@ def test_create_guest_without_group_vars():
           'name': 'sw01',
           'provider_config': {
             'cpus': 1,
-            'disk_bus': 'virtio',
+            'disk_bus': '',
             'management_network_mac': '',
+            'nic_model_type': '',
             'memory': 512,
             'nic_adapter_count': 0,
             'storage_pool': ''
