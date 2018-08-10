@@ -12,6 +12,7 @@ guests:
       enabled: False
 
     provider_config:
+      random_hostname: True
       nic_adapter_count: 2
       disk_bus: "ide"
       cpus: 2
@@ -41,6 +42,7 @@ guests:
       enabled: False
 
     provider_config:
+      random_hostname: True
       nic_adapter_count: 2
       disk_bus: "ide"
       cpus: 2

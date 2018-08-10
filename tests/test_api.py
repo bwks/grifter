@@ -60,6 +60,7 @@ def test_guest_without_interfaces():
                 'insert_ssh_key': False,
                 'name': 'sw01',
                 'provider_config': {
+                    'random_hostname': True,
                     'cpus': 2,
                     'disk_bus': 'ide',
                     'management_network_mac': '',
@@ -95,6 +96,7 @@ def test_guest_without_interfaces():
                 ],
                 'name': 'sw02',
                 'provider_config': {
+                    'random_hostname': True,
                     'cpus': 2,
                     'disk_bus': 'ide',
                     'management_network_mac': '',
@@ -138,7 +140,7 @@ def test_update_interfaces_with_blackhole_interfaces():
             'remote_guest': 'blackhole',
             'remote_port': 666
         }
-      ]
+    ]
 
     expected_intefaces = mock_guest_interfaces + blackhole_interfaces
 
@@ -167,32 +169,33 @@ def test_create_guest_with_group_vars():
     seed_data = {'guests': [{'name': 'sw01', 'vagrant_box': {'name': 'arista/veos'}}]}
 
     expected = {
-      'guests': [
-        {
-          'insert_ssh_key': False,
-          'interfaces': [],
-          'name': 'sw01',
-          'provider_config': {
-            'cpus': 2,
-            'disk_bus': 'ide',
-            'management_network_mac': '',
-            'nic_model_type': '',
-            'memory': 2048,
-            'nic_adapter_count': 8,
-            'storage_pool': ''
-          },
-          'synced_folder': {
-            'enabled': False
-          },
-          'vagrant_box': {
-            'boot_timeout': 0,
-            'name': 'arista/veos',
-            'provider': 'libvirt',
-            'guest_type': '',
-            'version': '4.20.1F'
-          }
-        }
-      ]
+        'guests': [
+            {
+                'insert_ssh_key': False,
+                'interfaces': [],
+                'name': 'sw01',
+                'provider_config': {
+                    'random_hostname': True,
+                    'cpus': 2,
+                    'disk_bus': 'ide',
+                    'management_network_mac': '',
+                    'nic_model_type': '',
+                    'memory': 2048,
+                    'nic_adapter_count': 8,
+                    'storage_pool': ''
+                },
+                'synced_folder': {
+                    'enabled': False
+                },
+                'vagrant_box': {
+                    'boot_timeout': 0,
+                    'name': 'arista/veos',
+                    'provider': 'libvirt',
+                    'guest_type': '',
+                    'version': '4.20.1F'
+                }
+            }
+        ]
     }
 
     assert expected == update_guest_data(seed_data, f'{BASE_DIR}/../examples/guest-defaults.yml')
@@ -202,32 +205,33 @@ def test_create_guest_without_group_vars():
     seed_data = {'guests': [{'name': 'sw01'}]}
 
     expected = {
-      'guests': [
-        {
-          'insert_ssh_key': False,
-          'interfaces': [],
-          'name': 'sw01',
-          'provider_config': {
-            'cpus': 1,
-            'disk_bus': '',
-            'management_network_mac': '',
-            'nic_model_type': '',
-            'memory': 512,
-            'nic_adapter_count': 0,
-            'storage_pool': ''
-          },
-          'synced_folder': {
-            'enabled': False
-          },
-          'vagrant_box': {
-            'boot_timeout': 0,
-            'name': '',
-            'provider': 'libvirt',
-            'guest_type': '',
-            'version': ''
-          }
-        }
-      ]
+        'guests': [
+            {
+                'insert_ssh_key': False,
+                'interfaces': [],
+                'name': 'sw01',
+                'provider_config': {
+                    'random_hostname': True,
+                    'cpus': 1,
+                    'disk_bus': '',
+                    'management_network_mac': '',
+                    'nic_model_type': '',
+                    'memory': 512,
+                    'nic_adapter_count': 0,
+                    'storage_pool': ''
+                },
+                'synced_folder': {
+                    'enabled': False
+                },
+                'vagrant_box': {
+                    'boot_timeout': 0,
+                    'name': '',
+                    'provider': 'libvirt',
+                    'guest_type': '',
+                    'version': ''
+                }
+            }
+        ]
     }
 
     assert expected == update_guest_data(seed_data, 'does-not-exist.yml')

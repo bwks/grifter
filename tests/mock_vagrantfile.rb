@@ -16,6 +16,7 @@ Vagrant.configure("2") do |config|
     node.ssh.insert_key = false
 
     node.vm.provider :libvirt do |domain|
+      domain.random_hostname = true
       domain.cpus = 2
       domain.memory = 2048
       domain.disk_bus = "ide"
@@ -52,6 +53,7 @@ Vagrant.configure("2") do |config|
     node.ssh.insert_key = false
 
     node.vm.provider :libvirt do |domain|
+      domain.random_hostname = true
       domain.cpus = 2
       domain.memory = 2048
       domain.disk_bus = "ide"

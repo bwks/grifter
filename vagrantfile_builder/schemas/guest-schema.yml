@@ -41,6 +41,8 @@ synced_folder:
 provider_config:
   type: "dict"
   schema:
+    random_hostname:
+      type: "boolean"
     nic_adapter_count:
       type: "integer"
       min: 0

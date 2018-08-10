@@ -15,6 +15,7 @@ expected_all_guest_defaults = {
             'enabled': False,
         },
         'provider_config': {
+            'random_hostname': True,
             'nic_adapter_count': 0,
             'disk_bus': '',
             'cpus': 1,
