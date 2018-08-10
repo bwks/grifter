@@ -23,6 +23,15 @@
     node.ssh.insert_key = false
     {% endif %}
 
+    {% if guest.ssh.insert_key %}
+    node.ssh.insert_key = false
+    {% endif %}
+    {% if guest.ssh.username %}
+    node.ssh.insert_key = "{{ guest.ssh.username }}"
+    {% endif %}
+    {% if guest.ssh.password %}
+    node.ssh.insert_key = "{{ guest.ssh.password }}"
+    {% endif %}
     {% include 'libvirt-config.j2' %}
 
     {% for interface in guest.interfaces %}

@@ -10,7 +10,11 @@ expected_all_guest_defaults = {
             'guest_type': '',
             'boot_timeout': 0
         },
-        'insert_ssh_key': False,
+        'ssh': {
+            'username': '',
+            'password': '',
+            'insert_key': False,
+        },
         'synced_folder': {
             'enabled': False,
         },

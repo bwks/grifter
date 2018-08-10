@@ -3,6 +3,7 @@ name:
   type: "string"
   required: True
   empty: False
+
 vagrant_box:
   type: "dict"
   required: True
@@ -24,8 +25,16 @@ vagrant_box:
       min: 0
       max: 300
 
-insert_ssh_key:
-  type: "boolean"
+ssh:
+  type: "dict"
+  schema:
+    username:
+      type: "string"
+    password:
+      type: "string"
+    insert_key:
+      type: "boolean"
+
 synced_folder:
   type: "dict"
   schema:
