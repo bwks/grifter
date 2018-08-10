@@ -1,78 +1,80 @@
 from vagrantfile_builder.constants import TESTS_DIR
 
 mock_guest_data = {
-  'guests': [
-    {
-      'insert_ssh_key': False,
-      'interfaces': [
+    'guests': [
         {
-          'local_port': 1,
-          'name': 'eth1',
-          'remote_guest': 'sw02',
-          'remote_port': 1
+            'insert_ssh_key': False,
+            'interfaces': [
+                {
+                    'local_port': 1,
+                    'name': 'eth1',
+                    'remote_guest': 'sw02',
+                    'remote_port': 1
+                },
+                {
+                    'local_port': 2,
+                    'name': 'eth2',
+                    'remote_guest': 'sw02',
+                    'remote_port': 2
+                }
+            ],
+            'name': 'sw01',
+            'provider_config': {
+                'random_hostname': True,
+                'cpus': 2,
+                'disk_bus': 'ide',
+                'management_network_mac': '',
+                'nic_model_type': '',
+                'memory': 2048,
+                'nic_adapter_count': 2
+            },
+            'synced_folder': {
+                'enabled': False,
+            },
+            'vagrant_box': {
+                'name': 'arista/veos',
+                'provider': 'libvirt',
+                'version': '',
+                'guest_type': '',
+            }
         },
         {
-          'local_port': 2,
-          'name': 'eth2',
-          'remote_guest': 'sw02',
-          'remote_port': 2
+            'insert_ssh_key': False,
+            'interfaces': [
+                {
+                    'local_port': 1,
+                    'name': 'eth1',
+                    'remote_guest': 'sw01',
+                    'remote_port': 1
+                },
+                {
+                    'local_port': 2,
+                    'name': 'eth2',
+                    'remote_guest': 'sw01',
+                    'remote_port': 2
+                }
+            ],
+            'name': 'sw02',
+            'provider_config': {
+                'random_hostname': True,
+                'cpus': 2,
+                'disk_bus': 'ide',
+                'management_network_mac': '',
+                'nic_model_type': '',
+                'memory': 2048,
+                'nic_adapter_count': 2
+            },
+            'synced_folder': {
+                'enabled': False,
+            },
+            'vagrant_box': {
+                'name': 'arista/veos',
+                'provider': 'libvirt',
+                'version': '',
+                'guest_type': '',
+            }
         }
-      ],
-      'name': 'sw01',
-      'provider_config': {
-        'cpus': 2,
-        'disk_bus': 'ide',
-        'management_network_mac': '',
-        'nic_model_type': '',
-        'memory': 2048,
-        'nic_adapter_count': 2
-      },
-      'synced_folder': {
-        'enabled': False,
-      },
-      'vagrant_box': {
-        'name': 'arista/veos',
-        'provider': 'libvirt',
-        'version': '',
-        'guest_type': '',
-      }
-    },
-    {
-      'insert_ssh_key': False,
-      'interfaces': [
-        {
-          'local_port': 1,
-          'name': 'eth1',
-          'remote_guest': 'sw01',
-          'remote_port': 1
-        },
-        {
-          'local_port': 2,
-          'name': 'eth2',
-          'remote_guest': 'sw01',
-          'remote_port': 2
-        }
-      ],
-      'name': 'sw02',
-      'provider_config': {
-        'cpus': 2,
-        'disk_bus': 'ide',
-        'management_network_mac': '',
-        'nic_model_type': '',
-        'memory': 2048,
-        'nic_adapter_count': 2
-      },
-      'synced_folder': {
-        'enabled': False,
-      },
-      'vagrant_box': {
-        'name': 'arista/veos',
-        'provider': 'libvirt',
-        'version': '',
-        'guest_type': '',
-      }
-    }
-  ]
+    ]
 }
 
 mock_guest_interfaces = mock_guest_data['guests'][0]['interfaces']

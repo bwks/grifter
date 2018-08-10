@@ -1,4 +1,9 @@
     node.vm.provider :libvirt do |domain|
+      {% if not guest.provider_config.random_hostname %}
+      domain.random_hostname = false
+      {% else %}
+      domain.random_hostname = true
+      {% endif %}
       {% if guest.provider_config.cpus %}
       domain.cpus = {{ guest.provider_config.cpus }}
       {% endif %}
