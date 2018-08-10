@@ -57,7 +57,11 @@ def test_guest_without_interfaces():
     expected = {
         'guests': [
             {
-                'insert_ssh_key': False,
+                'ssh': {
+                    'username': '',
+                    'password': '',
+                    'insert_key': False,
+                },
                 'name': 'sw01',
                 'provider_config': {
                     'random_hostname': True,
@@ -79,7 +83,11 @@ def test_guest_without_interfaces():
                 }
             },
             {
-                'insert_ssh_key': False,
+                'ssh': {
+                    'username': '',
+                    'password': '',
+                    'insert_key': False,
+                },
                 'interfaces': [
                     {
                         'local_port': 1,
@@ -171,7 +179,11 @@ def test_create_guest_with_group_vars():
     expected = {
         'guests': [
             {
-                'insert_ssh_key': False,
+                'ssh': {
+                    'username': '',
+                    'password': '',
+                    'insert_key': False,
+                },
                 'interfaces': [],
                 'name': 'sw01',
                 'provider_config': {
@@ -207,7 +219,11 @@ def test_create_guest_without_group_vars():
     expected = {
         'guests': [
             {
-                'insert_ssh_key': False,
+                'ssh': {
+                    'username': '',
+                    'password': '',
+                    'insert_key': False,
+                },
                 'interfaces': [],
                 'name': 'sw01',
                 'provider_config': {

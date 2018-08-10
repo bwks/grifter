@@ -3,7 +3,11 @@ from vagrantfile_builder.constants import TESTS_DIR
 mock_guest_data = {
     'guests': [
         {
-            'insert_ssh_key': False,
+            'ssh': {
+                'username': '',
+                'password': '',
+                'insert_key': False,
+            },
             'interfaces': [
                 {
                     'local_port': 1,
@@ -39,7 +43,11 @@ mock_guest_data = {
             }
         },
         {
-            'insert_ssh_key': False,
+            'ssh': {
+                'username': '',
+                'password': '',
+                'insert_key': False,
+            },
             'interfaces': [
                 {
                     'local_port': 1,
