@@ -35,6 +35,6 @@ def load_data(location, data_type='yaml'):
 
     with open(location, 'r') as f:
         if data_type.lower() == 'yaml':
-            return yaml.load(f)
+            return yaml.safe_load(f)
         elif data_type.lower() == 'json':
             return json.loads(f)
