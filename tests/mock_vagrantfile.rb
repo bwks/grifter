@@ -7,16 +7,21 @@ def get_mac(oui="28:b7:ad")
   return "#{oui}:#{nic}"
 end
 
+cwd = Dir.pwd.split("/").last
+username = ENV['USER']
+domain_prefix = "#{username}_#{cwd}"
+
 Vagrant.configure("2") do |config|
 
   config.vm.define "sw01" do |node|
+    guest_name = "sw01"
     node.vm.box = "arista/veos"
     node.vm.synced_folder ".", "/vagrant", id: "vagrant-root", disabled: true
 
     node.ssh.insert_key = false
 
     node.vm.provider :libvirt do |domain|
-      domain.random_hostname = true
+      domain.default_prefix = "#{domain_prefix}"
       domain.cpus = 2
       domain.memory = 2048
       domain.disk_bus = "ide"
@@ -47,13 +52,14 @@ Vagrant.configure("2") do |config|
 
   end
   config.vm.define "sw02" do |node|
+    guest_name = "sw02"
     node.vm.box = "arista/veos"
     node.vm.synced_folder ".", "/vagrant", id: "vagrant-root", disabled: true
 
     node.ssh.insert_key = false
 
     node.vm.provider :libvirt do |domain|
-      domain.random_hostname = true
+      domain.default_prefix = "#{domain_prefix}"
       domain.cpus = 2
       domain.memory = 2048
       domain.disk_bus = "ide"

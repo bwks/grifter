@@ -3,6 +3,10 @@
 
 {% include 'get-mac.rb' %}
 
+cwd = Dir.pwd.split("/").last
+username = ENV['USER']
+domain_prefix = "#{username}_#{cwd}"
+
 Vagrant.configure("2") do |config|
 
 {% block guest_config %}

@@ -24,7 +24,7 @@ mock_guest_data = {
             ],
             'name': 'sw01',
             'provider_config': {
-                'random_hostname': True,
+                'random_hostname': False,
                 'cpus': 2,
                 'disk_bus': 'ide',
                 'management_network_mac': '',
@@ -64,7 +64,7 @@ mock_guest_data = {
             ],
             'name': 'sw02',
             'provider_config': {
-                'random_hostname': True,
+                'random_hostname': False,
                 'cpus': 2,
                 'disk_bus': 'ide',
                 'management_network_mac': '',
