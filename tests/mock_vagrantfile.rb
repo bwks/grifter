@@ -22,7 +22,6 @@ Vagrant.configure("2") do |config|
 
     node.vm.provider :libvirt do |domain|
       domain.default_prefix = "#{domain_prefix}"
-      domain.random_hostname = true
       domain.cpus = 2
       domain.memory = 2048
       domain.disk_bus = "ide"
@@ -61,7 +60,6 @@ Vagrant.configure("2") do |config|
 
     node.vm.provider :libvirt do |domain|
       domain.default_prefix = "#{domain_prefix}"
-      domain.random_hostname = true
       domain.cpus = 2
       domain.memory = 2048
       domain.disk_bus = "ide"

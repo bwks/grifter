@@ -70,7 +70,7 @@ def test_guest_without_interfaces():
                 },
                 'name': 'sw01',
                 'provider_config': {
-                    'random_hostname': True,
+                    'random_hostname': False,
                     'cpus': 2,
                     'disk_bus': 'ide',
                     'management_network_mac': '',
@@ -110,7 +110,7 @@ def test_guest_without_interfaces():
                 ],
                 'name': 'sw02',
                 'provider_config': {
-                    'random_hostname': True,
+                    'random_hostname': False,
                     'cpus': 2,
                     'disk_bus': 'ide',
                     'management_network_mac': '',
@@ -194,7 +194,7 @@ def test_create_guest_with_group_vars(mock_data):
                 'interfaces': [],
                 'name': 'sw01',
                 'provider_config': {
-                    'random_hostname': True,
+                    'random_hostname': False,
                     'cpus': 2,
                     'disk_bus': 'ide',
                     'management_network_mac': '',
@@ -234,7 +234,7 @@ def test_create_guest_without_group_vars():
                 'interfaces': [],
                 'name': 'sw01',
                 'provider_config': {
-                    'random_hostname': True,
+                    'random_hostname': False,
                     'cpus': 1,
                     'disk_bus': '',
                     'management_network_mac': '',
