@@ -19,6 +19,7 @@ from .constants import (
     ALL_GUEST_DEFAULTS,
     GUEST_SCHEMA_FILE,
     GUESTS_SCHEMA_FILE,
+    GUEST_DEFAULTS_DIRS,
 )
 
 
@@ -77,17 +78,9 @@ def load_guest_defaults(guest_defaults_file):
     :param guest_defaults_file: Guest defaults filename
     :return: Dict of guest default data or empty dict
     """
-    user_home = os.path.expanduser('~')
-
-    guest_defaults_dirs = [
-        '/opt/grifter',
-        f'{user_home}/.grifter',
-        '.',
-    ]
-
     guest_defaults = {}
 
-    for directory in guest_defaults_dirs:
+    for directory in GUEST_DEFAULTS_DIRS:
         try:
             guest_defaults = load_data(f'{directory}/{guest_defaults_file}')
         except FileNotFoundError:
@@ -205,7 +198,7 @@ def validate_data(data):
 def generate_vagrant_file(
         data, loopbacks, template_name='guest.j2',
         template_directory=f'{TEMPLATES_DIR}/', vagrantfile_location='.'
-        ):
+):
     """
     Generate a vagrant file
     :param data: Dictionary of data to apply to Jinja2 template.
