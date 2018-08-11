@@ -1,5 +1,6 @@
 import copy
 import logging
+import os
 
 from .validators import validate_schema
 
@@ -66,23 +67,51 @@ def update_context(source, target):
     return new_context
 
 
+def load_guest_defaults(guest_defaults_file):
+    """
+    Load guest_defaults_file from the following locations top to
+    bottom least to most preferred. Value are overwritten not merged:
+      - /opt/vagrantfile/
+      - ~/.vagrantfile/
+      - ./
+    :param guest_defaults_file: Guest defaults filename
+    :return: Dict of guest default data or empty dict
+    """
+    user_home = os.path.expanduser('~')
+
+    guest_defaults_dirs = [
+        '/opt/vagrantfile',
+        f'{user_home}/.vagrantfile',
+        '.',
+    ]
+
+    guest_defaults = {}
+
+    for directory in guest_defaults_dirs:
+        try:
+            guest_defaults = load_data(f'{directory}/{guest_defaults_file}')
+        except FileNotFoundError:
+            logging.warning(f'File "{directory}/{guest_defaults_file}" not found')
+        except PermissionError:
+            logging.warning(f'File "{directory}/{guest_defaults_file}" permission denied')
+
+    return guest_defaults
+
+
 def update_guest_data(
         guest_data,
-        guest_defaults='guest-defaults.yml',
+        guest_defaults_file='guest-defaults.yml',
         all_guest_defaults=ALL_GUEST_DEFAULTS):
     """
     Build data vars for guests. This function will take all_guest_defaults and merge in
     guest and guest group vars.
     :param guest_data: Dict of guest data
-    :param guest_defaults: Location of guest defaults file
+    :param guest_defaults_file: Guest defaults filename
     :param all_guest_defaults: All guest default data
     :return: Updated Dict of guest data
     """
-    try:
-        guest_defaults = load_data(guest_defaults)
-    except FileNotFoundError:
-        logging.warning(f'File "{guest_defaults}" not found')
-        guest_defaults = {}
+
+    guest_defaults = load_guest_defaults(guest_defaults_file)
 
     new_guest_data = {'guests': []}
     for guest in guest_data['guests']:

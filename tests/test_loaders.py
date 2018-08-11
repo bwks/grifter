@@ -1,5 +1,9 @@
 import pytest
 
+from vagrantfile_builder.constants import (
+    BASE_DIR,
+)
+
 from vagrantfile_builder.constants import TEMPLATES_DIR
 
 from vagrantfile_builder.custom_filters import (
@@ -38,3 +42,8 @@ def test_render_from_template():
 def test_load_data_with_invalid_data_type_raises_attribute_error():
     with pytest.raises(AttributeError):
         load_data('blah', data_type='invalid')
+
+
+def test_load_json_data():
+    data = load_data(f'{BASE_DIR}/../tests/mock_json_data.json', data_type='json')
+    assert {'some': 'data'} == data
