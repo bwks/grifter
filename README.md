@@ -19,8 +19,7 @@ Currently only a vagrant-libvirt compatible Vagrantfile will be generated.
 [![Coverage Status](https://coveralls.io/repos/github/bobthebutcher/vagrant-topology-builder/badge.svg?branch=master)](https://coveralls.io/github/bobthebutcher/vagrant-topology-builder?branch=master)
 
 #### Installation
-Create and activate virtualenv. I will use pipenv for this example
-as it is my preferred method for handling virtual evironments.
+Create and activate virtualenv.
 ```
 mkdir ~/test && cd ~/test
 python3 -m venv .venv
