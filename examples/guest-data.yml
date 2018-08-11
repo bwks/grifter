@@ -1,6 +1,6 @@
 ---
 # The Jinja2 templates are build around data input in this format.
-# Every host must follow use this data format.
+# Every host must follow this data format.
 - name: # string - required
   vagrant_box:
     name: # string - required
@@ -9,7 +9,11 @@
     guest_type: # string - optional | default: ""
     boot_timeout: # integer - optional | default: 0
 
-  insert_ssh_key: # boolean - optional | default: False
+  ssh:
+    username: # string - optional | default: ""
+    password: # string - optional | default: ""
+    insert_key: # boolean - optional | default: False
+
   synced_folder: # dict - optional | default:
     enabled: # boolean - default: False
     id: # string - default: "vagrant-root"
@@ -17,6 +21,7 @@
     dst: # string - default: "/vagrant"
 
   provider_config:
+    random_hostname: # boolean - default: False
     nic_adapter_count: # integer - optional | default: 0
     disk_bus: # string - optional | default: ""
     cpus: # integer - optional | default: 1

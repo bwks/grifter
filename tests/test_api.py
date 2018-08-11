@@ -1,6 +1,8 @@
 import copy
 import pytest
 
+from unittest import mock
+
 
 from vagrantfile_builder.constants import (
     BASE_DIR,
@@ -17,12 +19,17 @@ from vagrantfile_builder.api import (
     update_guest_data,
     update_context,
     validate_data,
+    load_guest_defaults,
 )
 
 from .mock_data import (
     mock_guest_data,
     mock_guest_interfaces,
 )
+
+
+def mock_data(filename):
+    return load_data(f'{filename}')
 
 
 def test_host_data_matches_dict():
@@ -173,7 +180,8 @@ def test_update_context_with_non_dict():
     assert expected == update_context(seed_data, default_data)
 
 
-def test_create_guest_with_group_vars():
+@mock.patch('vagrantfile_builder.api.load_guest_defaults', side_effect=mock_data)
+def test_create_guest_with_group_vars(mock_data):
     seed_data = {'guests': [{'name': 'sw01', 'vagrant_box': {'name': 'arista/veos'}}]}
 
     expected = {
@@ -268,3 +276,9 @@ def test_validate_data_with_invalid_data_returns_list_of_errors():
     data = {'guests': [{'name': '', 'vagrant_box': {'name': 'box-name'}}]}
     result = validate_data(data)
     assert result
+
+
+@mock.patch('vagrantfile_builder.api.load_guest_defaults', side_effect=mock_data)
+def test_load_guest_defaults_with_file_error_returns_empty_dict(mock_data):
+    expected = {}
+    assert expected == load_guest_defaults('blah.yml')
