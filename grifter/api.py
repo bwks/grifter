@@ -1,6 +1,5 @@
 import copy
 import logging
-import os
 
 from .validators import validate_schema
 
