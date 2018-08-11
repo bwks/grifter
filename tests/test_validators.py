@@ -3,11 +3,11 @@ import pytest
 
 from .mock_data import mock_guest_data
 
-from vagrantfile_builder.constants import GUESTS_SCHEMA_FILE
+from grifter.constants import GUESTS_SCHEMA_FILE
 
-from vagrantfile_builder.loaders import load_data
+from grifter.loaders import load_data
 
-from vagrantfile_builder.validators import (
+from grifter.validators import (
     validate_required_keys,
     validate_required_values,
     validate_schema,

@@ -1,4 +1,4 @@
-from vagrantfile_builder.constants import ALL_GUEST_DEFAULTS
+from grifter.constants import ALL_GUEST_DEFAULTS
 
 expected_all_guest_defaults = {
     'guest_defaults': {

@@ -3,15 +3,15 @@ import pytest
 
 from unittest import mock
 
-from vagrantfile_builder.constants import (
+from grifter.constants import (
     BASE_DIR,
 )
 
-from vagrantfile_builder.loaders import (
+from grifter.loaders import (
     load_data,
 )
 
-from vagrantfile_builder.api import (
+from grifter.api import (
     generate_loopbacks,
     update_guest_interfaces,
     add_blackhole_interfaces,
@@ -179,7 +179,7 @@ def test_update_context_with_non_dict():
     assert expected == update_context(seed_data, default_data)
 
 
-@mock.patch('vagrantfile_builder.api.load_guest_defaults', side_effect=mock_data)
+@mock.patch('grifter.api.load_guest_defaults', side_effect=mock_data)
 def test_create_guest_with_group_vars(mock_data):
     seed_data = {'guests': [{'name': 'sw01', 'vagrant_box': {'name': 'arista/veos'}}]}
 
@@ -277,7 +277,7 @@ def test_validate_data_with_invalid_data_returns_list_of_errors():
     assert result
 
 
-@mock.patch('vagrantfile_builder.api.load_guest_defaults', side_effect=mock_data)
+@mock.patch('grifter.api.load_guest_defaults', side_effect=mock_data)
 def test_load_guest_defaults_with_file_error_returns_empty_dict(mock_data):
     expected = {}
     assert expected == load_guest_defaults('blah.yml')

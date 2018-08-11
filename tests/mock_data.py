@@ -1,4 +1,4 @@
-from vagrantfile_builder.constants import TESTS_DIR
+from grifter.constants import TESTS_DIR
 
 mock_guest_data = {
     'guests': [

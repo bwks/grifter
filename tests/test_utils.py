@@ -1,8 +1,8 @@
-from vagrantfile_builder.constants import (
+from grifter.constants import (
     BASE_DIR,
 )
 
-from vagrantfile_builder.utils import (
+from grifter.utils import (
     get_mac,
 )
 
