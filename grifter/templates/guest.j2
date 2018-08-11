@@ -3,6 +3,7 @@
 {% block guest_config %}
   {% for guest in guests %}
   config.vm.define "{{ guest.name }}" do |node|
+    guest_name = "{{ guest.name }}"
     node.vm.box = "{{ guest.vagrant_box.name }}"
     {% if guest.vagrant_box.version %}
     node.vm.box_version = "{{ guest.vagrant_box.version }}"

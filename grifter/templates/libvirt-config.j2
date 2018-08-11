@@ -1,4 +1,5 @@
     node.vm.provider :libvirt do |domain|
+      domain.default_prefix = "#{domain_prefix}"
       {% if not guest.provider_config.random_hostname %}
       domain.random_hostname = false
       {% else %}
