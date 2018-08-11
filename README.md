@@ -5,8 +5,8 @@ Note: Support is targeted to python 3.6+ releases.
 
 ```
 *****************************************************************
-This project is in beta and stability is not currently guaranteed
-Breaking API changes can be expected
+This project is in beta and stability is not currently guaranteed.
+Breaking API changes can be expected.
 *****************************************************************
 ```
 
