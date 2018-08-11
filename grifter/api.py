@@ -197,7 +197,7 @@ def validate_data(data):
 def generate_vagrant_file(
         data, loopbacks, template_name='guest.j2',
         template_directory=f'{TEMPLATES_DIR}/', vagrantfile_location='.'
-):
+        ):
     """
     Generate a vagrant file
     :param data: Dictionary of data to apply to Jinja2 template.
