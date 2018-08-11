@@ -3,7 +3,6 @@ import pytest
 
 from unittest import mock
 
-
 from vagrantfile_builder.constants import (
     BASE_DIR,
 )
