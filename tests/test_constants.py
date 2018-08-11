@@ -1,4 +1,4 @@
-from vagrantfile_builder.constants import BLACKHOLE_LOOPBACK_MAP
+from grifter.constants import BLACKHOLE_LOOPBACK_MAP
 
 
 def test_blackhole_loopback_map():

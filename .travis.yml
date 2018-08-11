@@ -7,6 +7,6 @@ before_install:
   - pip install coveralls
   - pip install mock
 script:
-  - pytest --cov=vagrantfile_builder
+  - pytest --cov=grifter --cov-report=term-missing
 after_success:
   - coveralls

@@ -8,7 +8,7 @@ def read(file_name):
 
 
 setup(
-    name='vagrantfile-builder',
+    name='grifter',
     version=read('VERSION'),
     author='Brad Searle',
     author_email='bradleysearle@gmail.com',
@@ -27,7 +27,7 @@ setup(
 
     entry_points={
         'console_scripts': [
-            'vagrantfile = vagrantfile_builder:cli',
+            'grifter = grifter:cli',
         ]
     },
 

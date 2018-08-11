@@ -1,11 +1,11 @@
 from click.testing import CliRunner
 
-from vagrantfile_builder.constants import (
+from grifter.constants import (
     GUESTS_EXAMPLE_FILE,
     GROUPS_EXAMPLE_FILE,
 )
 
-from vagrantfile_builder.cli import cli
+from grifter.cli import cli
 
 from .mock_data import mock_invalid_guest_data_file
 

@@ -1,6 +1,5 @@
 import copy
 import logging
-import os
 
 from .validators import validate_schema
 
@@ -19,6 +18,7 @@ from .constants import (
     ALL_GUEST_DEFAULTS,
     GUEST_SCHEMA_FILE,
     GUESTS_SCHEMA_FILE,
+    GUEST_DEFAULTS_DIRS,
 )
 
 
@@ -71,23 +71,15 @@ def load_guest_defaults(guest_defaults_file):
     """
     Load guest_defaults_file from the following locations top to
     bottom least to most preferred. Value are overwritten not merged:
-      - /opt/vagrantfile/
-      - ~/.vagrantfile/
+      - /opt/grifter/
+      - ~/.grifter/
       - ./
     :param guest_defaults_file: Guest defaults filename
     :return: Dict of guest default data or empty dict
     """
-    user_home = os.path.expanduser('~')
-
-    guest_defaults_dirs = [
-        '/opt/vagrantfile',
-        f'{user_home}/.vagrantfile',
-        '.',
-    ]
-
     guest_defaults = {}
 
-    for directory in guest_defaults_dirs:
+    for directory in GUEST_DEFAULTS_DIRS:
         try:
             guest_defaults = load_data(f'{directory}/{guest_defaults_file}')
         except FileNotFoundError:

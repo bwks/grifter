@@ -5,8 +5,13 @@ guests:
       name: "arista/veos"
       version: ""
       provider: "libvirt"
+      guest_type: ""
 
-    insert_ssh_key: False
+    ssh:
+      username: ""
+      password: ""
+      insert_key: False
+
     synced_folder:
       enabled: False
 
@@ -15,8 +20,8 @@ guests:
       disk_bus: "ide"
       cpus: 2
       memory: 2048
+      nic_model_type: ""
       management_network_mac: ""
-      storage_pool: ""
 
     interfaces:
       - name: "eth1"

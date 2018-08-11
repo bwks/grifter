@@ -1,6 +1,6 @@
 import pytest
 
-from vagrantfile_builder.custom_filters import explode_port
+from grifter.custom_filters import explode_port
 
 
 def test_port_explosion():

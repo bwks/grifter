@@ -1,7 +1,10 @@
 arista/veos:
   vagrant_box:
     version: "4.20.1F"
-  insert_ssh_key: False
+  ssh:
+    username: ""
+    password: ""
+    insert_key: False
   synced_folder:
     enabled: False
   provider_config:
@@ -13,7 +16,10 @@ arista/veos:
 juniper/vsrx:
   vagrant_box:
     version: "18.1R1.9-packetmode"
-  insert_ssh_key: False
+  ssh:
+    username: ""
+    password: ""
+    insert_key: False
   synced_folder:
     enabled: False
   provider_config:

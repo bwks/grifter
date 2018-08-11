@@ -1,4 +1,4 @@
-include vagrantfile_builder/templates/*
-include vagrantfile_builder/examples/*
-include vagrantfile_builder/schemas/*
-include vagrantfile_builder/defaults.yml
+include grifter/templates/*
+include grifter/examples/*
+include grifter/schemas/*
+include grifter/defaults.yml

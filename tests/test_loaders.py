@@ -1,21 +1,21 @@
 import pytest
 
-from vagrantfile_builder.constants import (
+from grifter.constants import (
     BASE_DIR,
 )
 
-from vagrantfile_builder.constants import TEMPLATES_DIR
+from grifter.constants import TEMPLATES_DIR
 
-from vagrantfile_builder.custom_filters import (
+from grifter.custom_filters import (
     explode_port,
 )
 
-from vagrantfile_builder.loaders import (
+from grifter.loaders import (
     render_from_template,
     load_data
 )
 
-from vagrantfile_builder.api import generate_loopbacks
+from grifter.api import generate_loopbacks
 
 from .mock_data import (
     mock_vagrantfile,
