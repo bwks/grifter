@@ -1,7 +1,7 @@
-# vagrant-topology-builder
+# Grifter
 Python library to build large scale Vagrant topologies for the networking space, but can also be used the build small scale labs for non-networking devices.
 
-Note: Python 3.6+ is supported.
+Note: Support is targeted to python 3.6+ releases.
 
 ```
 *****************************************************************
@@ -22,19 +22,19 @@ Currently only a vagrant-libvirt compatible Vagrantfile will be generated.
 Create and activate virtualenv. I will use pipenv for this example
 as it is my preferred method for handling virtual evironments.
 ```
-mkdir ~/test; cd ~/test
-pipenv install
-pipenv shell
+mkdir ~/test && cd ~/test
+python3 -m venv .venv
+source .venv/bin/activate
 ```
 
-Install `vagrant-topology-builder` with `pip`
+Install `grifter` with `pip`
 ```
-pip install https://github.com/bobthebutcher/vagrant-topology-builder/archive/master.zip
+pip install https://github.com/bobthebutcher/grifter/archive/master.zip
 ```
 
 #### Example Usage
 ```
-vagrantfile create guests.yml
+grifter create guests.yml
 ```
 
 
@@ -48,7 +48,9 @@ guests:
       version: ""
       provider: "libvirt"
 
-    insert_ssh_key: False
+    ssh:
+      insert_key: False
+
     synced_folder:
       enabled: False
 
@@ -75,7 +77,9 @@ guests:
       version: ""
       provider: "libvirt"
 
-    insert_ssh_key: False
+    ssh:
+      insert_key: False
+
     synced_folder:
       enabled: False
 
@@ -188,14 +192,18 @@ end
 ```
 
 #### Defaults Per-Guest Type
-It is possible to defined default values per guest group type. The application will look for a
-file name `guest-defaults.yml` in the current working directory that the `vagrantfile`
-command is executed.
+It is possible to define default values per guest group type. Grifter will look for a
+file named `guest-defaults.yml` in the following locations from the least to most preferred:
+ - `/opt/grifter/`
+ - `~/.grifter/`
+ - `./` 
+
 ```yaml
 arista/veos:
   vagrant_box:
     version: "4.20.1F"
-  insert_ssh_key: False
+  ssh:
+    insert_key: False
   synced_folder:
     enabled: False
   provider_config:
@@ -207,7 +215,8 @@ arista/veos:
 juniper/vsrx:
   vagrant_box:
     version: "18.1R1.9-packetmode"
-  insert_ssh_key: False
+  ssh:
+    insert_key: False
   synced_folder:
     enabled: False
   provider_config:
