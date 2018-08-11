@@ -16,7 +16,7 @@ As a secondary objective I would like to also generate graphviz dot files as wel
 Currently only a vagrant-libvirt compatible Vagrantfile will be generated.
 
 [![Build Status](https://travis-ci.org/bobthebutcher/vagrant-topology-builder.svg?branch=master)](https://travis-ci.org/bobthebutcher/vagrant-topology-builder)
-[![Coverage Status](https://coveralls.io/repos/github/bobthebutcher/vagrant-topology-builder/badge.svg?branch=master)](https://coveralls.io/github/bobthebutcher/vagrant-topology-builder?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/bobthebutcher/grifter/badge.svg?branch=master)](https://coveralls.io/github/bobthebutcher/grifter?branch=master)
 
 #### Installation
 Create and activate virtualenv.
