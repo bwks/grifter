@@ -15,7 +15,7 @@ The main goal of this project is to build Vagrant topologies from yaml files.
 As a secondary objective I would like to also generate graphviz dot files as well.
 Currently only a vagrant-libvirt compatible Vagrantfile will be generated.
 
-[![Build Status](https://travis-ci.org/bobthebutcher/vagrant-topology-builder.svg?branch=master)](https://travis-ci.org/bobthebutcher/vagrant-topology-builder)
+[![Build Status](https://travis-ci.org/bobthebutcher/grifter.svg?branch=master)](https://travis-ci.org/bobthebutcher/grifter.svg?branch=master)
 [![Coverage Status](https://coveralls.io/repos/github/bobthebutcher/grifter/badge.svg?branch=master)](https://coveralls.io/github/bobthebutcher/grifter?branch=master)
 
 #### Installation
