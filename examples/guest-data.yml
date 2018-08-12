@@ -5,6 +5,7 @@
   vagrant_box:
     name: # string - required
     version: # string - optional | default: ""
+    url: # string - optional | default: ""
     provider: # string - optional | default: "libvirt"
     guest_type: # string - optional | default: ""
     boot_timeout: # integer - optional | default: 0

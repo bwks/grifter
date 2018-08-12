@@ -85,6 +85,7 @@ def test_guest_without_interfaces():
                     'name': 'arista/veos',
                     'provider': 'libvirt',
                     'version': '',
+                    'url': '',
                     'guest_type': ''
                 }
             },
@@ -125,6 +126,7 @@ def test_guest_without_interfaces():
                     'name': 'arista/veos',
                     'provider': 'libvirt',
                     'version': '',
+                    'url': '',
                     'guest_type': ''
                 }
             }
@@ -211,7 +213,8 @@ def test_create_guest_with_group_vars(mock_data):
                     'name': 'arista/veos',
                     'provider': 'libvirt',
                     'guest_type': '',
-                    'version': '4.20.1F'
+                    'version': '4.20.1F',
+                    'url': ''
                 }
             }
         ]
@@ -251,7 +254,8 @@ def test_create_guest_without_group_vars():
                     'name': '',
                     'provider': 'libvirt',
                     'guest_type': '',
-                    'version': ''
+                    'version': '',
+                    'url': ''
                 }
             }
         ]
