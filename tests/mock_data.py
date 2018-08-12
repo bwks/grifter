@@ -39,6 +39,7 @@ mock_guest_data = {
                 'name': 'arista/veos',
                 'provider': 'libvirt',
                 'version': '',
+                'url': '',
                 'guest_type': '',
             }
         },
@@ -79,6 +80,7 @@ mock_guest_data = {
                 'name': 'arista/veos',
                 'provider': 'libvirt',
                 'version': '',
+                'url': '',
                 'guest_type': '',
             }
         }

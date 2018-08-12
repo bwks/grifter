@@ -2,8 +2,6 @@ arista/veos:
   vagrant_box:
     version: "4.20.1F"
   ssh:
-    username: ""
-    password: ""
     insert_key: False
   synced_folder:
     enabled: False
@@ -16,9 +14,8 @@ arista/veos:
 juniper/vsrx:
   vagrant_box:
     version: "18.1R1.9-packetmode"
+    url: "http://some-server/some-dir/srx.box"
   ssh:
-    username: ""
-    password: ""
     insert_key: False
   synced_folder:
     enabled: False

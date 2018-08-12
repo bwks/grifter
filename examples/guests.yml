@@ -4,6 +4,7 @@ guests:
     vagrant_box:
       name: "arista/veos"
       version: ""
+      url: ""
       provider: "libvirt"
       guest_type: ""
 
@@ -38,6 +39,7 @@ guests:
     vagrant_box:
       name: "arista/veos"
       version: ""
+      url: ""
       provider: "libvirt"
       guest_type: ""
 

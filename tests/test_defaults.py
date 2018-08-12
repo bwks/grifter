@@ -6,6 +6,7 @@ expected_all_guest_defaults = {
         'vagrant_box': {
             'name': '',
             'version': '',
+            'url': '',
             'provider': 'libvirt',
             'guest_type': '',
             'boot_timeout': 0

@@ -8,6 +8,9 @@
     {% if guest.vagrant_box.version %}
     node.vm.box_version = "{{ guest.vagrant_box.version }}"
     {% endif %}
+    {% if guest.vagrant_box.url %}
+    node.vm.box_url = "{{ guest.vagrant_box.url }}"
+    {% endif %}
     {% if guest.vagrant_box.guest_type %}
     node.vm.guest = :{{ guest.vagrant_box.guest_type }}
     {% endif %}
