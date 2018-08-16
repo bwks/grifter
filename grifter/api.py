@@ -43,7 +43,7 @@ def generate_loopbacks(guest_list=None):
     elif not guest_list:
         raise ValueError('list of guests is empty')
 
-    network = f'127.{random.randint(1, 255)}.{random.randint(1, 255)}'
+    network = f'127.{random.randint(2, 254)}.{random.randint(2, 254)}'
 
     guests = [i['name'] for i in guest_list]
     loopbacks = [f'{network}.{i}' for i in range(1, len(guests) + 1)]
