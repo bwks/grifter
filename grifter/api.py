@@ -1,7 +1,6 @@
 import copy
 import logging
 import random
-import ipaddress
 
 from .validators import validate_schema
 
@@ -85,10 +84,11 @@ def load_guest_defaults(guest_defaults_file):
     for directory in GUEST_DEFAULTS_DIRS:
         try:
             guest_defaults = load_data(f'{directory}/{guest_defaults_file}')
+            logging.info(f'File "{directory}/{guest_defaults_file}" found')
         except FileNotFoundError:
-            logging.warning(f'File "{directory}/{guest_defaults_file}" not found')
+            logging.info(f'File "{directory}/{guest_defaults_file}" not found')
         except PermissionError:
-            logging.warning(f'File "{directory}/{guest_defaults_file}" permission denied')
+            logging.error(f'File "{directory}/{guest_defaults_file}" permission denied')
 
     return guest_defaults
 

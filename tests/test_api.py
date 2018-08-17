@@ -50,11 +50,12 @@ def test_generate_loopbacks_guest_list_empty_raises_exception():
         generate_loopbacks(guest_list=[])
 
 
-def test_generate_loopbacks_returned_loopback_dict():
+@mock.patch('random.randint', return_value=255)
+def test_generate_loopbacks_returned_loopback_dict(mock_random):
     expected_loopback_dict = {
         'blackhole': '127.6.6.6',
-        'sw01': '127.255.1.1',
-        'sw02': '127.255.1.2'
+        'sw01': '127.255.255.1',
+        'sw02': '127.255.255.2'
     }
     assert generate_loopbacks(mock_guest_data['guests']) == expected_loopback_dict
 
