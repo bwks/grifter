@@ -1,4 +1,5 @@
 import pytest
+from unittest import mock
 
 from grifter.constants import (
     BASE_DIR,
@@ -27,7 +28,8 @@ custom_filters = [
 ]
 
 
-def test_render_from_template():
+@mock.patch('random.randint', return_value=255)
+def test_render_from_template(mock_random):
     loopbacks = generate_loopbacks(mock_guest_data['guests'])
     vagrantfile = render_from_template(
         template_name='guest.j2',

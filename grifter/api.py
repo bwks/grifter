@@ -1,5 +1,6 @@
 import copy
 import logging
+import random
 
 from .validators import validate_schema
 
@@ -30,17 +31,18 @@ logging.getLogger(__name__).addHandler(logging.NullHandler())
 logging.basicConfig(format='%(levelname)s - %(message)s')
 
 
-def generate_loopbacks(guest_list=None, network='127.255.1'):
+def generate_loopbacks(guest_list=None):
     """
     Generate a dict of loopback addresses
     :param guest_list: List of guests
-    :param network: Network portion of the loopback addresses
     :return: Dictionary of loopback addresses
     """
     if guest_list is None or not isinstance(guest_list, list):
         raise AttributeError('guest_list should contain a list of guests')
     elif not guest_list:
         raise ValueError('list of guests is empty')
+
+    network = f'127.{random.randint(2, 254)}.{random.randint(2, 254)}'
 
     guests = [i['name'] for i in guest_list]
     loopbacks = [f'{network}.{i}' for i in range(1, len(guests) + 1)]
@@ -82,10 +84,11 @@ def load_guest_defaults(guest_defaults_file):
     for directory in GUEST_DEFAULTS_DIRS:
         try:
             guest_defaults = load_data(f'{directory}/{guest_defaults_file}')
+            logging.info(f'File "{directory}/{guest_defaults_file}" found')
         except FileNotFoundError:
-            logging.warning(f'File "{directory}/{guest_defaults_file}" not found')
+            logging.info(f'File "{directory}/{guest_defaults_file}" not found')
         except PermissionError:
-            logging.warning(f'File "{directory}/{guest_defaults_file}" permission denied')
+            logging.error(f'File "{directory}/{guest_defaults_file}" permission denied')
 
     return guest_defaults
 
