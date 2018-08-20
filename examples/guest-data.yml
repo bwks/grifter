@@ -27,6 +27,7 @@
     disk_bus: # string - optional | default: ""
     cpus: # integer - optional | default: 1
     memory: # integer - optional | default: 512
+    huge_pages: # boolean - default: False
     storage_pool: # string - optional | default: ""
     nic_model_type: # string - optional | default: ""
     management_network_mac: # string - optional | default: ""

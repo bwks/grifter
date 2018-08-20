@@ -9,6 +9,9 @@
       {% if guest.provider_config.memory %}
       domain.memory = {{ guest.provider_config.memory }}
       {% endif %}
+      {% if guest.provider_config.huge_pages %}
+      domain.memorybacking :hugepages
+      {% endif %}
       {% if guest.provider_config.storage_pool %}
       domain.storage_pool_name = "{{ guest.provider_config.storage_pool }}"
       {% endif %}
