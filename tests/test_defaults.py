@@ -25,6 +25,7 @@ expected_all_guest_defaults = {
             'disk_bus': '',
             'cpus': 1,
             'memory': 512,
+            'huge_pages': False,
             'management_network_mac': '',
             'nic_model_type': '',
             'storage_pool': ''

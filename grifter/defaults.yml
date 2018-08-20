@@ -22,6 +22,7 @@ guest_defaults:
     disk_bus: ""
     cpus: 1
     memory: 512
+    huge_pages: False
     storage_pool: ""
     nic_model_type: ""
     management_network_mac: ""

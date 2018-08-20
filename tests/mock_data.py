@@ -30,6 +30,7 @@ mock_guest_data = {
                 'management_network_mac': '',
                 'nic_model_type': '',
                 'memory': 2048,
+                'huge_pages': False,
                 'nic_adapter_count': 2
             },
             'synced_folder': {
@@ -71,6 +72,7 @@ mock_guest_data = {
                 'management_network_mac': '',
                 'nic_model_type': '',
                 'memory': 2048,
+                'huge_pages': False,
                 'nic_adapter_count': 2
             },
             'synced_folder': {

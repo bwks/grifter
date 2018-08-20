@@ -77,6 +77,7 @@ def test_guest_without_interfaces():
                     'management_network_mac': '',
                     'nic_model_type': '',
                     'memory': 2048,
+                    'huge_pages': False,
                     'nic_adapter_count': 2
                 },
                 'synced_folder': {
@@ -118,6 +119,7 @@ def test_guest_without_interfaces():
                     'management_network_mac': '',
                     'nic_model_type': '',
                     'memory': 2048,
+                    'huge_pages': False,
                     'nic_adapter_count': 2
                 },
                 'synced_folder': {
@@ -203,6 +205,7 @@ def test_create_guest_with_group_vars(mock_data):
                     'management_network_mac': '',
                     'nic_model_type': '',
                     'memory': 2048,
+                    'huge_pages': False,
                     'nic_adapter_count': 8,
                     'storage_pool': ''
                 },
@@ -244,6 +247,7 @@ def test_create_guest_without_group_vars():
                     'management_network_mac': '',
                     'nic_model_type': '',
                     'memory': 512,
+                    'huge_pages': False,
                     'nic_adapter_count': 0,
                     'storage_pool': ''
                 },

@@ -72,6 +72,8 @@ provider_config:
       type: "integer"
       min: 256
       max: 32768
+    huge_pages:
+      type: "boolean"
     storage_pool:
       type: "string"
     nic_model_type:
