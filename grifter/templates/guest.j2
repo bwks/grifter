@@ -34,6 +34,7 @@
     {% endif %}
 
     {% include 'libvirt-config.j2' %}
+    {% include 'triggers.j2' %}
 
     {% for interface in guest.interfaces %}
     {% include 'libvirt-interface-config.j2' %}

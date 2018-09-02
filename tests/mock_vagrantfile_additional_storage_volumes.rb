@@ -29,6 +29,35 @@ Vagrant.configure("2") do |config|
       domain.storage :file, :path => "/fake/location/volume1.qcow2", :size => "10000", :type => "qcow2", :bus => "ide", :device => "hdb", :allow_existing => true
       domain.storage :file, :path => "/fake/location/volume2.img", :size => "10000", :type => "raw", :bus => "ide", :device => "hdc", :allow_existing => true
     end
+    add_volumes = [
+      "virsh vol-create-as default #{username}-#{guest_name}-volume1.qcow2 10000",
+      "sleep 1",
+      "virsh vol-upload --pool default #{username}-#{guest_name}-volume1.qcow2 /fake/location/volume1.qcow2",
+      "sleep 1",
+      "virsh vol-create-as default #{username}-#{guest_name}-volume2.img 10000",
+      "sleep 1",
+      "virsh vol-upload --pool default #{username}-#{guest_name}-volume2.img /fake/location/volume2.img",
+      "sleep 1"
+    ]
+    add_volumes.each do |i|
+      node.trigger.before :up do |trigger|
+        trigger.name = "add-volumes"
+        trigger.info = "Adding Volumes"
+        trigger.run = {inline: i}
+      end
+    end
+
+    delete_volumes = [
+      "virsh vol-delete #{username}-#{guest_name}-volume1.qcow2 default",
+      "virsh vol-delete #{username}-#{guest_name}-volume2.img default"
+    ]
+    delete_volumes.each do |i|
+      node.trigger.after :destroy do |trigger|
+        trigger.name = "remove-volumes"
+        trigger.info = "Removing Volumes"
+        trigger.run = {inline: i}
+      end
+    end
 
     node.vm.network :private_network,
       # sw01-int1 <--> sw02-int1
