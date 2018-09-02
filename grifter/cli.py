@@ -12,12 +12,13 @@ from .api import (
     update_guest_interfaces,
     generate_vagrant_file,
     update_guest_data,
-    validate_data
+    validate_data,
+    update_guest_additional_storage
 )
 
 
 @click.group(context_settings={'help_option_names': ['-h', '--help']})
-@click.version_option(version='0.1.4')
+@click.version_option(version='0.1.13')
 def cli():
     """Create a Vagrantfile from a YAML data input file."""
     pass
@@ -39,6 +40,7 @@ def create(datafile):
         loopbacks = generate_loopbacks(data['guests'])
         merged_data = update_guest_data(data)
         update_guest_interfaces(merged_data['guests'])
+        update_guest_additional_storage(merged_data['guests'])
         return generate_vagrant_file(merged_data, loopbacks)
     else:
         for error in errors:

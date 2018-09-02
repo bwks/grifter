@@ -1,3 +1,4 @@
+import os
 import copy
 import logging
 import random
@@ -175,6 +176,27 @@ def update_guest_interfaces(guest_data):
             guest['interfaces'] = add_blackhole_interfaces(
                 guest['provider_config']['nic_adapter_count'], guest['interfaces']
             )
+            updated_guest_list.append(guest)
+
+    return updated_guest_list
+
+
+def update_guest_additional_storage(guest_data):
+    """
+    Add storage volume size to additional storage volumes
+    :param guest_data: List of host dicts.
+    :return: New list of host dicts.
+    """
+    updated_guest_list = []
+    for guest in guest_data:
+        if not guest['provider_config'].get('additional_storage_volumes'):
+            updated_guest_list.append(guest)
+        else:
+            for volume in guest['provider_config']['additional_storage_volumes']:
+                try:
+                    volume['size'] = os.path.getsize(volume['location'])
+                except OSError:
+                    raise OSError(f'No such file: {volume["location"]}')
             updated_guest_list.append(guest)
 
     return updated_guest_list

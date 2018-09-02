@@ -31,7 +31,8 @@ mock_guest_data = {
                 'nic_model_type': '',
                 'memory': 2048,
                 'huge_pages': False,
-                'nic_adapter_count': 2
+                'nic_adapter_count': 2,
+                'additional_storage_volumes': []
             },
             'synced_folder': {
                 'enabled': False,
@@ -73,7 +74,8 @@ mock_guest_data = {
                 'nic_model_type': '',
                 'memory': 2048,
                 'huge_pages': False,
-                'nic_adapter_count': 2
+                'nic_adapter_count': 2,
+                'additional_storage_volumes': []
             },
             'synced_folder': {
                 'enabled': False,
