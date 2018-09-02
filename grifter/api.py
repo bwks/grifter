@@ -1,4 +1,5 @@
 import os
+import sys
 import copy
 import logging
 import random
@@ -28,8 +29,13 @@ custom_filters = [
     explode_port,
 ]
 
-logging.getLogger(__name__).addHandler(logging.NullHandler())
-logging.basicConfig(format='%(levelname)s - %(message)s')
+handler = logging.StreamHandler(sys.stdout)
+formatter = logging.Formatter('%(levelname)s - %(message)s')
+handler.setFormatter(formatter)
+logger = logging.getLogger(__name__)
+logger.addHandler(handler)
+logger.setLevel(logging.ERROR)
+logger.addHandler(handler)
 
 
 def generate_loopbacks(guest_list=None):
@@ -85,11 +91,11 @@ def load_guest_defaults(guest_defaults_file):
     for directory in GUEST_DEFAULTS_DIRS:
         try:
             guest_defaults = load_data(f'{directory}/{guest_defaults_file}')
-            logging.info(f'File "{directory}/{guest_defaults_file}" found')
+            logger.info(f'File "{directory}/{guest_defaults_file}" found')
         except FileNotFoundError:
-            logging.info(f'File "{directory}/{guest_defaults_file}" not found')
+            logger.info(f'File "{directory}/{guest_defaults_file}" not found')
         except PermissionError:
-            logging.error(f'File "{directory}/{guest_defaults_file}" permission denied')
+            logger.error(f'File "{directory}/{guest_defaults_file}" permission denied')
 
     return guest_defaults
 
