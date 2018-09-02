@@ -19,6 +19,7 @@ from grifter.api import (
     update_context,
     validate_data,
     load_guest_defaults,
+    update_guest_additional_storage,
 )
 
 from .mock_data import (
@@ -31,7 +32,7 @@ def mock_data(filename):
     return load_data(f'{filename}')
 
 
-def test_host_data_matches_dict():
+def test_guest_data_matches_dict():
     assert load_data('examples/guests.yml') == mock_guest_data
 
 
@@ -78,7 +79,8 @@ def test_guest_without_interfaces():
                     'nic_model_type': '',
                     'memory': 2048,
                     'huge_pages': False,
-                    'nic_adapter_count': 2
+                    'nic_adapter_count': 2,
+                    'additional_storage_volumes': []
                 },
                 'synced_folder': {
                     'enabled': False,
@@ -120,7 +122,8 @@ def test_guest_without_interfaces():
                     'nic_model_type': '',
                     'memory': 2048,
                     'huge_pages': False,
-                    'nic_adapter_count': 2
+                    'nic_adapter_count': 2,
+                    'additional_storage_volumes': []
                 },
                 'synced_folder': {
                     'enabled': False,
@@ -207,7 +210,8 @@ def test_create_guest_with_group_vars(mock_data):
                     'memory': 2048,
                     'huge_pages': False,
                     'nic_adapter_count': 8,
-                    'storage_pool': ''
+                    'storage_pool': '',
+                    'additional_storage_volumes': []
                 },
                 'synced_folder': {
                     'enabled': False
@@ -249,7 +253,8 @@ def test_create_guest_without_group_vars():
                     'memory': 512,
                     'huge_pages': False,
                     'nic_adapter_count': 0,
-                    'storage_pool': ''
+                    'storage_pool': '',
+                    'additional_storage_volumes': []
                 },
                 'synced_folder': {
                     'enabled': False
@@ -290,3 +295,40 @@ def test_validate_data_with_invalid_data_returns_list_of_errors():
 def test_load_guest_defaults_with_file_error_returns_empty_dict(mock_data):
     expected = {}
     assert expected == load_guest_defaults('blah.yml')
+
+
+# noinspection PyPep8Naming
+def test_update_guest_additional_storage_raises_OSError():
+    guests = {
+        'guests': [
+            {
+                'name': 'some_guest',
+                'provider_config': {
+                    'additional_storage_volumes': [
+                        {'location': '/fake/path/file.img'}
+                    ]
+                }
+            }
+        ]
+    }
+    with pytest.raises(OSError):
+        update_guest_additional_storage(guests['guests'])
+
+
+@mock.patch('os.path.getsize', return_value='10000')
+def test_update_guest_additional_storage_size(mock_data):
+    guests = {
+        'guests': [
+            {
+                'name': 'some_guest',
+                'provider_config': {
+                    'additional_storage_volumes': [
+                        {'location': '/fake/path/file.img'}
+                    ]
+                }
+            }
+        ]
+    }
+
+    result = update_guest_additional_storage(guests['guests'])
+    assert result[0]['provider_config']['additional_storage_volumes'][0]['size'] == '10000'

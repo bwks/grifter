@@ -22,17 +22,22 @@
     dst: # string - default: "/vagrant"
 
   provider_config:
-    random_hostname: # boolean - default: False
+    random_hostname: # boolean - optional | default: False
     nic_adapter_count: # integer - optional | default: 0
     disk_bus: # string - optional | default: ""
     cpus: # integer - optional | default: 1
     memory: # integer - optional | default: 512
-    huge_pages: # boolean - default: False
+    huge_pages: # boolean - optional | default: False
     storage_pool: # string - optional | default: ""
+    additional_storage_volumes: # list - optional | default []
+      - location: # string
+        type: # string
+        bus: # string
+        device: # string
     nic_model_type: # string - optional | default: ""
     management_network_mac: # string - optional | default: ""
 
-  interfaces: # optional | default: []
+  interfaces: # list - optional | default: []
     - name: # string
       local_port: # integer
       remote_guest: # string

@@ -24,6 +24,7 @@ guest_defaults:
     memory: 512
     huge_pages: False
     storage_pool: ""
+    additional_storage_volumes: []
     nic_model_type: ""
     management_network_mac: ""
 

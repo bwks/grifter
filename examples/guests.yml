@@ -25,6 +25,7 @@ guests:
       huge_pages: False
       nic_model_type: ""
       management_network_mac: ""
+      additional_storage_volumes: []
 
     interfaces:
       - name: "eth1"
@@ -61,6 +62,7 @@ guests:
       huge_pages: False
       nic_model_type: ""
       management_network_mac: ""
+      additional_storage_volumes: []
 
     interfaces:
       - name: "eth1"

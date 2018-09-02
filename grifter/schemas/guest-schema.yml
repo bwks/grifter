@@ -76,6 +76,29 @@ provider_config:
       type: "boolean"
     storage_pool:
       type: "string"
+    additional_storage_volumes:
+      type: "list"
+      schema:
+        type: "dict"
+        schema:
+          location:
+            type: "string"
+            required: True
+          type:
+            type: "string"
+            required: True
+            allowed:
+              - "qcow2"
+              - "raw"
+          bus:
+            type: "string"
+            required: True
+            allowed:
+              - "ide"
+          device:
+            type: "string"
+            required: True
+
     nic_model_type:
       type: "string"
       empty: True

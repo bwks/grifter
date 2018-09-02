@@ -28,7 +28,8 @@ expected_all_guest_defaults = {
             'huge_pages': False,
             'management_network_mac': '',
             'nic_model_type': '',
-            'storage_pool': ''
+            'storage_pool': '',
+            'additional_storage_volumes': []
         },
         'interfaces': []
     }

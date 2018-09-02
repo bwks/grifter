@@ -31,7 +31,8 @@ mock_guest_data = {
                 'nic_model_type': '',
                 'memory': 2048,
                 'huge_pages': False,
-                'nic_adapter_count': 2
+                'nic_adapter_count': 2,
+                'additional_storage_volumes': []
             },
             'synced_folder': {
                 'enabled': False,
@@ -73,7 +74,8 @@ mock_guest_data = {
                 'nic_model_type': '',
                 'memory': 2048,
                 'huge_pages': False,
-                'nic_adapter_count': 2
+                'nic_adapter_count': 2,
+                'additional_storage_volumes': []
             },
             'synced_folder': {
                 'enabled': False,
@@ -91,8 +93,26 @@ mock_guest_data = {
 
 mock_guest_interfaces = mock_guest_data['guests'][0]['interfaces']
 
+mock_additional_storage_volumes = [
+        {
+            'location': '/fake/location/volume1.qcow2',
+            'type': 'qcow2',
+            'bus': 'ide',
+            'device': 'hdb',
+        },
+        {
+            'location': '/fake/location/volume2.img',
+            'type': 'raw',
+            'bus': 'ide',
+            'device': 'hdc',
+        }
+    ]
+
+
 with open(f'{TESTS_DIR}/mock_vagrantfile.rb', 'r') as f:
     mock_vagrantfile = f.read()
 
+with open(f'{TESTS_DIR}/mock_vagrantfile_additional_storage_volumes.rb', 'r') as f:
+    mock_vagrantfile_with_additional_storage_volumes = f.read()
 
 mock_invalid_guest_data_file = f'{TESTS_DIR}/mock_invalid_guest_data.yml'
