@@ -27,8 +27,8 @@
       {% if guest.provider_config.nic_model_type %}
       domain.nic_model_type = "{{ guest.provider_config.nic_model_type }}"
       {% endif %}
-      {% if guest.additional_storage_volumes %}
-      {% for volume in guest.additional_storage_volumes %}
+      {% if guest.provider_config.additional_storage_volumes %}
+      {% for volume in guest.provider_config.additional_storage_volumes %}
       domain.storage :file, :path => "{{ volume.location }}", :size => "{{ volume.size }}", :type => "{{ volume.type }}", :bus => "{{ volume.bus }}", :device => "{{ volume.device }}", :allow_existing => true
       {% endfor %}
       {% endif %}

@@ -93,8 +93,26 @@ mock_guest_data = {
 
 mock_guest_interfaces = mock_guest_data['guests'][0]['interfaces']
 
+mock_additional_storage_volumes = [
+        {
+            'location': '/fake/location/volume1.qcow2',
+            'type': 'qcow2',
+            'bus': 'ide',
+            'device': 'hdb',
+        },
+        {
+            'location': '/fake/location/volume2.img',
+            'type': 'raw',
+            'bus': 'ide',
+            'device': 'hdc',
+        }
+    ]
+
+
 with open(f'{TESTS_DIR}/mock_vagrantfile.rb', 'r') as f:
     mock_vagrantfile = f.read()
 
+with open(f'{TESTS_DIR}/mock_vagrantfile_additional_storage_volumes.rb', 'r') as f:
+    mock_vagrantfile_with_additional_storage_volumes = f.read()
 
 mock_invalid_guest_data_file = f'{TESTS_DIR}/mock_invalid_guest_data.yml'
