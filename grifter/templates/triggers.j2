@@ -7,11 +7,11 @@
       "sleep 1"{{ "," if not loop.last }}
       {% endfor %}
     ]
-    add_volumes.each do |i|
+    add_volumes.each_with_index do |value, index|
       node.trigger.before :up do |trigger|
-        trigger.name = "add-volumes"
-        trigger.info = "Adding Volumes"
-        trigger.run = {inline: i}
+        trigger.name = "add-volumes-#{index + 1}"
+        trigger.info = "Adding Volumes #{index + 1}"
+        trigger.run = {inline: value}
       end
     end
 
@@ -20,11 +20,11 @@
       "virsh vol-delete #{username}-#{guest_name}-{{ volume.location.split('/')[-1] }} {{ guest.provider_config.storage_pool|default('default', True) }}"{{ "," if not loop.last }}
       {% endfor %}
     ]
-    delete_volumes.each do |i|
+    delete_volumes.each_with_index do |value, index|
       node.trigger.after :destroy do |trigger|
-        trigger.name = "remove-volumes"
-        trigger.info = "Removing Volumes"
-        trigger.run = {inline: i}
+        trigger.name = "remove-volumes-#{index + 1}"
+        trigger.info = "Removing Volumes #{index + 1}"
+        trigger.run = {inline: value}
       end
     end
     {% endif %}

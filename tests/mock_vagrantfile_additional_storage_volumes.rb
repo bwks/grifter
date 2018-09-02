@@ -39,11 +39,11 @@ Vagrant.configure("2") do |config|
       "virsh vol-upload --pool default #{username}-#{guest_name}-volume2.img /fake/location/volume2.img",
       "sleep 1"
     ]
-    add_volumes.each do |i|
+    add_volumes.each_with_index do |value, index|
       node.trigger.before :up do |trigger|
-        trigger.name = "add-volumes"
-        trigger.info = "Adding Volumes"
-        trigger.run = {inline: i}
+        trigger.name = "add-volumes-#{index + 1}"
+        trigger.info = "Adding Volumes #{index + 1}"
+        trigger.run = {inline: value}
       end
     end
 
@@ -51,11 +51,11 @@ Vagrant.configure("2") do |config|
       "virsh vol-delete #{username}-#{guest_name}-volume1.qcow2 default",
       "virsh vol-delete #{username}-#{guest_name}-volume2.img default"
     ]
-    delete_volumes.each do |i|
+    delete_volumes.each_with_index do |value, index|
       node.trigger.after :destroy do |trigger|
-        trigger.name = "remove-volumes"
-        trigger.info = "Removing Volumes"
-        trigger.run = {inline: i}
+        trigger.name = "remove-volumes-#{index + 1}"
+        trigger.info = "Removing Volumes #{index + 1}"
+        trigger.run = {inline: value}
       end
     end
 
