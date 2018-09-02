@@ -26,8 +26,8 @@ Vagrant.configure("2") do |config|
       domain.memory = 2048
       domain.disk_bus = "ide"
       domain.nic_adapter_count = 2
-      domain.storage :file, :path => "volume1.qcow2", :size => "10000", :type => "qcow2", :bus => "ide", :device => "hdb", :allow_existing => true
-      domain.storage :file, :path => "volume2.img", :size => "10000", :type => "raw", :bus => "ide", :device => "hdc", :allow_existing => true
+      domain.storage :file, :path => "#{username}-#{guest_name}-volume1.qcow2", :size => "10000", :type => "qcow2", :bus => "ide", :device => "hdb", :allow_existing => true
+      domain.storage :file, :path => "#{username}-#{guest_name}-volume2.img", :size => "10000", :type => "raw", :bus => "ide", :device => "hdc", :allow_existing => true
     end
     add_volumes = [
       "virsh vol-create-as default #{username}-#{guest_name}-volume1.qcow2 10000",

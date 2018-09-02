@@ -29,7 +29,7 @@
       {% endif %}
       {% if guest.provider_config.additional_storage_volumes %}
       {% for volume in guest.provider_config.additional_storage_volumes %}
-      domain.storage :file, :path => "{{ volume.location.split('/')[-1] }}", :size => "{{ volume.size }}", :type => "{{ volume.type }}", :bus => "{{ volume.bus }}", :device => "{{ volume.device }}", :allow_existing => true
+      domain.storage :file, :path => "#{username}-#{guest_name}-{{ volume.location.split('/')[-1] }}", :size => "{{ volume.size }}", :type => "{{ volume.type }}", :bus => "{{ volume.bus }}", :device => "{{ volume.device }}", :allow_existing => true
       {% endfor %}
       {% endif %}
     end
