@@ -18,7 +18,7 @@ from .api import (
 
 
 @click.group(context_settings={'help_option_names': ['-h', '--help']})
-@click.version_option(version='0.1.13')
+@click.version_option(version='0.1.14')
 def cli():
     """Create a Vagrantfile from a YAML data input file."""
     pass
