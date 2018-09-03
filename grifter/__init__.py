@@ -1,3 +1,6 @@
+import sys
+import logging
+
 from .api import (
     generate_loopbacks,
     add_blackhole_interfaces,
@@ -5,17 +8,22 @@ from .api import (
     update_guest_interfaces,
     generate_vagrant_file,
 )
-
 from .cli import (
     cli,
 )
-
 from .loaders import (
     load_data,
     render_from_template,
 )
-
 from .validators import (
     validate_required_keys,
     validate_required_values,
 )
+
+handler = logging.StreamHandler(sys.stdout)
+formatter = logging.Formatter('%(levelname)s - %(message)s')
+handler.setFormatter(formatter)
+logger = logging.getLogger(__name__)
+logger.addHandler(handler)
+logger.setLevel(logging.ERROR)
+logger.addHandler(handler)

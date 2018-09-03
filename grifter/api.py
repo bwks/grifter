@@ -1,20 +1,15 @@
 import os
-import sys
 import copy
 import logging
 import random
-
 from .validators import validate_schema
-
 from .custom_filters import (
     explode_port,
 )
-
 from .loaders import (
     render_from_template,
     load_data,
 )
-
 from .constants import (
     TEMPLATES_DIR,
     BLACKHOLE_LOOPBACK_MAP,
@@ -24,18 +19,11 @@ from .constants import (
     GUEST_DEFAULTS_DIRS,
 )
 
+logger = logging.getLogger(__name__)
 
 custom_filters = [
     explode_port,
 ]
-
-handler = logging.StreamHandler(sys.stdout)
-formatter = logging.Formatter('%(levelname)s - %(message)s')
-handler.setFormatter(formatter)
-logger = logging.getLogger(__name__)
-logger.addHandler(handler)
-logger.setLevel(logging.ERROR)
-logger.addHandler(handler)
 
 
 def generate_loopbacks(guest_list=None):
