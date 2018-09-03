@@ -79,11 +79,11 @@ def load_guest_defaults(guest_defaults_file):
     for directory in GUEST_DEFAULTS_DIRS:
         try:
             guest_defaults = load_data(f'{directory}/{guest_defaults_file}')
-            logger.info(f'File "{directory}/{guest_defaults_file}" found')
+            logger.info(f'File: "{directory}/{guest_defaults_file}" found')
         except FileNotFoundError:
-            logger.info(f'File "{directory}/{guest_defaults_file}" not found')
+            logger.warning(f'File: "{directory}/{guest_defaults_file}" not found')
         except PermissionError:
-            logger.error(f'File "{directory}/{guest_defaults_file}" permission denied')
+            logger.error(f'File: "{directory}/{guest_defaults_file}" permission denied')
 
     return guest_defaults
 
