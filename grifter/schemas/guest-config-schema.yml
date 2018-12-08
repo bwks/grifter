@@ -1,0 +1,30 @@
+---
+data_interface:
+  type: "string"
+  required: True
+  empty: False
+
+data_interface_offset:
+  type: "integer"
+  required: True
+  default: 0
+
+internal_interfaces:
+  type: "integer"
+  required: True
+  default: 0
+
+max_interfaces:
+  type: "integer"
+  required: True
+  default: 0
+
+mgmt_inteface:
+  type: "string"
+  required: True
+  empty: True
+
+reserved_interfaces:
+  type: "integer"
+  required: True
+  default: 0

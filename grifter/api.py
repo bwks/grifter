@@ -17,6 +17,9 @@ from .constants import (
     GUEST_SCHEMA_FILE,
     GUESTS_SCHEMA_FILE,
     GUEST_DEFAULTS_DIRS,
+    DATA_INTERFACES_BASE_PORT,
+    INTERNAL_INTERFACES_BASE_PORT,
+    RESERVED_INTERFACES_BASE_PORT,
 )
 
 logger = logging.getLogger(__name__)
@@ -24,6 +27,43 @@ logger = logging.getLogger(__name__)
 custom_filters = [
     explode_port,
 ]
+
+
+def int_to_port_map(name, offset, number_of_interfaces, base_port):
+    """
+    Create a dict of interfaces to port maps
+    :param name: Name of the base interface without the port number eg: swp
+    :param offset: Number of the first interfaces eg: 0 or 1
+    :param number_of_interfaces: Number of interfaces to create
+    :param base_port: Base port number eg 10000DA
+    :return: Dictionary of interface to data port mappings
+    """
+    return {f'{name}{i}': base_port + i for i in range(offset, number_of_interfaces + offset)}
+
+
+def generate_int_to_port_mappings(dev):
+    if dev['data_interface']:
+        data_ints = int_to_port_map(dev['data_interface'], dev['data_interface_offset'],
+                                    dev['max_interfaces'], DATA_INTERFACES_BASE_PORT)
+    else:
+        data_ints = {}
+
+    if dev.get('internal_interfaces') and dev['internal_interfaces']:
+        internal_interfaces = int_to_port_map('internal-', 1, dev['internal_interfaces'], INTERNAL_INTERFACES_BASE_PORT)
+    else:
+        internal_interfaces = {}
+
+    if dev.get('reserved_interfaces') and dev['reserved_interfaces']:
+        reserved_interfaces = int_to_port_map('reserved-', 1, dev['reserved_interfaces'], RESERVED_INTERFACES_BASE_PORT)
+    else:
+        reserved_interfaces = {}
+
+    return {
+        'data_interfaces': data_ints,
+        'internal_interfaces': internal_interfaces,
+        'mgmt_interface': dev['mgmt_inteface'],
+        'reserved_interfaces': reserved_interfaces,
+    }
 
 
 def generate_loopbacks(guest_list=None):

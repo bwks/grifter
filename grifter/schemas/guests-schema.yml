@@ -2,4 +2,3 @@
 guests:
   type: "list"
   empty: False
-

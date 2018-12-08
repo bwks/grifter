@@ -1,0 +1,10 @@
+---
+child:
+  type: "string"
+  required: True
+  empty: False
+
+parent:
+  type: "string"
+  required: True
+  empty: False
