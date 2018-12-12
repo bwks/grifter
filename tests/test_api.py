@@ -337,51 +337,25 @@ def test_update_guest_additional_storage_size(mock_data):
 
 
 def test_int_to_port_map_returns_expected():
-    expected = {
-        'ge-0/0/0': 10000,
-        'ge-0/0/1': 10001,
-        'ge-0/0/2': 10002,
-        'ge-0/0/3': 10003,
-        'ge-0/0/4': 10004,
-        'ge-0/0/5': 10005,
-        'ge-0/0/6': 10006,
-        'ge-0/0/7': 10007,
-        'ge-0/0/8': 10008,
-        'ge-0/0/9': 10009,
-        'ge-0/0/10': 10010,
-        'ge-0/0/11': 10011
-    }
+    expected = {f'ge-0/0/{i}': 10000 + i for i in range(0, 12)}
     result = int_to_port_map('ge-0/0/', 0, 12, 10000)
     assert result == expected
 
 
 def test_generate_int_to_port_mappings():
     expected = {
-        'data_interfaces': {
-            'ge-0/0/0': 10000,
-            'ge-0/0/1': 10001,
-            'ge-0/0/2': 10002,
-            'ge-0/0/3': 10003,
-            'ge-0/0/4': 10004,
-            'ge-0/0/5': 10005,
-            'ge-0/0/6': 10006,
-            'ge-0/0/7': 10007,
-            'ge-0/0/8': 10008,
-            'ge-0/0/9': 10009,
-            'ge-0/0/10': 10010,
-            'ge-0/0/11': 10011,
-        },
-        'internal_interfaces': {},
+        'data_interfaces': {f'ge-0/0/{i}': 10000 + i for i in range(0, 12)},
+        'internal_interfaces': {'internal-1': 11001},
         'management_interface': 'fxp0.0',
-        'reserved_interfaces': {}
+        'reserved_interfaces': {'reserved-1': 12001}
     }
     data = {
         'data_interface_base': "ge-0/0/",
         'data_interface_offset': 0,
-        'internal_interfaces': 0,
+        'internal_interfaces': 1,
         'max_data_interfaces': 12,
         'management_interface': "fxp0.0",
-        'reserved_interfaces': 0,
+        'reserved_interfaces': 1,
     }
 
     result = generate_int_to_port_mappings(data)
