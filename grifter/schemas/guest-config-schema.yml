@@ -1,5 +1,5 @@
 ---
-data_interface:
+data_interface_base:
   type: "string"
   required: True
   empty: False
@@ -14,12 +14,12 @@ internal_interfaces:
   required: True
   default: 0
 
-max_interfaces:
+max_data_interfaces:
   type: "integer"
   required: True
   default: 0
 
-mgmt_inteface:
+management_interface:
   type: "string"
   required: True
   empty: True

@@ -29,3 +29,11 @@ guest_defaults:
     management_network_mac: ""
 
   interfaces: []
+
+guest_config_defaults:
+  data_interface_base: ""
+  data_interface_offset: 0
+  internal_interfaces: 0
+  max_data_interfaces: 8
+  management_interface: ""
+  reserved_interfaces: 0

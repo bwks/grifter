@@ -20,6 +20,8 @@ from grifter.api import (
     validate_data,
     load_guest_defaults,
     update_guest_additional_storage,
+    int_to_port_map,
+    generate_int_to_port_mappings,
 )
 
 from .mock_data import (
@@ -332,3 +334,55 @@ def test_update_guest_additional_storage_size(mock_data):
 
     result = update_guest_additional_storage(guests['guests'])
     assert result[0]['provider_config']['additional_storage_volumes'][0]['size'] == '10000'
+
+
+def test_int_to_port_map_returns_expected():
+    expected = {
+        'ge-0/0/0': 10000,
+        'ge-0/0/1': 10001,
+        'ge-0/0/2': 10002,
+        'ge-0/0/3': 10003,
+        'ge-0/0/4': 10004,
+        'ge-0/0/5': 10005,
+        'ge-0/0/6': 10006,
+        'ge-0/0/7': 10007,
+        'ge-0/0/8': 10008,
+        'ge-0/0/9': 10009,
+        'ge-0/0/10': 10010,
+        'ge-0/0/11': 10011
+    }
+    result = int_to_port_map('ge-0/0/', 0, 12, 10000)
+    assert result == expected
+
+
+def test_generate_int_to_port_mappings():
+    expected = {
+        'data_interfaces': {
+            'ge-0/0/0': 10000,
+            'ge-0/0/1': 10001,
+            'ge-0/0/2': 10002,
+            'ge-0/0/3': 10003,
+            'ge-0/0/4': 10004,
+            'ge-0/0/5': 10005,
+            'ge-0/0/6': 10006,
+            'ge-0/0/7': 10007,
+            'ge-0/0/8': 10008,
+            'ge-0/0/9': 10009,
+            'ge-0/0/10': 10010,
+            'ge-0/0/11': 10011,
+        },
+        'internal_interfaces': {},
+        'management_interface': 'fxp0.0',
+        'reserved_interfaces': {}
+    }
+    data = {
+        'data_interface_base': "ge-0/0/",
+        'data_interface_offset': 0,
+        'internal_interfaces': 0,
+        'max_data_interfaces': 12,
+        'management_interface': "fxp0.0",
+        'reserved_interfaces': 0,
+    }
+
+    result = generate_int_to_port_mappings(data)
+    assert result == expected

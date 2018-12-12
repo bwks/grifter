@@ -10,67 +10,89 @@ guest_pairs:
 
 guest_config:
   arista/veos:
-    data_interface: "eth"
+    data_interface_base: "eth"
     data_interface_offset: 1
-    max_interfaces: 24
-    mgmt_inteface: "ma1"
+    internal_interfaces: 0
+    max_data_interfaces: 24
+    management_interface: "ma1"
+    reserved_interfaces: 0
 
   cisco/csr1000v:
-    data_interface: "ge"
+    data_interface_base: "ge"
     data_interface_offset: 1
-    max_interfaces: 26
-    mgmt_inteface: "ge1"
+    internal_interfaces: 0
+    max_data_interfaces: 26
+    management_interface: "ge1"
+    reserved_interfaces: 0
 
   cisco/iosv:
-    data_interface: "ge0/"
+    data_interface_base: "ge0/"
     data_interface_offset: 0
-    max_interfaces: 8
-    mgmt_inteface: "ge0/0"
+    internal_interfaces: 0
+    max_data_interfaces: 8
+    management_interface: "ge0/0"
+    reserved_interfaces: 0
 
   cisco/xrv:
-    data_interface: "ge0/0/0/"
+    data_interface_base: "ge0/0/0/"
     data_interface_offset: 0
-    max_interfaces: 96
-    mgmt_inteface: "me0"
+    internal_interfaces: 0
+    max_data_interfaces: 96
+    management_interface: "me0"
+    reserved_interfaces: 0
 
   CumulusCommunity/cumulus-vx:
-    data_interface: "swp"
+    data_interface_base: "swp"
     data_interface_offset: 1
-    max_interfaces: 96
-    mgmt_inteface: "eth0"
+    internal_interfaces: 0
+    max_data_interfaces: 96
+    management_interface: "eth0"
+    reserved_interfaces: 0
 
   juniper/vmx-vcp:
-    data_interface: ""
+    data_interface_base: ""
     data_interface_offset: 0
-    internal_interface: 1
-    max_interfaces: 0
-    mgmt_inteface: "fxp0.0"
+    internal_interfaces: 1
+    max_data_interfaces: 0
+    management_interface: "fxp0.0"
     reserved_interfaces: 0
 
   juniper/vmx-vfp:
-    data_interface: "ge-0/0/"
+    data_interface_base: "ge-0/0/"
     data_interface_offset: 0
-    max_interfaces: 10
-    mgmt_inteface: "ext"
+    internal_interfaces: 1
+    max_data_interfaces: 10
+    management_interface: "ext"
+    reserved_interfaces: 0
 
   juniper/vqfx-pfe:
-    data_interface: ""
+    data_interface_base: ""
     data_interface_offset: 0
-    internal_interface: 1
-    max_interfaces: 0
-    mgmt_inteface: "eth1"
+    internal_interfaces: 1
+    max_data_interfaces: 0
+    management_interface: "eth1"
     reserved_interfaces: 0
 
   juniper/vqfx-re:
-    data_interface: "xe-0/0/"
+    data_interface_base: "xe-0/0/"
     data_interface_offset: 0
     internal_interfaces: 1
-    max_interfaces: 12
-    mgmt_inteface: "em0.0"
+    max_data_interfaces: 12
+    management_interface: "em0.0"
     reserved_interfaces: 1
 
   juniper/vsrx:
-    data_interface: "ge-0/0/"
+    data_interface_base: "ge-0/0/"
     data_interface_offset: 0
-    max_interfaces: 16
-    mgmt_inteface: "fxp0.0"
+    internal_interfaces: 0
+    max_data_interfaces: 16
+    management_interface: "fxp0.0"
+    reserved_interfaces: 0
+
+  juniper/vsrx-packetmode:
+    data_interface_base: "ge-0/0/"
+    data_interface_offset: 0
+    internal_interfaces: 0
+    max_data_interfaces: 16
+    management_interface: "fxp0.0"
+    reserved_interfaces: 0

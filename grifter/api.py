@@ -42,26 +42,28 @@ def int_to_port_map(name, offset, number_of_interfaces, base_port):
 
 
 def generate_int_to_port_mappings(dev):
-    if dev['data_interface']:
-        data_ints = int_to_port_map(dev['data_interface'], dev['data_interface_offset'],
-                                    dev['max_interfaces'], DATA_INTERFACES_BASE_PORT)
+    if dev['data_interface_base']:
+        data_interfaces = int_to_port_map(dev['data_interface_base'], dev['data_interface_offset'],
+                                          dev['max_data_interfaces'], DATA_INTERFACES_BASE_PORT)
     else:
-        data_ints = {}
+        data_interfaces = {}
 
-    if dev.get('internal_interfaces') and dev['internal_interfaces']:
-        internal_interfaces = int_to_port_map('internal-', 1, dev['internal_interfaces'], INTERNAL_INTERFACES_BASE_PORT)
+    if dev['internal_interfaces']:
+        internal_interfaces = int_to_port_map(
+            'internal-', 1, dev['internal_interfaces'], INTERNAL_INTERFACES_BASE_PORT)
     else:
         internal_interfaces = {}
 
-    if dev.get('reserved_interfaces') and dev['reserved_interfaces']:
-        reserved_interfaces = int_to_port_map('reserved-', 1, dev['reserved_interfaces'], RESERVED_INTERFACES_BASE_PORT)
+    if dev['reserved_interfaces']:
+        reserved_interfaces = int_to_port_map(
+            'reserved-', 1, dev['reserved_interfaces'], RESERVED_INTERFACES_BASE_PORT)
     else:
         reserved_interfaces = {}
 
     return {
-        'data_interfaces': data_ints,
+        'data_interfaces': data_interfaces,
         'internal_interfaces': internal_interfaces,
-        'mgmt_interface': dev['mgmt_inteface'],
+        'management_interface': dev['management_interface'],
         'reserved_interfaces': reserved_interfaces,
     }
 
