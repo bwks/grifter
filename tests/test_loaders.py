@@ -16,7 +16,10 @@ from grifter.loaders import (
     load_data
 )
 
-from grifter.api import generate_loopbacks
+from grifter.api import (
+    generate_loopbacks,
+    generate_guest_interface_mappings,
+)
 
 from .mock_data import (
     mock_vagrantfile,
@@ -27,16 +30,19 @@ custom_filters = [
     explode_port,
 ]
 
+interface_mappings = generate_guest_interface_mappings()
+
 
 @mock.patch('random.randint', return_value=255)
 def test_render_from_template(mock_random):
-    loopbacks = generate_loopbacks(mock_guest_data['guests'])
+    loopbacks = generate_loopbacks(mock_guest_data)
     vagrantfile = render_from_template(
         template_name='guest.j2',
         template_directory=TEMPLATES_DIR,
         custom_filters=custom_filters,
-        guests=mock_guest_data['guests'],
-        loopbacks=loopbacks
+        guests=mock_guest_data,
+        loopbacks=loopbacks,
+        interface_mappings=interface_mappings
     )
     assert vagrantfile == mock_vagrantfile
 

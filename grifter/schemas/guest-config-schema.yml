@@ -9,11 +9,6 @@ data_interface_offset:
   required: True
   default: 0
 
-internal_interfaces:
-  type: "integer"
-  required: True
-  default: 0
-
 max_data_interfaces:
   type: "integer"
   required: True
@@ -26,5 +21,8 @@ management_interface:
 
 reserved_interfaces:
   type: "integer"
-  required: True
+  default: 0
+
+internal_interfaces:
+  type: "integer"
   default: 0

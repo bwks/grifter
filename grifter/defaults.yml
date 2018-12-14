@@ -1,5 +1,4 @@
 guest_defaults:
-  name: ""
   vagrant_box:
     name: ""
     version: ""
@@ -7,15 +6,12 @@ guest_defaults:
     provider: "libvirt"
     guest_type: ""
     boot_timeout: 0
-
   ssh:
     username: ""
     password: ""
     insert_key: False
-
   synced_folder:
     enabled: False
-
   provider_config:
     random_hostname: False
     nic_adapter_count: 0
@@ -27,13 +23,14 @@ guest_defaults:
     additional_storage_volumes: []
     nic_model_type: ""
     management_network_mac: ""
-
-  interfaces: []
+  data_interfaces: []
+  internal_interfaces: []
+  reserved_interfaces: []
 
 guest_config_defaults:
   data_interface_base: ""
   data_interface_offset: 0
   internal_interfaces: 0
   max_data_interfaces: 8
-  management_interface: ""
+  management_interface: "mgmt"
   reserved_interfaces: 0

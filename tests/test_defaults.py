@@ -1,7 +1,6 @@
 from grifter.constants import ALL_GUEST_DEFAULTS
 
 expected_guest_defaults = {
-    'name': '',
     'vagrant_box': {
         'name': '',
         'version': '',
@@ -30,15 +29,17 @@ expected_guest_defaults = {
         'storage_pool': '',
         'additional_storage_volumes': []
     },
-    'interfaces': []
+    'data_interfaces': [],
+    'internal_interfaces': [],
+    'reserved_interfaces': []
 }
 
 expected_guest_config_defaults = {
-      'data_interface_base': "",
+      'data_interface_base': '',
       'data_interface_offset': 0,
       'internal_interfaces': 0,
       'max_data_interfaces': 8,
-      'management_interface': "",
+      'management_interface': 'mgmt',
       'reserved_interfaces': 0,
     }
 

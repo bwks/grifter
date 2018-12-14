@@ -17,9 +17,7 @@ from .constants import (
     GUEST_SCHEMA_FILE,
     GUESTS_SCHEMA_FILE,
     GUEST_DEFAULTS_DIRS,
-    DATA_INTERFACES_BASE_PORT,
-    INTERNAL_INTERFACES_BASE_PORT,
-    RESERVED_INTERFACES_BASE_PORT,
+    DEFAULT_CONFIG_FILE,
 )
 
 logger = logging.getLogger(__name__)
@@ -29,34 +27,47 @@ custom_filters = [
 ]
 
 
-def int_to_port_map(name, offset, number_of_interfaces, base_port):
+def int_to_port_map(name, offset, number_of_interfaces):
     """
     Create a dict of interfaces to port maps
     :param name: Name of the base interface without the port number eg: swp
     :param offset: Number of the first interfaces eg: 0 or 1
     :param number_of_interfaces: Number of interfaces to create
-    :param base_port: Base port number eg 10000DA
     :return: Dictionary of interface to data port mappings
     """
-    return {f'{name}{i}': base_port + i for i in range(offset, number_of_interfaces + offset)}
+    mapping = {}
+    for i in range(offset, number_of_interfaces + offset):
+        mapping.update({i: f'{name}{i}'})
+    return mapping
 
 
 def generate_int_to_port_mappings(dev):
+    """
+    Generate a dictionary of interface to port mappings
+    :param dev: Dictionary with the following keys
+                - data_interface_base
+                - data_interface_offset
+                - max_data_interfaces
+                - internal_interfaces
+                - reserved_interfaces
+    :return: Dictionary of interface to port mappings
+    """
     if dev['data_interface_base']:
-        data_interfaces = int_to_port_map(dev['data_interface_base'], dev['data_interface_offset'],
-                                          dev['max_data_interfaces'], DATA_INTERFACES_BASE_PORT)
+        data_interfaces = int_to_port_map(dev['data_interface_base'],
+                                          dev['data_interface_offset'],
+                                          dev['max_data_interfaces'])
     else:
         data_interfaces = {}
 
     if dev['internal_interfaces']:
         internal_interfaces = int_to_port_map(
-            'internal-', 1, dev['internal_interfaces'], INTERNAL_INTERFACES_BASE_PORT)
+            'internal-', 1, dev['internal_interfaces'])
     else:
         internal_interfaces = {}
 
     if dev['reserved_interfaces']:
         reserved_interfaces = int_to_port_map(
-            'reserved-', 1, dev['reserved_interfaces'], RESERVED_INTERFACES_BASE_PORT)
+            'reserved-', 1, dev['reserved_interfaces'])
     else:
         reserved_interfaces = {}
 
@@ -68,20 +79,33 @@ def generate_int_to_port_mappings(dev):
     }
 
 
-def generate_loopbacks(guest_list=None):
+def generate_guest_interface_mappings(config_file=DEFAULT_CONFIG_FILE):
+    """
+    Create a guest type to interfaces port map dictionary
+    :param config_file: Path to config file
+    :return: Dictionary of guest type interface port mappings.
+    """
+    config = load_data(config_file)
+    mappings = {}
+    for k, v in config['guest_config'].items():
+        mappings[k] = generate_int_to_port_mappings(config['guest_config'][k])
+    return mappings
+
+
+def generate_loopbacks(guest_dict=None):
     """
     Generate a dict of loopback addresses
-    :param guest_list: List of guests
+    :param guest_dict: List of guests
     :return: Dictionary of loopback addresses
     """
-    if guest_list is None or not isinstance(guest_list, list):
-        raise AttributeError('guest_list should contain a list of guests')
-    elif not guest_list:
-        raise ValueError('list of guests is empty')
+    if guest_dict is None or not isinstance(guest_dict, dict):
+        raise AttributeError('guest_dict should contain a list of guests')
+    elif not guest_dict:
+        raise ValueError('dict of guests is empty')
 
     network = f'127.{random.randint(2, 254)}.{random.randint(2, 254)}'
 
-    guests = [i['name'] for i in guest_list]
+    guests = list(guest_dict.keys())
     loopbacks = [f'{network}.{i}' for i in range(1, len(guests) + 1)]
     guest_to_loopback_map = dict(zip(guests, loopbacks))
 
@@ -145,26 +169,35 @@ def update_guest_data(
 
     guest_defaults = load_guest_defaults(guest_defaults_file)
 
-    new_guest_data = {'guests': []}
-    for guest in guest_data['guests']:
+    new_guest_data = {}
+    for guest, data in guest_data.items():
         # Copy the default dict, that contains all top level variables
         # Group vars, then host vars will be merged into this dict
         default_context = copy.deepcopy(all_guest_defaults['guest_defaults'])
-        if guest_defaults and guest['vagrant_box'].get('name') in guest_defaults:
+        if guest_defaults and data['vagrant_box'].get('name') in guest_defaults:
             # Merge group vars with host vars
-            group_context = guest_defaults.get(guest['vagrant_box']['name'])
+            group_context = guest_defaults.get(data['vagrant_box']['name'])
             new_context = update_context(group_context, default_context)
-            new_guest_data['guests'].append(update_context(guest, new_context))
+            new_guest_data.update({guest: (update_context(data, new_context))})
         else:
             # No group vars found, just merge host vars
-            new_guest_data['guests'].append(update_context(guest, default_context))
+            new_guest_data.update({guest: (update_context(data, default_context))})
     return new_guest_data
 
 
-def add_blackhole_interfaces(total_interfaces, interface_list):
+def blackhole_interface_config(port_number):
+    return {
+        'local_port': port_number,
+        'remote_guest': 'blackhole',
+        'remote_port': 666
+        }
+
+
+def add_blackhole_interfaces(offset, total_interfaces, interface_list):
     """
     Adds blackhole interfaces to host data by inserting a
     dict of blackhole config in the correct interface index position.
+    :param offset: Interface numbering offset.
     :param total_interfaces: Total number of interfaces.
     :param interface_list: List of interface dicts to update.
     :return: New list of interface dicts.
@@ -173,82 +206,81 @@ def add_blackhole_interfaces(total_interfaces, interface_list):
         return interface_list
 
     updated_interface_list = []
-    for i in range(1, total_interfaces + 1):
-        blackhole_interface = {
-            'name': f'bh-int{i}',
-            'local_port': i,
-            'remote_guest': 'blackhole',
-            'remote_port': 666
-        }
-        try:
-            for interface in interface_list:
+    for i in range(offset, total_interfaces + offset):
+        for interface in interface_list:
+            try:
                 if interface['local_port'] == i:
                     updated_interface_list.append(interface)
                     # When a port number is matched terminate the
                     # loop to prevent adding unnecessary interfaces.
                     break
-            else:
-                # No match on the port number so add a blackhole interface.
-                updated_interface_list.append(blackhole_interface)
-        except IndexError:
-            # Have run out of interfaces in the original list.
-            # Blackhole interfaces will populate the rest of the list
-            updated_interface_list.append(blackhole_interface)
+            except IndexError:
+                # Have run out of interfaces in the original list.
+                # Blackhole interfaces will populate the rest of the list
+                updated_interface_list.append(blackhole_interface_config(i))
+        else:
+            # No match on the port number so add a blackhole interface.
+            updated_interface_list.append(blackhole_interface_config(i))
 
     return updated_interface_list
 
 
-def update_guest_interfaces(guest_data):
+def create_reserved_interfaces(num_reserved_interfaces):
+    return [blackhole_interface_config(i) for i in range(1, num_reserved_interfaces + 1)]
+
+
+def update_guest_interfaces(guest_data, config):
     """
     Entrypoint to updating guest data parameters.
     :param guest_data: List of host dicts.
     :return: New list of host dicts.
     """
-    updated_guest_list = []
-    for guest in guest_data:
-        if not guest.get('interfaces'):
-            updated_guest_list.append(guest)
+    updated_guest_dict = {}
+    for guest, data in guest_data.items():
+        guest_box = data['vagrant_box']['name']
+        if not data.get('data_interfaces'):
+            updated_guest_dict.update({guest: data})
         else:
-            guest['interfaces'] = add_blackhole_interfaces(
-                guest['provider_config']['nic_adapter_count'], guest['interfaces']
+            data['data_interfaces'] = add_blackhole_interfaces(
+                config['guest_config'][guest_box]['data_interface_offset'],
+                data['provider_config']['nic_adapter_count'],
+                data['data_interfaces']
             )
-            updated_guest_list.append(guest)
+            updated_guest_dict.update({guest: data})
 
-    return updated_guest_list
+    return updated_guest_dict
 
 
 def update_guest_additional_storage(guest_data):
     """
     Add storage volume size to additional storage volumes
     :param guest_data: List of host dicts.
-    :return: New list of host dicts.
+    :return: New dict of guest data.
     """
-    updated_guest_list = []
-    for guest in guest_data:
-        if not guest['provider_config'].get('additional_storage_volumes'):
-            updated_guest_list.append(guest)
+    updated_guest_dict = {}
+    for guest, data in guest_data.items():
+        if not data['provider_config'].get('additional_storage_volumes'):
+            updated_guest_dict.update({guest: data})
         else:
-            for volume in guest['provider_config']['additional_storage_volumes']:
+            for volume in data['provider_config']['additional_storage_volumes']:
                 try:
                     volume['size'] = os.path.getsize(volume['location'])
                 except OSError:
                     raise OSError(f'No such file: {volume["location"]}')
-            updated_guest_list.append(guest)
+            updated_guest_dict.update({guest: data})
 
-    return updated_guest_list
+    return updated_guest_dict
 
 
-def validate_data(data):
+def validate_data(guest_data):
     """
     Validate data conforms to required schema
-    :param data: Guest data dict
+    :param guest_data: Guest data dict
     :return: errors dict
     """
-    result = validate_schema(data, load_data(GUESTS_SCHEMA_FILE))
-    errors = [result.errors] if result.errors else []
-
-    for guest in data['guests']:
-        result = validate_schema(guest, load_data(GUEST_SCHEMA_FILE))
+    errors = []
+    for guest, data in guest_data.items():
+        result = validate_schema(data, load_data(GUEST_SCHEMA_FILE))
         if result.errors:
             errors.append(result.errors)
 

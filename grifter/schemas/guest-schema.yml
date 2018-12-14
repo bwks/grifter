@@ -1,9 +1,4 @@
 ---
-name:
-  type: "string"
-  required: True
-  empty: False
-
 vagrant_box:
   type: "dict"
   required: True
@@ -108,13 +103,11 @@ provider_config:
     management_network_mac:
       type: "string"
 
-interfaces:
+data_interfaces:
   type: "list"
   schema:
     type: "dict"
     schema:
-      name:
-        type: "string"
       local_port:
         type: "integer"
         min: 0

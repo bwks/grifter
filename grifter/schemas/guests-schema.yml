@@ -1,4 +1,5 @@
 ---
+# This can be deleted after tests are passing
 guests:
-  type: "list"
+  type: "dict"
   empty: False

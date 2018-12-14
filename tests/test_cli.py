@@ -37,4 +37,4 @@ def test_cli_create_with_invalid_data_output():
     result = runner.invoke(cli, ['create', mock_invalid_guest_data_file])
 
     assert result.exit_code == 0
-    assert result.output == "{'name': ['empty values not allowed'], 'vagrant_box': ['required field']}\n"
+    assert result.output == "{'vagrant_box': [{'name': ['empty values not allowed']}]}\n"

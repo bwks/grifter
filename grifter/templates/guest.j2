@@ -1,42 +1,42 @@
 {% extends 'base.j2' %}
 
 {% block guest_config %}
-  {% for guest in guests %}
-  config.vm.define "{{ guest.name }}" do |node|
-    guest_name = "{{ guest.name }}"
-    node.vm.box = "{{ guest.vagrant_box.name }}"
-    {% if guest.vagrant_box.version %}
-    node.vm.box_version = "{{ guest.vagrant_box.version }}"
+  {% for guest, data in guests.items() %}
+  config.vm.define "{{ guest }}" do |node|
+    guest_name = "{{ guest }}"
+    node.vm.box = "{{ data.vagrant_box.name }}"
+    {% if data.vagrant_box.version %}
+    node.vm.box_version = "{{ data.vagrant_box.version }}"
     {% endif %}
-    {% if guest.vagrant_box.url %}
-    node.vm.box_url = "{{ guest.vagrant_box.url }}"
+    {% if data.vagrant_box.url %}
+    node.vm.box_url = "{{ data.vagrant_box.url }}"
     {% endif %}
-    {% if guest.vagrant_box.guest_type %}
-    node.vm.guest = :{{ guest.vagrant_box.guest_type }}
+    {% if data.vagrant_box.guest_type %}
+    node.vm.guest = :{{ data.vagrant_box.guest_type }}
     {% endif %}
-    {% if guest.vagrant_box.boot_timeout %}
-    node.vm.boot_timeout = {{ guest.vagrant_box.boot_timeout }}
+    {% if data.vagrant_box.boot_timeout %}
+    node.vm.boot_timeout = {{ data.vagrant_box.boot_timeout }}
     {% endif %}
-    {% if guest.synced_folder.enabled %}
-    node.vm.synced_folder "{{ guest.synced_folder.src }}", "{{ guest.synced_folder.dst }}", id: "{{ guest.synced_folder.id }}"
+    {% if data.synced_folder.enabled %}
+    node.vm.synced_folder "{{ data.synced_folder.src }}", "{{ data.synced_folder.dst }}", id: "{{ data.synced_folder.id }}"
     {% else %}
     node.vm.synced_folder ".", "/vagrant", id: "vagrant-root", disabled: true
     {% endif %}
 
-    {% if not guest.insert_ssh_key %}
+    {% if not data.insert_ssh_key %}
     node.ssh.insert_key = false
     {% endif %}
-    {% if guest.ssh.username %}
-    node.ssh.username = "{{ guest.ssh.username }}"
+    {% if data.ssh.username %}
+    node.ssh.username = "{{ data.ssh.username }}"
     {% endif %}
-    {% if guest.ssh.password %}
-    node.ssh.password = "{{ guest.ssh.password }}"
+    {% if data.ssh.password %}
+    node.ssh.password = "{{ data.ssh.password }}"
     {% endif %}
 
     {% include 'libvirt-config.j2' %}
     {% include 'triggers.j2' %}
 
-    {% for interface in guest.interfaces %}
+    {% for interface in data.data_interfaces %}
     {% include 'libvirt-interface-config.j2' %}
 
     {% endfor %}

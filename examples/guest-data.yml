@@ -1,7 +1,7 @@
 ---
 # The Jinja2 templates are build around data input in this format.
 # Every host must follow this data format.
-- name: # string - required
+some-guest: # Guest name
   vagrant_box:
     name: # string - required
     version: # string - optional | default: ""
@@ -37,8 +37,7 @@
     nic_model_type: # string - optional | default: ""
     management_network_mac: # string - optional | default: ""
 
-  interfaces: # list - optional | default: []
-    - name: # string
-      local_port: # integer
+  data_interfaces: # list - optional | default: []
+    - local_port: # integer
       remote_guest: # string
       remote_port: # integer

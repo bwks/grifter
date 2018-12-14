@@ -19,9 +19,9 @@ guest_config:
 
   cisco/csr1000v:
     data_interface_base: "ge"
-    data_interface_offset: 1
+    data_interface_offset: 2
     internal_interfaces: 0
-    max_data_interfaces: 26
+    max_data_interfaces: 25
     management_interface: "ge1"
     reserved_interfaces: 0
 
@@ -46,6 +46,14 @@ guest_config:
     data_interface_offset: 1
     internal_interfaces: 0
     max_data_interfaces: 96
+    management_interface: "eth0"
+    reserved_interfaces: 0
+
+  generic/unknown:
+    data_interface_base: "eth"
+    data_interface_offset: 1
+    internal_interfaces: 0
+    max_data_interfaces: 8
     management_interface: "eth0"
     reserved_interfaces: 0
 
