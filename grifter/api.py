@@ -15,7 +15,6 @@ from .constants import (
     BLACKHOLE_LOOPBACK_MAP,
     ALL_GUEST_DEFAULTS,
     GUEST_SCHEMA_FILE,
-    GUESTS_SCHEMA_FILE,
     GUEST_DEFAULTS_DIRS,
     DEFAULT_CONFIG_FILE,
 )
@@ -288,12 +287,12 @@ def validate_data(guest_data):
 
 
 def generate_vagrant_file(
-        data, loopbacks, template_name='guest.j2',
+        guest_data, loopbacks, template_name='guest.j2',
         template_directory=f'{TEMPLATES_DIR}/', vagrantfile_location='.'
         ):
     """
     Generate a vagrant file
-    :param data: Dictionary of data to apply to Jinja2 template.
+    :param guest_data: Dictionary of data to apply to Jinja2 template.
     :param loopbacks: Dictionary of loopback addresses.
     :param template_name: Name of Jinja2 template
     :param template_directory: Template directory location
@@ -305,8 +304,9 @@ def generate_vagrant_file(
             template_name=template_name,
             template_directory=template_directory,
             custom_filters=custom_filters,
-            guests=data['guests'],
-            loopbacks=loopbacks
+            guests=guest_data,
+            loopbacks=loopbacks,
+            interface_mappings=generate_guest_interface_mappings()
         )
 
         f.write(vagrantfile)

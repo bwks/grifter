@@ -3,6 +3,7 @@ import click
 from .constants import (
     GUESTS_EXAMPLE_FILE,
     GROUPS_EXAMPLE_FILE,
+    DEFAULT_CONFIG_FILE,
 )
 
 from .loaders import load_data
@@ -15,6 +16,9 @@ from .api import (
     validate_data,
     update_guest_additional_storage
 )
+
+
+config = load_data(DEFAULT_CONFIG_FILE)
 
 
 @click.group(context_settings={'help_option_names': ['-h', '--help']})
@@ -32,15 +36,16 @@ def cli():
 @click.argument('datafile')
 def create(datafile):
     """Create a Vagrantfile."""
-    data = load_data(datafile)
+    guest_data = load_data(datafile)
 
-    errors = validate_data(data)
+    errors = validate_data(guest_data)
 
     if not errors:
-        loopbacks = generate_loopbacks(data['guests'])
-        merged_data = update_guest_data(data)
-        update_guest_interfaces(merged_data['guests'])
-        update_guest_additional_storage(merged_data['guests'])
+        loopbacks = generate_loopbacks(guest_data)
+        merged_data = update_guest_data(guest_data)
+        update_guest_interfaces(merged_data, config)
+        update_guest_additional_storage(merged_data)
+
         return generate_vagrant_file(merged_data, loopbacks)
     else:
         for error in errors:
