@@ -48,19 +48,22 @@ def create(datafile):
     errors = validate_data(guest_data)
 
     if not errors:
-        try:
-            validate_guests_in_guest_config(guest_data, config)
-            validate_guest_interfaces(guest_data, config, interface_mappings)
-        except AttributeError as e:
-            errors.append(e)
-
-    elif not errors:
         loopbacks = generate_loopbacks(guest_data)
         merged_data = update_guest_data(guest_data)
         update_guest_interfaces(merged_data, config)
         update_guest_additional_storage(merged_data)
 
-        return generate_vagrant_file(merged_data, loopbacks)
+        try:
+            validate_guests_in_guest_config(merged_data, config)
+            validate_guest_interfaces(merged_data, config, interface_mappings)
+        except AttributeError as e:
+            errors.append(e)
+
+        if not errors:
+            return generate_vagrant_file(merged_data, loopbacks)
+        else:
+            for error in errors:
+                click.echo(error)
     else:
         for error in errors:
             click.echo(error)
