@@ -27,9 +27,9 @@ guest_config:
 
   cisco/iosv:
     data_interface_base: "ge0/"
-    data_interface_offset: 0
+    data_interface_offset: 1
     internal_interfaces: 0
-    max_data_interfaces: 8
+    max_data_interfaces: 7
     management_interface: "ge0/0"
     reserved_interfaces: 0
 
