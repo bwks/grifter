@@ -15,7 +15,9 @@ def validate_guests_in_guest_config(guests, config):
     for guest, data in guests.items():
         local_guest = guest
         local_box = data['vagrant_box']['name']
-        remote_guests = list(set([i['remote_guest'] for i in data['data_interfaces']]))
+        remote_guests = list(
+            set([i['remote_guest'] for i in data['data_interfaces'] if i['remote_guest'] != 'blackhole'])
+        )
 
         if not guest_config.get(local_box):
             raise AttributeError(
@@ -25,7 +27,7 @@ def validate_guests_in_guest_config(guests, config):
         for remote_guest in remote_guests:
             if not guests.get(remote_guest):
                 raise AttributeError(
-                    f'{remote_guest}\' is not defined in the guests file.')
+                    f'{remote_guest} is not defined in the guests file.')
 
     return True
 
@@ -49,7 +51,7 @@ def validate_guest_interfaces(guests, config, int_map):
 
         if nic_adapter_count > max_data_interfaces:
             raise AttributeError(
-                f'The number of data interfaces for {local_guest} ' 
+                f'The number of data interfaces for {local_guest} '
                 f'is greater than the allowed {local_box} maximum data interfaces.')
 
         for interface in data['data_interfaces']:
