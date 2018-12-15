@@ -30,6 +30,49 @@ Install `grifter` with `pip`
 ```
 pip install https://github.com/bobthebutcher/grifter/archive/master.zip
 ```
+#### Config File
+A file name `config.yml` is required to define the base settings of the 
+grifter environment.
+
+The `guest_config` section defines characteristics about the Vagrant boxes 
+used with grifter.
+##### Required Parameters.
+- `data_interface_base`
+- `data_interface_offset`
+```yaml
+guest_config:
+  example/box:
+    data_interface_base: "eth" # String pattern for data interfaces.
+    data_interface_offset: 0 # Number of first interface ie: 0, 1, 2, etc..
+    internal_interfaces: 0 # Used for intra-box connections for multi-vm boxes.
+    max_data_interfaces: 8 
+    management_interface: "ma1"
+    reserved_interfaces: 0 # Interfaces that are required but cannot be removed.
+
+  arista/veos:
+    data_interface_base: "eth"
+    data_interface_offset: 1
+    internal_interfaces: 0
+    max_data_interfaces: 24
+    management_interface: "ma1"
+    reserved_interfaces: 0
+
+  juniper/vsrx-packetmode:
+    data_interface_base: "ge-0/0/"
+    data_interface_offset: 0
+    internal_interfaces: 0
+    max_data_interfaces: 16
+    management_interface: "fxp0.0"
+    reserved_interfaces: 0
+```
+##### Custom config files (TODO)
+A default config file is stored with the grifter python package.
+This file can be customized with your required parameters by creating a 
+`config.yml` file in the following locations.
+ - `/opt/grifter/`
+ - `~/.grifter/`
+ - `./` 
+
 
 #### Example Usage
 ```
@@ -40,64 +83,51 @@ grifter create guests.yml
 #### Example Datafile
 ```yaml
 ---
-guests:
-  - name: "sw01"
+sw01:
     vagrant_box:
-      name: "arista/veos"
-      version: ""
-      provider: "libvirt"
+    name: "arista/veos"
+    version: ""
+    provider: "libvirt"
+  ssh:
+    insert_key: False
+  synced_folder:
+    enabled: False
+  provider_config:
+    nic_adapter_count: 2
+    disk_bus: "ide"
+    cpus: 2
+    memory: 2048
+    management_network_mac: ""
+  interfaces:
+    - local_port: 1
+      remote_guest: "sw02"
+      remote_port: 1
+    - local_port: 2
+      remote_guest: "sw02"
+      remote_port: 2
 
-    ssh:
-      insert_key: False
-
-    synced_folder:
-      enabled: False
-
-    provider_config:
-      nic_adapter_count: 2
-      disk_bus: "ide"
-      cpus: 2
-      memory: 2048
-      management_network_mac: ""
-
-    interfaces:
-      - name: "eth1"
-        local_port: 1
-        remote_guest: "sw02"
-        remote_port: 1
-      - name: "eth2"
-        local_port: 2
-        remote_guest: "sw02"
-        remote_port: 2
-
-  - name: "sw02"
-    vagrant_box:
-      name: "arista/veos"
-      version: ""
-      provider: "libvirt"
-
-    ssh:
-      insert_key: False
-
-    synced_folder:
-      enabled: False
-
-    provider_config:
-      nic_adapter_count: 2
-      disk_bus: "ide"
-      cpus: 2
-      memory: 2048
-      management_network_mac: ""
-
-    interfaces:
-      - name: "eth1"
-        local_port: 1
-        remote_guest: "sw01"
-        remote_port: 1
-      - name: "eth2"
-        local_port: 2
-        remote_guest: "sw01"
-        remote_port: 2
+sw02:
+  vagrant_box:
+    name: "arista/veos"
+    version: ""
+    provider: "libvirt"
+  ssh:
+    insert_key: False
+  synced_folder:
+    enabled: False
+  provider_config:
+    nic_adapter_count: 2
+    disk_bus: "ide"
+    cpus: 2
+    memory: 2048
+    management_network_mac: ""
+  interfaces:
+    - local_port: 1
+      remote_guest: "sw01"
+      remote_port: 1
+    - local_port: 2
+      remote_guest: "sw01"
+      remote_port: 2
 ```
 
 
@@ -241,42 +271,37 @@ variables taking precedence over the group variables.
 This means you can have a much more succinct guests variable file by reducing alot of duplication.
 Here is an example of a reduced guest variable file.
 ```yaml
-guests:
-  - name: "sw01"
-    vagrant_box:
-      name: "arista/veos"
+sw01:
+  vagrant_box:
+    name: "arista/veos"
 
-    provider_config:
-      nic_adapter_count: 2
-      management_network_mac: "00:00:00:00:00:01"
+  provider_config:
+    nic_adapter_count: 8
+    management_network_mac: "00:00:00:00:00:01"
 
-    interfaces:
-      - name: "eth1"
-        local_port: 1
-        remote_guest: "sw02"
-        remote_port: 1
-      - name: "eth2"
-        local_port: 2
-        remote_guest: "sw02"
-        remote_port: 2
+  data_interfaces:
+    - local_port: 1
+      remote_guest: "sw02"
+      remote_port: 1
+    - local_port: 2
+      remote_guest: "sw02"
+      remote_port: 2
 
-  - name: "sw02"
-    vagrant_box:
-      name: "arista/veos"
+sw02:
+  vagrant_box:
+    name: "arista/veos"
 
-    provider_config:
-      nic_adapter_count: 2
-      management_network_mac: "00:00:00:00:00:02"
+  provider_config:
+    nic_adapter_count: 2
+    management_network_mac: "00:00:00:00:00:02"
 
-    interfaces:
-      - name: "eth1"
-        local_port: 1
-        remote_guest: "sw01"
-        remote_port: 1
-      - name: "eth2"
-        local_port: 2
-        remote_guest: "sw01"
-        remote_port: 2
+  data_interfaces:
+    - local_port: 1
+      remote_guest: "sw01"
+      remote_port: 1
+    - local_port: 2
+      remote_guest: "sw01"
+      remote_port: 2
 ```
 
 The resulting `Vagrantfile` is as follows
