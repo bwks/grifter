@@ -1,9 +1,9 @@
     {% set local_int_map = interface_mappings[data['vagrant_box']['name']]['data_interfaces'] %}
-    {% set remote_int_map = interface_mappings[guests[interface.remote_guest]['vagrant_box']['name']]['data_interfaces'] %}
     node.vm.network :private_network,
       {% if interface.remote_guest == 'blackhole' %}
       # {{ guest }}-{{ local_int_map[interface.local_port] }} <--> blackhole-666
       {% else %}
+      {% set remote_int_map = interface_mappings[guests[interface.remote_guest]['vagrant_box']['name']]['data_interfaces'] %}
       # {{ guest }}-{{ local_int_map[interface.local_port] }} <--> {{ interface.remote_guest }}-{{ remote_int_map[interface.remote_port] }}
       {% endif %}
       :mac => "#{get_mac()}",
