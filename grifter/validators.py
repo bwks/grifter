@@ -40,7 +40,12 @@ def validate_guest_interfaces(guests, config, int_map):
         internal_interfaces = data['internal_interfaces']
         num_internal_interfaces = len(internal_interfaces)
         box_internal_interfaces = guest_config[local_box]['internal_interfaces']
-        remote_guest_data = [(i['remote_guest'], i['remote_port']) for i in data['data_interfaces']]
+
+        remote_guest_data = []
+        if data['data_interfaces']:
+            for i in data['data_interfaces']:
+                if i['remote_guest'] != 'blackhole':
+                    remote_guest_data.append((i['remote_guest'], i['remote_port']))
 
         if nic_adapter_count > max_data_interfaces:
             raise AttributeError(
