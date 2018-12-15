@@ -28,6 +28,11 @@ config = load_data(DEFAULT_CONFIG_FILE)
 interface_mappings = generate_guest_interface_mappings()
 
 
+def display_errors(errors_lsit):
+    for error in errors_lsit:
+        click.echo(error)
+
+
 @click.group(context_settings={'help_option_names': ['-h', '--help']})
 @click.version_option(version='0.2.0')
 def cli():
@@ -62,11 +67,9 @@ def create(datafile):
         if not errors:
             return generate_vagrant_file(merged_data, loopbacks)
         else:
-            for error in errors:
-                click.echo(error)
+            display_errors(errors)
     else:
-        for error in errors:
-            click.echo(error)
+        display_errors(errors)
 
 
 @cli.command(help='Print example file declaration.')
