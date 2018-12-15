@@ -7,6 +7,8 @@ mock_guest_data = {
             'password': '',
             'insert_key': False,
         },
+        'internal_interfaces': [],
+        'reserved_interfaces': [],
         'data_interfaces': [
             {
                 'local_port': 1,
@@ -47,6 +49,8 @@ mock_guest_data = {
             'password': '',
             'insert_key': False,
         },
+        'internal_interfaces': [],
+        'reserved_interfaces': [],
         'data_interfaces': [
             {
                 'local_port': 1,

@@ -1,10 +1,16 @@
 from cerberus import Validator
 
 
-required_keys = ['name', 'vagrant_box']
+required_keys = ['vagrant_box']
 
 
 def validate_guests_in_guest_config(guests, config):
+    """
+    Validate guests have a vagrant box config
+    :param guests:
+    :param config:
+    :return:
+    """
     guest_config = config['guest_config']
     for guest, data in guests.items():
         local_guest = guest
@@ -17,11 +23,11 @@ def validate_guests_in_guest_config(guests, config):
                 f'is not defined in the config file.')
 
         for remote_guest in remote_guests:
-            remote_box = guests[remote_guest]['vagrant_box']['name']
-            if not guest_config.get(remote_box):
+            if not guests.get(remote_guest):
                 raise AttributeError(
-                    f'{remote_guest}\'s vagrant box type: {remote_box} '
-                    f'is not defined in the config file.')
+                    f'{remote_guest}\' is not defined in the guests file.')
+
+    return True
 
 
 def validate_guest_interfaces(guests, config, int_map):
@@ -29,13 +35,11 @@ def validate_guest_interfaces(guests, config, int_map):
     for guest, data in guests.items():
         local_guest = guest
         local_box = data['vagrant_box']['name']
-        data_interfaces = [i['local_port'] for i in data['data_interfaces']]
         nic_adapter_count = data['provider_config']['nic_adapter_count']
         max_data_interfaces = guest_config[local_box]['max_data_interfaces']
         internal_interfaces = data['internal_interfaces']
         num_internal_interfaces = len(internal_interfaces)
         box_internal_interfaces = guest_config[local_box]['internal_interfaces']
-
         remote_guest_data = [(i['remote_guest'], i['remote_port']) for i in data['data_interfaces']]
 
         if nic_adapter_count > max_data_interfaces:
@@ -43,10 +47,11 @@ def validate_guest_interfaces(guests, config, int_map):
                 f'The number of data interfaces for {local_guest} ' 
                 f'is greater than the allowed {local_box} maximum data interfaces.')
 
-        for interface in data_interfaces:
-            if not int_map[local_box]['data_interfaces'].get(interface):
+        for interface in data['data_interfaces']:
+            local_port = interface["local_port"]
+            if not int_map[local_box]['data_interfaces'].get(local_port):
                 raise AttributeError(
-                    f'{local_guest}\'s interface: {interface} '
+                    f'{local_guest}\'s local_port: {local_port} '
                     f'is outside the supported range.')
 
         for rg in remote_guest_data:
@@ -64,6 +69,7 @@ def validate_guest_interfaces(guests, config, int_map):
                 f'The number of internal interfaces for {local_guest}: {num_internal_interfaces} '
                 f'is not equal to the {local_box} internal interfaces value: '
                 f'{box_internal_interfaces}.')
+    return True
 
 
 def validate_required_keys(guest):

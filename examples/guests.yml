@@ -22,6 +22,8 @@ sw01:
     nic_model_type: ""
     management_network_mac: ""
     additional_storage_volumes: []
+  internal_interfaces: []
+  reserved_interfaces: []
   data_interfaces:
     - local_port: 1
       remote_guest: "sw02"
@@ -52,6 +54,8 @@ sw02:
     nic_model_type: ""
     management_network_mac: ""
     additional_storage_volumes: []
+  internal_interfaces: []
+  reserved_interfaces: []
   data_interfaces:
     - local_port: 1
       remote_guest: "sw01"

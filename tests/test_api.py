@@ -74,6 +74,8 @@ def test_guest_without_interfaces():
                 'password': '',
                 'insert_key': False,
             },
+            'internal_interfaces': [],
+            'reserved_interfaces': [],
             'provider_config': {
                 'random_hostname': False,
                 'cpus': 2,
