@@ -26,6 +26,10 @@ custom_filters = [
 ]
 
 
+def get_config(config=DEFAULT_CONFIG_FILE):
+    return load_data(config)
+
+
 def int_to_port_map(name, offset, number_of_interfaces):
     """
     Create a dict of interfaces to port maps
@@ -84,7 +88,7 @@ def generate_guest_interface_mappings(config_file=DEFAULT_CONFIG_FILE):
     :param config_file: Path to config file
     :return: Dictionary of guest type interface port mappings.
     """
-    config = load_data(config_file)
+    config = get_config(config_file)
     mappings = {}
     for k, v in config['guest_config'].items():
         mappings[k] = generate_int_to_port_mappings(config['guest_config'][k])

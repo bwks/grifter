@@ -1,9 +1,10 @@
-    {% set int_map = interface_mappings[data['vagrant_box']['name']]['data_interfaces'] %}
+    {% set local_int_map = interface_mappings[data['vagrant_box']['name']]['data_interfaces'] %}
+    {% set remote_int_map = interface_mappings[guests[interface.remote_guest]['vagrant_box']['name']]['data_interfaces'] %}
     node.vm.network :private_network,
       {% if interface.remote_guest == 'blackhole' %}
-      # {{ guest }}-{{ int_map[interface.local_port] }} <--> blackhole-666
+      # {{ guest }}-{{ local_int_map[interface.local_port] }} <--> blackhole-666
       {% else %}
-      # {{ guest }}-{{ int_map[interface.local_port] }} <--> {{ interface.remote_guest }}-{{ int_map[interface.remote_port] }}
+      # {{ guest }}-{{ local_int_map[interface.local_port] }} <--> {{ interface.remote_guest }}-{{ remote_int_map[interface.remote_port] }}
       {% endif %}
       :mac => "#{get_mac()}",
       :libvirt__tunnel_type => "udp",
@@ -11,6 +12,6 @@
       :libvirt__tunnel_local_port => {{ interface.local_port|explode_port }},
       :libvirt__tunnel_ip => "{{ loopbacks[interface.remote_guest] }}",
       :libvirt__tunnel_port => {{ interface.remote_port|explode_port }},
-      :libvirt__iface_name => "{{ guest }}-{{ int_map[interface.local_port] }}",
+      :libvirt__iface_name => "{{ guest }}-{{ local_int_map[interface.local_port] }}",
       auto_config: false
       {#  #}
