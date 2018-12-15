@@ -4,7 +4,7 @@ def explode_port(port):
     :param port: port number to add to 10000
     :return: Int port number
     """
-    port_error = 'port must be and integer from 1 to 99 or 666'
+    port_error = 'port must be and integer from 0 to 99 or 666'
     base_port = 10000
 
     if not isinstance(port, int):
@@ -13,7 +13,7 @@ def explode_port(port):
     if port == 666:
         return base_port + port
 
-    elif not 0 < port < 100:
+    elif not 0 <= port < 100:
         raise AttributeError(port_error)
 
     return base_port + port
