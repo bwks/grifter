@@ -235,12 +235,12 @@ def add_blackhole_interfaces(offset, total_interfaces, interface_list):
 def update_reserved_interfaces(guest_data, config):
     updated_guest_dict = {}
     for guest, data in guest_data.items():
-        if not data.get('reserved_interfaces'):
+        guest_box = data['vagrant_box']['name']
+        num_reserved_interfaces = config[guest_box]['reserved_interfaces']
+        if not num_reserved_interfaces:
             updated_guest_dict.update({guest: data})
         else:
-            guest_box = data['vagrant_box']['name']
-            reserved_ints = create_reserved_interfaces(config[guest_box]['reserved_interfaces'])
-            data['reserved_interfaces'] = reserved_ints
+            data['reserved_interfaces'] = create_reserved_interfaces(num_reserved_interfaces)
             updated_guest_dict.update({guest: data})
     return updated_guest_dict
 
