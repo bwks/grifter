@@ -86,7 +86,7 @@ grifter create guests.yml
 ```yaml
 ---
 sw01:
-    vagrant_box:
+  vagrant_box:
     name: "arista/veos"
     version: ""
     provider: "libvirt"
@@ -100,7 +100,7 @@ sw01:
     cpus: 2
     memory: 2048
     management_network_mac: ""
-  interfaces:
+  data_interfaces:
     - local_port: 1
       remote_guest: "sw02"
       remote_port: 1
@@ -123,7 +123,7 @@ sw02:
     cpus: 2
     memory: 2048
     management_network_mac: ""
-  interfaces:
+  data_interfaces:
     - local_port: 1
       remote_guest: "sw01"
       remote_port: 1
