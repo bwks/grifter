@@ -16,6 +16,7 @@ from .api import (
     validate_data,
     update_guest_additional_storage,
     generate_guest_interface_mappings,
+    update_reserved_interfaces,
 )
 
 from .validators import (
@@ -56,6 +57,7 @@ def create(datafile):
         loopbacks = generate_loopbacks(guest_data)
         merged_data = update_guest_data(guest_data)
         update_guest_interfaces(merged_data, config)
+        update_reserved_interfaces(merged_data, config)
         update_guest_additional_storage(merged_data)
 
         try:

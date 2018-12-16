@@ -36,9 +36,14 @@
     {% include 'libvirt-config.j2' %}
     {% include 'triggers.j2' %}
 
+    {% for interface in data.internal_interfaces %}
+    {% include 'libvirt-internal-interface-config.j2' %}
+    {% endfor %}
+    {% for interface in data.reserved_interfaces %}
+    {% include 'libvirt-reserved-interface-config.j2' %}
+    {% endfor %}
     {% for interface in data.data_interfaces %}
-    {% include 'libvirt-interface-config.j2' %}
-
+    {% include 'libvirt-data-interface-config.j2' %}
     {% endfor %}
   end
   {% endfor %}

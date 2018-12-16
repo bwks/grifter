@@ -95,6 +95,10 @@ def generate_guest_interface_mappings(config_file=DEFAULT_CONFIG_FILE):
     return mappings
 
 
+def create_reserved_interfaces(num_reserved_interfaces):
+    return [blackhole_interface_config(i) for i in range(1, num_reserved_interfaces + 1)]
+
+
 def generate_loopbacks(guest_dict=None):
     """
     Generate a dict of loopback addresses
@@ -228,8 +232,17 @@ def add_blackhole_interfaces(offset, total_interfaces, interface_list):
     return updated_interface_list
 
 
-def create_reserved_interfaces(num_reserved_interfaces):
-    return [blackhole_interface_config(i) for i in range(1, num_reserved_interfaces + 1)]
+def update_reserved_interfaces(guest_data, config):
+    updated_guest_dict = {}
+    for guest, data in guest_data.items():
+        if not data.get('reserved_interfaces'):
+            updated_guest_dict.update({guest: data})
+        else:
+            guest_box = data['vagrant_box']['name']
+            reserved_ints = create_reserved_interfaces(config[guest_box]['reserved_interfaces'])
+            data['reserved_interfaces'] = reserved_ints
+            updated_guest_dict.update({guest: data})
+    return updated_guest_dict
 
 
 def update_guest_interfaces(guest_data, config):
