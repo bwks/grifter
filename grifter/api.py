@@ -236,7 +236,7 @@ def update_reserved_interfaces(guest_data, config):
     updated_guest_dict = {}
     for guest, data in guest_data.items():
         guest_box = data['vagrant_box']['name']
-        num_reserved_interfaces = config[guest_box]['reserved_interfaces']
+        num_reserved_interfaces = config['guest_config'][guest_box]['reserved_interfaces']
         if not num_reserved_interfaces:
             updated_guest_dict.update({guest: data})
         else:
