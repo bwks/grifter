@@ -1,7 +1,5 @@
-    {% set local_int_map = interface_mappings[data['vagrant_box']['name']]['data_interfaces'] %}
-    {% set remote_int_map = interface_mappings[guests[interface.remote_guest]['vagrant_box']['name']]['data_interfaces'] %}
     node.vm.network :private_network,
-      # {{ guest }}-{{ local_int_map[interface.local_port] }} <--> {{ interface.remote_guest }}-{{ remote_int_map[interface.remote_port] }}
+      # {{ guest }}-internal-{{ interface.local_port }} <--> {{ interface.remote_guest }}-internal-{{ interface.remote_port }}
       :mac => "#{get_mac()}",
       :libvirt__tunnel_type => "udp",
       :libvirt__tunnel_local_ip => "{{ loopbacks[guest] }}",
