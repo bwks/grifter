@@ -21,8 +21,11 @@
       {% if data.provider_config.management_network_mac %}
       domain.management_network_mac = "{{ data.provider_config.management_network_mac }}"
       {% endif %}
-      {% if data.provider_config.nic_adapter_count %}
-      domain.nic_adapter_count = {{ data.provider_config.nic_adapter_count }}
+      {% set total_nics = data.data_interfaces|length + data.internal_interfaces|length + data.reserved_interfaces|length  %}
+      {% if total_nics %}
+      domain.nic_adapter_count = {{ total_nics }}
+      {% else %}
+      domain.nic_adapter_count = 8
       {% endif %}
       {% if data.provider_config.nic_model_type %}
       domain.nic_model_type = "{{ data.provider_config.nic_model_type }}"
