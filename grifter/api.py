@@ -55,20 +55,20 @@ def generate_int_to_port_mappings(dev):
                 - reserved_interfaces
     :return: Dictionary of interface to port mappings
     """
-    if dev['data_interface_base']:
+    if dev.get('data_interface_base'):
         data_interfaces = int_to_port_map(dev['data_interface_base'],
                                           dev['data_interface_offset'],
                                           dev['max_data_interfaces'])
     else:
         data_interfaces = {}
 
-    if dev['internal_interfaces']:
+    if dev.get('internal_interfaces'):
         internal_interfaces = int_to_port_map(
             'internal-', 1, dev['internal_interfaces'])
     else:
         internal_interfaces = {}
 
-    if dev['reserved_interfaces']:
+    if dev.get('reserved_interfaces'):
         reserved_interfaces = int_to_port_map(
             'reserved-', 1, dev['reserved_interfaces'])
     else:
@@ -77,7 +77,7 @@ def generate_int_to_port_mappings(dev):
     return {
         'data_interfaces': data_interfaces,
         'internal_interfaces': internal_interfaces,
-        'management_interface': dev['management_interface'],
+        'management_interface': dev.get('management_interface', 'mgmt'),
         'reserved_interfaces': reserved_interfaces,
     }
 

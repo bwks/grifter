@@ -39,6 +39,8 @@ used with grifter.
 ##### Required Parameters.
 - `data_interface_base`
 - `data_interface_offset`
+- `max_data_interfaces`
+- `management_interface`
 ```yaml
 guest_config:
   example/box:
