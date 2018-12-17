@@ -2,6 +2,7 @@ import copy
 
 from unittest import mock
 
+from grifter.utils import get_uuid
 from grifter.api import (
     generate_loopbacks,
     update_guest_additional_storage,
@@ -12,7 +13,6 @@ from grifter.constants import TEMPLATES_DIR
 from grifter.custom_filters import (
     explode_port,
 )
-
 from tests.mock_data import (
     mock_guest_data,
     mock_additional_storage_volumes,
@@ -26,7 +26,8 @@ custom_filters = [
 
 @mock.patch('os.path.getsize', return_value='10000')
 @mock.patch('random.randint', return_value=255)
-def test_render_vagrantfile_with_additional_storage_interfaces(mock_storage_size, mock_random):
+@mock.patch('uuid.uuid5', return_value="688c29aa-e657-5d27-b4bb-d745aad2812e")
+def test_render_vagrantfile_with_additional_storage_interfaces(mock_storage_size, mock_random, mock_uuid):
     guest_data = copy.deepcopy(mock_guest_data)
     loopbacks = generate_loopbacks(guest_data)
     guest_data['sw01']['provider_config']['additional_storage_volumes'] = mock_additional_storage_volumes
@@ -39,6 +40,7 @@ def test_render_vagrantfile_with_additional_storage_interfaces(mock_storage_size
         guests=guest_data,
         loopbacks=loopbacks,
         interface_mappings=generate_guest_interface_mappings(),
+        domain_uuid=get_uuid(),
     )
 
     assert mock_vagrantfile_with_additional_storage_volumes == vagrantfile

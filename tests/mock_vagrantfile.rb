@@ -10,6 +10,7 @@ end
 cwd = Dir.pwd.split("/").last
 username = ENV['USER']
 domain_prefix = "#{username}_#{cwd}"
+domain_uuid = "688c29aa-e657-5d27-b4bb-d745aad2812e"
 
 Vagrant.require_version ">= 2.1.0"
 Vagrant.configure("2") do |config|

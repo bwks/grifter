@@ -17,4 +17,3 @@ def explode_port(port, base_port=10000):
         raise AttributeError(port_error)
 
     return base_port + port
-

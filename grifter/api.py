@@ -2,6 +2,8 @@ import os
 import copy
 import logging
 import random
+
+from .utils import get_uuid
 from .validators import validate_schema
 from .custom_filters import (
     explode_port,
@@ -44,10 +46,10 @@ def int_to_port_map(name, offset, number_of_interfaces):
     return mapping
 
 
-def generate_int_to_port_mappings(dev):
+def generate_int_to_port_mappings(data):
     """
     Generate a dictionary of interface to port mappings
-    :param dev: Dictionary with the following keys
+    :param data: Dictionary with the following keys
                 - data_interface_base
                 - data_interface_offset
                 - max_data_interfaces
@@ -55,29 +57,29 @@ def generate_int_to_port_mappings(dev):
                 - reserved_interfaces
     :return: Dictionary of interface to port mappings
     """
-    if dev.get('data_interface_base'):
-        data_interfaces = int_to_port_map(dev['data_interface_base'],
-                                          dev['data_interface_offset'],
-                                          dev['max_data_interfaces'])
+    if data.get('data_interface_base'):
+        data_interfaces = int_to_port_map(data['data_interface_base'],
+                                          data['data_interface_offset'],
+                                          data['max_data_interfaces'])
     else:
         data_interfaces = {}
 
-    if dev.get('internal_interfaces'):
+    if data.get('internal_interfaces'):
         internal_interfaces = int_to_port_map(
-            'internal-', 1, dev['internal_interfaces'])
+            'internal-', 1, data['internal_interfaces'])
     else:
         internal_interfaces = {}
 
-    if dev.get('reserved_interfaces'):
+    if data.get('reserved_interfaces'):
         reserved_interfaces = int_to_port_map(
-            'reserved-', 1, dev['reserved_interfaces'])
+            'reserved-', 1, data['reserved_interfaces'])
     else:
         reserved_interfaces = {}
 
     return {
         'data_interfaces': data_interfaces,
         'internal_interfaces': internal_interfaces,
-        'management_interface': dev.get('management_interface', 'mgmt'),
+        'management_interface': data.get('management_interface', 'mgmt'),
         'reserved_interfaces': reserved_interfaces,
     }
 
@@ -323,7 +325,8 @@ def generate_vagrant_file(
             custom_filters=custom_filters,
             guests=guest_data,
             loopbacks=loopbacks,
-            interface_mappings=generate_guest_interface_mappings()
+            interface_mappings=generate_guest_interface_mappings(),
+            domain_uuid=get_uuid()
         )
 
         f.write(vagrantfile)
