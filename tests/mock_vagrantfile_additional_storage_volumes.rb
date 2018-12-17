@@ -69,7 +69,7 @@ Vagrant.configure("2") do |config|
       :libvirt__tunnel_local_port => 10001,
       :libvirt__tunnel_ip => "127.255.255.2",
       :libvirt__tunnel_port => 10001,
-      :libvirt__iface_name => "sw01-eth1",
+      :libvirt__iface_name => "sw01-eth1-#{domain_uuid}",
       auto_config: false
 
     node.vm.network :private_network,
@@ -80,7 +80,7 @@ Vagrant.configure("2") do |config|
       :libvirt__tunnel_local_port => 10002,
       :libvirt__tunnel_ip => "127.255.255.2",
       :libvirt__tunnel_port => 10002,
-      :libvirt__iface_name => "sw01-eth2",
+      :libvirt__iface_name => "sw01-eth2-#{domain_uuid}",
       auto_config: false
 
   end
@@ -107,7 +107,7 @@ Vagrant.configure("2") do |config|
       :libvirt__tunnel_local_port => 10001,
       :libvirt__tunnel_ip => "127.255.255.1",
       :libvirt__tunnel_port => 10001,
-      :libvirt__iface_name => "sw02-eth1",
+      :libvirt__iface_name => "sw02-eth1-#{domain_uuid}",
       auto_config: false
 
     node.vm.network :private_network,
@@ -118,7 +118,7 @@ Vagrant.configure("2") do |config|
       :libvirt__tunnel_local_port => 10002,
       :libvirt__tunnel_ip => "127.255.255.1",
       :libvirt__tunnel_port => 10002,
-      :libvirt__iface_name => "sw02-eth2",
+      :libvirt__iface_name => "sw02-eth2-#{domain_uuid}",
       auto_config: false
 
   end

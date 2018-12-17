@@ -12,7 +12,7 @@
       :libvirt__tunnel_local_port => {{ interface.local_port|explode_port(base_port=10000) }},
       :libvirt__tunnel_ip => "{{ loopbacks[interface.remote_guest] }}",
       :libvirt__tunnel_port => {{ interface.remote_port|explode_port(base_port=10000) }},
-      :libvirt__iface_name => "{{ guest }}-{{ local_int_map[interface.local_port] }}",
+      :libvirt__iface_name => "{{ guest }}-{{ local_int_map[interface.local_port] }}-#{domain_uuid}",
       auto_config: false
 
       {#  #}
