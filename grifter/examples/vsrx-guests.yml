@@ -1,0 +1,23 @@
+fw01:
+  vagrant_box:
+    name: "juniper/vsrx"
+
+  provider_config:
+    nic_adapter_count: 8
+
+  data_interfaces:
+    - local_port: 1
+      remote_guest: "fw02"
+      remote_port: 1
+
+fw02:
+  vagrant_box:
+    name: "juniper/vsrx"
+
+  provider_config:
+    nic_adapter_count: 8
+
+  data_interfaces:
+    - local_port: 1
+      remote_guest: "fw01"
+      remote_port: 1
