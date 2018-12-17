@@ -104,3 +104,27 @@ guest_config:
     max_data_interfaces: 16
     management_interface: "fxp0.0"
     reserved_interfaces: 0
+
+  centos/7:
+    data_interface_base: "eth"
+    data_interface_offset: 1
+    internal_interfaces: 0
+    max_data_interfaces: 8
+    management_interface: "eth0"
+    reserved_interfaces: 0
+
+  generic/ubuntu1804:
+    data_interface_base: "eth"
+    data_interface_offset: 1
+    internal_interfaces: 0
+    max_data_interfaces: 8
+    management_interface: "eth0"
+    reserved_interfaces: 0
+
+  opensuse/openSUSE-15.0-x86_64:
+    data_interface_base: "eth"
+    data_interface_offset: 1
+    internal_interfaces: 0
+    max_data_interfaces: 8
+    management_interface: "eth0"
+    reserved_interfaces: 0
