@@ -3,7 +3,10 @@ import copy
 import logging
 import random
 
-from .utils import get_uuid
+from .utils import (
+    get_uuid,
+    remove_duplicates,
+)
 from .validators import validate_schema
 from .custom_filters import (
     explode_port,
@@ -95,6 +98,28 @@ def generate_guest_interface_mappings(config_file=DEFAULT_CONFIG_FILE):
     for k, v in config['guest_config'].items():
         mappings[k] = generate_int_to_port_mappings(config['guest_config'][k])
     return mappings
+
+
+def generate_connections_map(guests, int_map):
+    """
+    Generate a map of interface connections.
+    :param guests: Dict of guests data
+    :param int_map: Dict of interface mappings
+    :return: List of Dicts of connections between guests
+    """
+    dict_keys = ('local_guest', 'local_port', 'remote_guest', 'remote_port')
+    connections = []
+    box_map = {k: v['vagrant_box']['name'] for k, v in guests.items()}
+    for k, v in guests.items():
+        for i in v['data_interfaces']:
+            if not i['remote_guest'] == 'blackhole':
+                local_box = box_map[k]
+                local_int = int_map[local_box]['data_interfaces'][i['local_port']]
+                remote_box = box_map[i['remote_guest']]
+                remote_int = int_map[remote_box]['data_interfaces'][i['remote_port']]
+                connections.append((k, local_int, i['remote_guest'], remote_int))
+    reduced = remove_duplicates(connections)
+    return [dict(zip(dict_keys, i)) for i in reduced]
 
 
 def create_reserved_interfaces(num_reserved_interfaces):
