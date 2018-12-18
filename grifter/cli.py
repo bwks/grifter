@@ -5,9 +5,7 @@ from .constants import (
     GROUPS_EXAMPLE_FILE,
     DEFAULT_CONFIG_FILE,
 )
-
 from .loaders import load_data
-
 from .api import (
     generate_loopbacks,
     update_guest_interfaces,
@@ -18,7 +16,6 @@ from .api import (
     generate_guest_interface_mappings,
     update_reserved_interfaces,
 )
-
 from .validators import (
     validate_guests_in_guest_config,
     validate_guest_interfaces,

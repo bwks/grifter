@@ -28,8 +28,8 @@ def remove_duplicates(list_of_tuples):
     :param list_of_tuples: [(0, 1, 2, 3), (2, 3, 0, 1)]
     :return: List of unique tuples.
     """
-    reduced = []
+    reduced = set()
     for i in list_of_tuples:
         if not (i[2], i[3], i[0], i[1]) in reduced:
-            reduced.append(i)
-    return reduced
+            reduced.add(i)
+    return list(reduced)
