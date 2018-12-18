@@ -26,9 +26,29 @@ config = load_data(DEFAULT_CONFIG_FILE)
 interface_mappings = generate_guest_interface_mappings()
 
 
-def display_errors(errors_lsit):
-    for error in errors_lsit:
+def display_errors(errors_list):
+    """
+    Outputs a list of errors
+    :param errors_list: List of errors
+    """
+    for error in errors_list:
         click.echo(error)
+
+
+def display_connections(connections, guest=''):
+    """
+    Output a list of connections
+    :param connections: List of dicts containing connection information ie:
+      [{'local_guest': 'p1sw1',
+        'local_port': 'swp7',
+        'remote_guest': 'p1r7',
+        'remote_port': 'ge-0/0/9'}]
+    :param guest: Display connections for guest. TODO
+    """
+    for i in connections:
+        click.echo(
+            f"{i['local_guest']}-{i['local_port']} <--> {i['remote_guest']}-{i['remote_port']}"
+        )
 
 
 @click.group(context_settings={'help_option_names': ['-h', '--help']})
