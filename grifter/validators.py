@@ -40,8 +40,11 @@ def validate_guest_interfaces(guests, config, int_map):
         nic_adapter_count = data['provider_config']['nic_adapter_count']
         max_data_interfaces = guest_config[local_box]['max_data_interfaces']
         internal_interfaces = data['internal_interfaces']
-        num_internal_interfaces = len(internal_interfaces)
+        reserved_interfaces = data['reserved_interfaces']
         box_internal_interfaces = guest_config[local_box]['internal_interfaces']
+        num_internal_interfaces = len(internal_interfaces)
+        num_reserved_interfaces = len(reserved_interfaces)
+        total_interfaces = max_data_interfaces + num_internal_interfaces + num_reserved_interfaces
 
         remote_guest_data = []
         if data['data_interfaces']:
@@ -49,7 +52,7 @@ def validate_guest_interfaces(guests, config, int_map):
                 if i['remote_guest'] != 'blackhole':
                     remote_guest_data.append((i['remote_guest'], i['remote_port']))
 
-        if nic_adapter_count > max_data_interfaces: # TODO add internal and reserved interfaces to this count
+        if nic_adapter_count > total_interfaces:
             raise AttributeError(
                 f'The number of data interfaces for {local_guest} '
                 f'is greater than the allowed {local_box} maximum data interfaces.')

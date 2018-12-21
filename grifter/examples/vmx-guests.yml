@@ -3,7 +3,7 @@ r01:
     name: "juniper/vmx-vcp"
 
   provider_config:
-    nic_adapter_count: 0
+    nic_adapter_count: 1
 
   internal_interfaces:
     - local_port: 1
@@ -35,7 +35,7 @@ r02:
     name: "juniper/vmx-vcp"
 
   provider_config:
-    nic_adapter_count: 0
+    nic_adapter_count: 1
 
   internal_interfaces:
     - local_port: 1
