@@ -580,5 +580,5 @@ end
 ```
 
 ## Example Files
-Examples of the `config.yml`, `guests-defaults.yml`, and `guests.yml` files 
+Examples of the `config.yml`, `guests-defaults.yml` and `guests.yml` files 
 can be found [here](grifter/examples)
