@@ -72,7 +72,7 @@ A file named `config.yml` is required to define the base settings of
 each box managed within the grifter environment. The default `config.yml` 
 file can be found [here](grifter/config.yml)
 
-#### Box Naming
+### Box Naming
 Grifter expects Vagrant boxes to be named according to the following list.
 
 ##### Custom Boxes
@@ -96,10 +96,10 @@ Grifter expects Vagrant boxes to be named according to the following list.
 In a future release support will be added for boxes named according to user 
 defined values.
 
-##### guest_config
+#### guest_config
 The `guest_config` section defines characteristics about the Vagrant boxes 
 used with grifter.
-##### Required Parameters.
+#### Required Parameters.
 - data_interface_base
 - data_interface_offset
 - max_data_interfaces
@@ -132,14 +132,14 @@ guest_config:
     reserved_interfaces: 0
 ```
 
-##### guest_pairs
+#### guest_pairs
 The `guest_pairs` section is used the define boxes that need two VMs to 
 be fully functional. Some examples are the Juniper vMX and vQFX where 
 one box is used for the control-plane and another for the forwarding-plane.
 
 NOTE: This functionality will be added in a future release.
 
-##### Custom config files
+#### Custom config files
 A default config file ships with the grifter python package.
 This file can be customized with your required parameters by creating a 
 `config.yml` file in the following locations.
@@ -154,7 +154,7 @@ NOTE: This functionality will be added in a future release.
 
 ## Usage
 
-##### CLI Utility
+#### CLI Utility
 Grifter ships with a CLI utility. Execute `grifter -h` to 
 discover all the CLI options. 
 
@@ -173,17 +173,17 @@ Commands:
   example  Print example file declaration.
 ```
 
-##### Create Vagrantfile
+#### Create Vagrantfile
 ```
 grifter create guests.yml
 ```
 
-#### Guests Datafile
+### Guests Datafile
 Guest VMs characteristics and interface connections are defined in a YAML file. 
 This file can be named anything, but the recommended naming convention is 
 `guests.yml`.
 
-##### Guest Schema
+#### Guest Schema
 Jinja2 is used a the templating engine to generate the Vagranfiles.
 Guests definition within a guests file must use the following 
 schema as it is required to ensure templates render correctly and 
@@ -241,7 +241,7 @@ some-guest: # guest name
       remote_port: # integer
 ```
 
-##### Example Datafile
+#### Example Datafile
 The following example datafile defines two `arista/veos` switches connected 
 together on ports 1 and 2.
 ```yaml
@@ -395,7 +395,7 @@ Vagrant.configure("2") do |config|
 end
 ```
 
-#### Defaults Per-Guest Type
+### Defaults Per-Guest Type
 It is possible to define default values per guest group type. Grifter will 
 look for a file named `guest-defaults.yml` in the following locations from 
 the least to most preferred:
