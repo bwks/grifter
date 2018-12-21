@@ -440,8 +440,10 @@ The values of the group and guest variables will be merged prior to building
 a `Vagrantfile` with the guest variables taking precedence over the group 
 variables.
 
-This means you can have a much more succinct guests variable file by reducing 
-a lot of duplication. Here is an example of a reduced guest variable file.
+This means you can have a much more succinct guests file by reducing 
+a lot of duplication. Here is an example of a simplified guest file. The 
+values from the `arista/veos` guest type in the `guest-defaults.yml` file 
+will be used to fill in the parameters for the guests.
 
 ```yaml
 sw01:
