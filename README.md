@@ -24,8 +24,7 @@ The command line utility for managing the lifecycle of virtual machines
 ## Vagrant Libvirt
 What is Vagrant Libvirt? From the `vagrant-libvirt` github [page](https://github.com/vagrant-libvirt/vagrant-libvirt) 
 ```
-A Vagrant plugin that adds a Libvirt provider to Vagrant, 
-allowing Vagrant to control and provision machines via Libvirt toolkit.
+A Vagrant plugin that adds a Libvirt provider to Vagrant, allowing Vagrant to control and provision machines via Libvirt toolkit.
 ```
 
 ## Why
@@ -178,8 +177,9 @@ grifter create guests.yml
 ```
 
 #### Guests Datafile
-Guest VMs are defined in a YAML file. This file can be named 
-anything, but the recommended naming convention is `guests.yml`.
+Guest VMs characteristics and interface connections are defined in a YAML file. 
+This file can be named anything, but the recommended naming convention is 
+`guests.yml`.
 
 ##### Guest Schema
 Jinja2 is used a the templating engine to generate the Vagranfiles.
@@ -239,13 +239,15 @@ some-guest: # guest name
       remote_port: # integer
 ```
 
-
 ##### Example Datafile
+The following example datafile defines two `arista/veos` switches connected 
+together on ports 1 and 2.
 ```yaml
 sw01:
   vagrant_box:
     name: "arista/veos"
-    version: ""
+    version: "4.20.1F"
+    guest_type: "tinycore"
     provider: "libvirt"
   ssh:
     insert_key: False
@@ -256,7 +258,6 @@ sw01:
     disk_bus: "ide"
     cpus: 2
     memory: 2048
-    management_network_mac: ""
   data_interfaces:
     - local_port: 1
       remote_guest: "sw02"
@@ -268,7 +269,8 @@ sw01:
 sw02:
   vagrant_box:
     name: "arista/veos"
-    version: ""
+    version: "4.20.1F"
+    guest_type: "tinycore"
     provider: "libvirt"
   ssh:
     insert_key: False
@@ -279,7 +281,6 @@ sw02:
     disk_bus: "ide"
     cpus: 2
     memory: 2048
-    management_network_mac: ""
   data_interfaces:
     - local_port: 1
       remote_guest: "sw01"
@@ -288,8 +289,6 @@ sw02:
       remote_guest: "sw01"
       remote_port: 2
 ```
-
-
 #### Generated Vagrantfile
 ```ruby
 # -*- mode: ruby -*-
@@ -304,6 +303,7 @@ end
 cwd = Dir.pwd.split("/").last
 username = ENV['USER']
 domain_prefix = "#{username}_#{cwd}"
+domain_uuid = "1f22b55d-2d7e-5a24-b4fa-3a8878df5cc5"
 
 Vagrant.require_version ">= 2.1.0"
 Vagrant.configure("2") do |config|
@@ -311,119 +311,58 @@ Vagrant.configure("2") do |config|
   config.vm.define "sw01" do |node|
     guest_name = "sw01"
     node.vm.box = "arista/veos"
+    node.vm.box_version = "4.20.1F"
+    node.vm.guest = :tinycore
     node.vm.synced_folder ".", "/vagrant", id: "vagrant-root", disabled: true
 
     node.ssh.insert_key = false
 
     node.vm.provider :libvirt do |domain|
       domain.default_prefix = "#{domain_prefix}"
-      domain.cpus = 1
-      domain.memory = 512
-      domain.management_network_mac = "00:00:00:00:00:01"
-      domain.nic_adapter_count = 8
+      domain.cpus = 2
+      domain.memory = 2048
+      domain.disk_bus = "ide"
+      domain.nic_adapter_count = 2
     end
 
     node.vm.network :private_network,
       # sw01-eth1 <--> sw02-eth1
       :mac => "#{get_mac()}",
       :libvirt__tunnel_type => "udp",
-      :libvirt__tunnel_local_ip => "127.255.1.1",
+      :libvirt__tunnel_local_ip => "127.146.53.1",
       :libvirt__tunnel_local_port => 10001,
-      :libvirt__tunnel_ip => "127.255.1.2",
+      :libvirt__tunnel_ip => "127.146.53.2",
       :libvirt__tunnel_port => 10001,
-      :libvirt__iface_name => "sw01-eth1",
+      :libvirt__iface_name => "sw01-eth1-#{domain_uuid}",
       auto_config: false
 
     node.vm.network :private_network,
       # sw01-eth2 <--> sw02-eth2
       :mac => "#{get_mac()}",
       :libvirt__tunnel_type => "udp",
-      :libvirt__tunnel_local_ip => "127.255.1.1",
+      :libvirt__tunnel_local_ip => "127.146.53.1",
       :libvirt__tunnel_local_port => 10002,
-      :libvirt__tunnel_ip => "127.255.1.2",
+      :libvirt__tunnel_ip => "127.146.53.2",
       :libvirt__tunnel_port => 10002,
-      :libvirt__iface_name => "sw01-eth2",
-      auto_config: false
-
-    node.vm.network :private_network,
-      # sw01-eth3 <--> blackhole-666
-      :mac => "#{get_mac()}",
-      :libvirt__tunnel_type => "udp",
-      :libvirt__tunnel_local_ip => "127.255.1.1",
-      :libvirt__tunnel_local_port => 10003,
-      :libvirt__tunnel_ip => "127.6.6.6",
-      :libvirt__tunnel_port => 10666,
-      :libvirt__iface_name => "sw01-eth3",
-      auto_config: false
-
-    node.vm.network :private_network,
-      # sw01-eth4 <--> blackhole-666
-      :mac => "#{get_mac()}",
-      :libvirt__tunnel_type => "udp",
-      :libvirt__tunnel_local_ip => "127.255.1.1",
-      :libvirt__tunnel_local_port => 10004,
-      :libvirt__tunnel_ip => "127.6.6.6",
-      :libvirt__tunnel_port => 10666,
-      :libvirt__iface_name => "sw01-eth4",
-      auto_config: false
-
-    node.vm.network :private_network,
-      # sw01-eth5 <--> blackhole-666
-      :mac => "#{get_mac()}",
-      :libvirt__tunnel_type => "udp",
-      :libvirt__tunnel_local_ip => "127.255.1.1",
-      :libvirt__tunnel_local_port => 10005,
-      :libvirt__tunnel_ip => "127.6.6.6",
-      :libvirt__tunnel_port => 10666,
-      :libvirt__iface_name => "sw01-eth5",
-      auto_config: false
-
-    node.vm.network :private_network,
-      # sw01-eth6 <--> blackhole-666
-      :mac => "#{get_mac()}",
-      :libvirt__tunnel_type => "udp",
-      :libvirt__tunnel_local_ip => "127.255.1.1",
-      :libvirt__tunnel_local_port => 10006,
-      :libvirt__tunnel_ip => "127.6.6.6",
-      :libvirt__tunnel_port => 10666,
-      :libvirt__iface_name => "sw01-eth6",
-      auto_config: false
-
-    node.vm.network :private_network,
-      # sw01-eth7 <--> blackhole-666
-      :mac => "#{get_mac()}",
-      :libvirt__tunnel_type => "udp",
-      :libvirt__tunnel_local_ip => "127.255.1.1",
-      :libvirt__tunnel_local_port => 10007,
-      :libvirt__tunnel_ip => "127.6.6.6",
-      :libvirt__tunnel_port => 10666,
-      :libvirt__iface_name => "sw01-eth7",
-      auto_config: false
-
-    node.vm.network :private_network,
-      # sw01-eth8 <--> blackhole-666
-      :mac => "#{get_mac()}",
-      :libvirt__tunnel_type => "udp",
-      :libvirt__tunnel_local_ip => "127.255.1.1",
-      :libvirt__tunnel_local_port => 10008,
-      :libvirt__tunnel_ip => "127.6.6.6",
-      :libvirt__tunnel_port => 10666,
-      :libvirt__iface_name => "sw01-eth8",
+      :libvirt__iface_name => "sw01-eth2-#{domain_uuid}",
       auto_config: false
 
   end
   config.vm.define "sw02" do |node|
     guest_name = "sw02"
     node.vm.box = "arista/veos"
+    node.vm.box_version = "4.20.1F"
+    node.vm.guest = :tinycore
     node.vm.synced_folder ".", "/vagrant", id: "vagrant-root", disabled: true
 
     node.ssh.insert_key = false
 
     node.vm.provider :libvirt do |domain|
       domain.default_prefix = "#{domain_prefix}"
-      domain.cpus = 1
-      domain.memory = 512
-      domain.management_network_mac = "00:00:00:00:00:02"
+      domain.cpus = 2
+      domain.memory = 2048
+      domain.storage_pool_name = "disk1"
+      domain.disk_bus = "ide"
       domain.nic_adapter_count = 2
     end
 
@@ -431,22 +370,22 @@ Vagrant.configure("2") do |config|
       # sw02-eth1 <--> sw01-eth1
       :mac => "#{get_mac()}",
       :libvirt__tunnel_type => "udp",
-      :libvirt__tunnel_local_ip => "127.255.1.2",
+      :libvirt__tunnel_local_ip => "127.146.53.2",
       :libvirt__tunnel_local_port => 10001,
-      :libvirt__tunnel_ip => "127.255.1.1",
+      :libvirt__tunnel_ip => "127.146.53.1",
       :libvirt__tunnel_port => 10001,
-      :libvirt__iface_name => "sw02-eth1",
+      :libvirt__iface_name => "sw02-eth1-#{domain_uuid}",
       auto_config: false
 
     node.vm.network :private_network,
       # sw02-eth2 <--> sw01-eth2
       :mac => "#{get_mac()}",
       :libvirt__tunnel_type => "udp",
-      :libvirt__tunnel_local_ip => "127.255.1.2",
+      :libvirt__tunnel_local_ip => "127.146.53.2",
       :libvirt__tunnel_local_port => 10002,
-      :libvirt__tunnel_ip => "127.255.1.1",
+      :libvirt__tunnel_ip => "127.146.53.1",
       :libvirt__tunnel_port => 10002,
-      :libvirt__iface_name => "sw02-eth2",
+      :libvirt__iface_name => "sw02-eth2-#{domain_uuid}",
       auto_config: false
 
   end
@@ -455,8 +394,10 @@ end
 ```
 
 #### Defaults Per-Guest Type
-It is possible to define default values per guest group type. Grifter will look for a
-file named `guest-defaults.yml` in the following locations from the least to most preferred:
+It is possible to define default values per guest group type. Grifter will 
+look for a file named `guest-defaults.yml` in the following locations from 
+the least to most preferred:
+
  - `/opt/grifter/`
  - `~/.grifter/`
  - `./` 
@@ -465,46 +406,47 @@ file named `guest-defaults.yml` in the following locations from the least to mos
 arista/veos:
   vagrant_box:
     version: "4.20.1F"
+    guest_type: "tinycore"
   ssh:
     insert_key: False
   synced_folder:
     enabled: False
   provider_config:
-    nic_adapter_count: 8
-    disk_bus: "ide"
+    nic_adapter_count: 24
     cpus: 2
     memory: 2048
+    disk_bus: "ide"
 
-juniper/vsrx:
+juniper/vsrx-packetmode:
   vagrant_box:
-    version: "18.1R1.9-packetmode"
+    version: "18.3R1-S1.4"
+    provider: "libvirt"
+    guest_type: "tinycore"
   ssh:
     insert_key: False
   synced_folder:
     enabled: False
   provider_config:
-    nic_adapter_count: 8
+    nic_adapter_count: 2
     disk_bus: "ide"
     cpus: 2
     memory: 4096
 ```
 
-Group variables can be over-written by variables at the guest variable level. The values of
-the group and guest variables will be merged prior to building a `Vagrantfile` with the guest
-variables taking precedence over the group variables.
+Group variables can be over-written by variables at the guest variable level. 
+The values of the group and guest variables will be merged prior to building 
+a `Vagrantfile` with the guest variables taking precedence over the group 
+variables.
 
+This means you can have a much more succinct guests variable file by reducing 
+a lot of duplication. Here is an example of a reduced guest variable file.
 
-This means you can have a much more succinct guests variable file by reducing alot of duplication.
-Here is an example of a reduced guest variable file.
 ```yaml
 sw01:
   vagrant_box:
     name: "arista/veos"
-
   provider_config:
-    nic_adapter_count: 8
-    management_network_mac: "00:00:00:00:00:01"
-
+    nic_adapter_count: 2
   data_interfaces:
     - local_port: 1
       remote_guest: "sw02"
@@ -516,11 +458,8 @@ sw01:
 sw02:
   vagrant_box:
     name: "arista/veos"
-
   provider_config:
     nic_adapter_count: 2
-    management_network_mac: "00:00:00:00:00:02"
-
   data_interfaces:
     - local_port: 1
       remote_guest: "sw01"
@@ -530,7 +469,9 @@ sw02:
       remote_port: 2
 ```
 
-The resulting `Vagrantfile` is as follows
+The generated `Vagrantfile` below is the same as the one above, but with a 
+much cleaner guest definition file.
+
 ```ruby
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
@@ -544,6 +485,7 @@ end
 cwd = Dir.pwd.split("/").last
 username = ENV['USER']
 domain_prefix = "#{username}_#{cwd}"
+domain_uuid = "d35fb1b6-ecdc-5412-be22-185446af92d6"
 
 Vagrant.require_version ">= 2.1.0"
 Vagrant.configure("2") do |config|
@@ -551,119 +493,58 @@ Vagrant.configure("2") do |config|
   config.vm.define "sw01" do |node|
     guest_name = "sw01"
     node.vm.box = "arista/veos"
+    node.vm.box_version = "4.20.1F"
+    node.vm.guest = :tinycore
     node.vm.synced_folder ".", "/vagrant", id: "vagrant-root", disabled: true
 
     node.ssh.insert_key = false
 
     node.vm.provider :libvirt do |domain|
       domain.default_prefix = "#{domain_prefix}"
-      domain.cpus = 1
-      domain.memory = 512
-      domain.management_network_mac = "00:00:00:00:00:01"
-      domain.nic_adapter_count = 8
+      domain.cpus = 2
+      domain.memory = 2048
+      domain.disk_bus = "ide"
+      domain.nic_adapter_count = 2
     end
 
     node.vm.network :private_network,
       # sw01-eth1 <--> sw02-eth1
       :mac => "#{get_mac()}",
       :libvirt__tunnel_type => "udp",
-      :libvirt__tunnel_local_ip => "127.255.1.1",
+      :libvirt__tunnel_local_ip => "127.127.145.1",
       :libvirt__tunnel_local_port => 10001,
-      :libvirt__tunnel_ip => "127.255.1.2",
+      :libvirt__tunnel_ip => "127.127.145.2",
       :libvirt__tunnel_port => 10001,
-      :libvirt__iface_name => "sw01-eth1",
+      :libvirt__iface_name => "sw01-eth1-#{domain_uuid}",
       auto_config: false
 
     node.vm.network :private_network,
       # sw01-eth2 <--> sw02-eth2
       :mac => "#{get_mac()}",
       :libvirt__tunnel_type => "udp",
-      :libvirt__tunnel_local_ip => "127.255.1.1",
+      :libvirt__tunnel_local_ip => "127.127.145.1",
       :libvirt__tunnel_local_port => 10002,
-      :libvirt__tunnel_ip => "127.255.1.2",
+      :libvirt__tunnel_ip => "127.127.145.2",
       :libvirt__tunnel_port => 10002,
-      :libvirt__iface_name => "sw01-eth2",
-      auto_config: false
-
-    node.vm.network :private_network,
-      # sw01-eth3 <--> blackhole-666
-      :mac => "#{get_mac()}",
-      :libvirt__tunnel_type => "udp",
-      :libvirt__tunnel_local_ip => "127.255.1.1",
-      :libvirt__tunnel_local_port => 10003,
-      :libvirt__tunnel_ip => "127.6.6.6",
-      :libvirt__tunnel_port => 10666,
-      :libvirt__iface_name => "sw01-eth3",
-      auto_config: false
-
-    node.vm.network :private_network,
-      # sw01-eth4 <--> blackhole-666
-      :mac => "#{get_mac()}",
-      :libvirt__tunnel_type => "udp",
-      :libvirt__tunnel_local_ip => "127.255.1.1",
-      :libvirt__tunnel_local_port => 10004,
-      :libvirt__tunnel_ip => "127.6.6.6",
-      :libvirt__tunnel_port => 10666,
-      :libvirt__iface_name => "sw01-eth4",
-      auto_config: false
-
-    node.vm.network :private_network,
-      # sw01-eth5 <--> blackhole-666
-      :mac => "#{get_mac()}",
-      :libvirt__tunnel_type => "udp",
-      :libvirt__tunnel_local_ip => "127.255.1.1",
-      :libvirt__tunnel_local_port => 10005,
-      :libvirt__tunnel_ip => "127.6.6.6",
-      :libvirt__tunnel_port => 10666,
-      :libvirt__iface_name => "sw01-eth5",
-      auto_config: false
-
-    node.vm.network :private_network,
-      # sw01-eth6 <--> blackhole-666
-      :mac => "#{get_mac()}",
-      :libvirt__tunnel_type => "udp",
-      :libvirt__tunnel_local_ip => "127.255.1.1",
-      :libvirt__tunnel_local_port => 10006,
-      :libvirt__tunnel_ip => "127.6.6.6",
-      :libvirt__tunnel_port => 10666,
-      :libvirt__iface_name => "sw01-eth6",
-      auto_config: false
-
-    node.vm.network :private_network,
-      # sw01-eth7 <--> blackhole-666
-      :mac => "#{get_mac()}",
-      :libvirt__tunnel_type => "udp",
-      :libvirt__tunnel_local_ip => "127.255.1.1",
-      :libvirt__tunnel_local_port => 10007,
-      :libvirt__tunnel_ip => "127.6.6.6",
-      :libvirt__tunnel_port => 10666,
-      :libvirt__iface_name => "sw01-eth7",
-      auto_config: false
-
-    node.vm.network :private_network,
-      # sw01-eth8 <--> blackhole-666
-      :mac => "#{get_mac()}",
-      :libvirt__tunnel_type => "udp",
-      :libvirt__tunnel_local_ip => "127.255.1.1",
-      :libvirt__tunnel_local_port => 10008,
-      :libvirt__tunnel_ip => "127.6.6.6",
-      :libvirt__tunnel_port => 10666,
-      :libvirt__iface_name => "sw01-eth8",
+      :libvirt__iface_name => "sw01-eth2-#{domain_uuid}",
       auto_config: false
 
   end
   config.vm.define "sw02" do |node|
     guest_name = "sw02"
     node.vm.box = "arista/veos"
+    node.vm.box_version = "4.20.1F"
+    node.vm.guest = :tinycore
     node.vm.synced_folder ".", "/vagrant", id: "vagrant-root", disabled: true
 
     node.ssh.insert_key = false
 
     node.vm.provider :libvirt do |domain|
       domain.default_prefix = "#{domain_prefix}"
-      domain.cpus = 1
-      domain.memory = 512
-      domain.management_network_mac = "00:00:00:00:00:02"
+      domain.cpus = 2
+      domain.memory = 2048
+      domain.storage_pool_name = "disk1"
+      domain.disk_bus = "ide"
       domain.nic_adapter_count = 2
     end
 
@@ -671,22 +552,22 @@ Vagrant.configure("2") do |config|
       # sw02-eth1 <--> sw01-eth1
       :mac => "#{get_mac()}",
       :libvirt__tunnel_type => "udp",
-      :libvirt__tunnel_local_ip => "127.255.1.2",
+      :libvirt__tunnel_local_ip => "127.127.145.2",
       :libvirt__tunnel_local_port => 10001,
-      :libvirt__tunnel_ip => "127.255.1.1",
+      :libvirt__tunnel_ip => "127.127.145.1",
       :libvirt__tunnel_port => 10001,
-      :libvirt__iface_name => "sw02-eth1",
+      :libvirt__iface_name => "sw02-eth1-#{domain_uuid}",
       auto_config: false
 
     node.vm.network :private_network,
       # sw02-eth2 <--> sw01-eth2
       :mac => "#{get_mac()}",
       :libvirt__tunnel_type => "udp",
-      :libvirt__tunnel_local_ip => "127.255.1.2",
+      :libvirt__tunnel_local_ip => "127.127.145.2",
       :libvirt__tunnel_local_port => 10002,
-      :libvirt__tunnel_ip => "127.255.1.1",
+      :libvirt__tunnel_ip => "127.127.145.1",
       :libvirt__tunnel_port => 10002,
-      :libvirt__iface_name => "sw02-eth2",
+      :libvirt__iface_name => "sw02-eth2-#{domain_uuid}",
       auto_config: false
 
   end
