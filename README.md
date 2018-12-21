@@ -37,9 +37,11 @@ with Vagrant. Grifter aims to help simplify that process.
 - Generate graphviz/PTM topologies files
 - Generate Inventory files for tools such as Ansible, Nornir
 
-NOTE: Currently only a `vagrant-libvirt` compatible Vagrantfile will be generated. 
-Support for Virtualbox or any other provider type is not currently on the 
-road map.
+NOTE: Only a `vagrant-libvirt` compatible `Vagrantfile` for 
+Vagrant version `>= 2.1.0` will be generated. 
+
+Support for Virtualbox or any other provider type is not supported or
+on the road map.
 
 ## Dependencies
 Grifter requires the help of the following awesome projects from the Python 
