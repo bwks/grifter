@@ -1,8 +1,8 @@
 ---
-# The Jinja2 templates are build around data input in this format.
+# Jinja2 templates are build around data input in this format.
 # Every host must follow this data format.
-some-guest: # Guest name
-  vagrant_box:
+some-guest:
+  vagrant_box: # vagrant_box parameters
     name: # string - required
     version: # string - optional | default: ""
     url: # string - optional | default: ""
@@ -10,18 +10,18 @@ some-guest: # Guest name
     guest_type: # string - optional | default: ""
     boot_timeout: # integer - optional | default: 0
 
-  ssh:
+  ssh: # dict - optional
     username: # string - optional | default: ""
     password: # string - optional | default: ""
     insert_key: # boolean - optional | default: False
 
-  synced_folder: # dict - optional | default:
+  synced_folder: # dict - optional
     enabled: # boolean - default: False
     id: # string - default: "vagrant-root"
     src: # string - default: "."
     dst: # string - default: "/vagrant"
 
-  provider_config:
+  provider_config: # dict - optional
     random_hostname: # boolean - optional | default: False
     nic_adapter_count: # integer - optional | default: 0
     disk_bus: # string - optional | default: ""
@@ -29,7 +29,7 @@ some-guest: # Guest name
     memory: # integer - optional | default: 512
     huge_pages: # boolean - optional | default: False
     storage_pool: # string - optional | default: ""
-    additional_storage_volumes: # list - optional | default []
+    additional_storage_volumes: # list - optional
       - location: # string
         type: # string
         bus: # string
@@ -37,7 +37,12 @@ some-guest: # Guest name
     nic_model_type: # string - optional | default: ""
     management_network_mac: # string - optional | default: ""
 
-  data_interfaces: # list - optional | default: []
+  internal_interfaces: # list - optional
+    - local_port: # integer
+      remote_guest: # string
+      remote_port: # integer
+
+  data_interfaces: # list - optional
     - local_port: # integer
       remote_guest: # string
       remote_port: # integer

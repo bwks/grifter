@@ -1,24 +1,59 @@
 # Grifter
-Python library to build large scale Vagrant topologies for the networking space, but can also be used the build small scale labs for non-networking devices.
-
-Note: Support is targeted to python 3.6+ releases.
-
-```
-*****************************************************************
-This project is in beta and stability is not currently guaranteed.
-Breaking API changes can be expected.
-*****************************************************************
-```
-
-
-The main goal of this project is to build Vagrant topologies from yaml files.
-As a secondary objective I would like to also generate graphviz dot files as well.
-Currently only a vagrant-libvirt compatible Vagrantfile will be generated.
+Python library to build large scale Vagrant topologies for the networking 
+space, but can also be used the build small scale labs for non-networking 
+devices.
 
 [![Build Status](https://travis-ci.org/bobthebutcher/grifter.svg?branch=master)](https://travis-ci.org/bobthebutcher/grifter.svg?branch=master)
 [![Coverage Status](https://coveralls.io/repos/github/bobthebutcher/grifter/badge.svg?branch=master)](https://coveralls.io/github/bobthebutcher/grifter?branch=master)
 
+NOTE: Python 3.6+ is required to make use of this library.
+
+```
+*****************************************************************
+This project is currently in beta and stability is not currently 
+guaranteed. Breaking API changes can be expected.
+*****************************************************************
+
+```
+## Vagrant
+What is Vagrant? From the Vagrant [website](https://www.vagrantup.com/docs/index.html)
+```
+The command line utility for managing the lifecycle of virtual machines
+```
+
+## Vagrant Libvirt
+What is Vagrant Libvirt? From the vagrant-libvirt github [page](https://github.com/vagrant-libvirt/vagrant-libvirt) 
+```
+A Vagrant plugin that adds a Libvirt provider to Vagrant, 
+allowing Vagrant to control and provision machines via Libvirt toolkit.
+```
+
+## Why
+When simulating large topologies Vagrantfiles can become thousands 
+of lines long. Getting all the configuration correct is often a 
+frustrating, error riddled process especially for those not familiar 
+with Vagrant. Grifter aims to help simplify that process.
+
+##### Additional project goals
+- Generate graphviz/PTM topologies files
+- Generate Inventory files for tools such as Ansible, Nornir
+
+NOTE: Currently only a `vagrant-libvirt` compatible Vagrantfile will be generated. 
+Support for Virtualbox or any other provider type is not currently on the 
+road map.
+
+## Dependencies
+Grifter requires the help of the following awesome projects from the Python 
+community.
+- [Cerberus](http://docs.python-cerberus.org/en/stable/) - Schema validation
+- [Click](https://click.palletsprojects.com/) - CLI utility
+- [Jinja2](http://jinja.pocoo.org/docs) - Template engine
+- [PyYAML](https://pyyaml.org/) - YAML all the things
+
 ## Installation
+There is currently no PyPI release for this project. Grifter can be 
+installed directly from source using PIP. 
+
 Create and activate virtualenv.
 ```
 mkdir ~/test && cd ~/test
@@ -30,24 +65,29 @@ Install `grifter` with `pip`
 ```
 pip install https://github.com/bobthebutcher/grifter/archive/master.zip
 ```
+
 ## Config File
-A file name `config.yml` is required to define the base settings of the 
-grifter environment. The default `config.yml` file can be found
-[here](grifter/config.yml)
+A file name `config.yml` is required to define the base settings of 
+each box managed within the grifter environment. The default `config.yml` 
+file can be found [here](grifter/config.yml)
 
 #### Box Naming
 Grifter expects Vagrant boxes to be named according to the following list.
+
+##### Custom Boxes
 - arista/veos
 - cisco/csr1000v
 - cisco/iosv
 - cisco/xrv
-- CumulusCommunity/cumulus-vx
 - juniper/vmx-vcp
 - juniper/vmx-vfp
 - juniper/vqfx-pfe
 - juniper/vqfx-re
 - juniper/vsrx
 - juniper/vsrx-packetmode
+
+##### Vagrant Cloud Boxes
+- CumulusCommunity/cumulus-vx
 - centos/7
 - generic/ubuntu1804
 - opensuse/openSUSE-15.0-x86_64
@@ -55,23 +95,24 @@ Grifter expects Vagrant boxes to be named according to the following list.
 In a future release support will be added for boxes named according to user 
 defined values.
 
+##### guest_config
 The `guest_config` section defines characteristics about the Vagrant boxes 
 used with grifter.
 ##### Required Parameters.
-- `data_interface_base`
-- `data_interface_offset`
-- `max_data_interfaces`
-- `management_interface`
+- data_interface_base
+- data_interface_offset
+- max_data_interfaces
+- management_interface
 
 ```yaml
 guest_config:
   example/box:
     data_interface_base: "eth" # String pattern for data interfaces.
-    data_interface_offset: 0 # Number of first interface ie: 0, 1, 2, etc..
-    internal_interfaces: 0 # Used for intra-box connections for multi-vm boxes.
+    data_interface_offset: 0 # Number of first data interface ie: 0, 1, 2, etc..
+    internal_interfaces: 0 # Used for inter-box connections for multi-vm boxes.
     max_data_interfaces: 8 
     management_interface: "ma1"
-    reserved_interfaces: 0 # Interfaces that are required but cannot be removed.
+    reserved_interfaces: 0 # Interfaces that are required but cannot be used.
 
   arista/veos:
     data_interface_base: "eth"
@@ -90,26 +131,117 @@ guest_config:
     reserved_interfaces: 0
 ```
 
+##### guest_pairs
+The `guest_pairs` section is used the define boxes that need two VMs to 
+be fully functional. Some examples are the Juniper vMX and vQFX where 
+one box is used for the control-plane and another for the forwarding-plane.
 
+NOTE: This functionality wil be added in a future release.
 
-##### Custom config files (TODO)
-A default config file is ships with the grifter python package.
+##### Custom config files
+A default config file ships with the grifter python package.
 This file can be customized with your required parameters by creating a 
 `config.yml` file in the following locations.
  - `/opt/grifter/`
  - `~/.grifter/`
  - `./` 
+ 
+ Parameters in a users `config.yml` file will be merged with the default 
+ `config.yml` file.
 
+NOTE: This functionality wil be added in a future release.
 
-## Example Usage
+## Usage
+
+##### CLI Utility
+Grifter ships with a CLI utility. Execute `grifter -h` to 
+discover all the CLI options. 
+
+```
+grifter -h
+Usage: grifter [OPTIONS] COMMAND [ARGS]...
+
+  Create a Vagrantfile from a YAML data input file.
+
+Options:
+  --version   Show the version and exit.
+  -h, --help  Show this message and exit.
+
+Commands:
+  create   Create a Vagrantfile.
+  example  Print example file declaration.
+```
+
+##### Create Vagrantfile
 ```
 grifter create guests.yml
 ```
 
+#### Guests Datafile
+Guest VMs are defined in a YAML file. This file can be named 
+anything, but the recommended naming convention is `guests.yml`.
 
-#### Example Datafile
+##### Guest Schema
+Jinja2 is used a the templating engine to generate the Vagranfiles.
+Guests definition within a guests file must use the following 
+schema as it is required to ensure templates render correctly and 
+without errors. The guest data will be validated against the schema 
+using the Cerberus project.
+
 ```yaml
----
+some-guest: # guest name
+  vagrant_box: # vagrant_box parameters
+    name: # string - required
+    version: # string - optional | default: ""
+    url: # string - optional | default: ""
+    provider: # string - optional | default: "libvirt"
+    guest_type: # string - optional | default: ""
+    boot_timeout: # integer - optional | default: 0
+
+  ssh: # dict - optional
+    username: # string - optional | default: ""
+    password: # string - optional | default: ""
+    insert_key: # boolean - optional | default: False
+
+  synced_folder: # dict - optional
+    enabled: # boolean - default: False
+    id: # string - default: "vagrant-root"
+    src: # string - default: "."
+    dst: # string - default: "/vagrant"
+
+  provider_config: # dict - optional
+    random_hostname: # boolean - optional | default: False
+    nic_adapter_count: # integer - optional | default: 0
+    disk_bus: # string - optional | default: ""
+    cpus: # integer - optional | default: 1
+    memory: # integer - optional | default: 512
+    huge_pages: # boolean - optional | default: False
+    storage_pool: # string - optional | default: ""
+    additional_storage_volumes: # list - optional
+      # For each list element the following is required.
+      - location: # string
+        type: # string
+        bus: # string
+        device: # string
+    nic_model_type: # string - optional | default: ""
+    management_network_mac: # string - optional | default: ""
+
+  internal_interfaces: # list - optional
+    # For each list element the following is required.
+    - local_port: # integer
+      remote_guest: # string
+      remote_port: # integer
+
+  data_interfaces: # list - optional
+    # For each list element the following is required.
+    - local_port: # integer
+      remote_guest: # string
+      remote_port: # integer
+```
+
+
+##### Example Datafile
+```yaml
 sw01:
   vagrant_box:
     name: "arista/veos"
