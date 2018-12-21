@@ -625,7 +625,7 @@ Interfaces are added to the Vagrantfile in the following order.
 - data_interfaces
 
 Interfaces are configured using the udp tunneling type. This 
-will create a 'pseudo-wire' layer 1 connection between VM ports.
+will create a 'pseudo' layer 1 connection between VM ports.
 
 ##### Example interface definition
 ```yaml
