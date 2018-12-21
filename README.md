@@ -137,7 +137,7 @@ The `guest_pairs` section is used the define boxes that need two VMs to
 be fully functional. Some examples are the Juniper vMX and vQFX where 
 one box is used for the control-plane and another for the forwarding-plane.
 
-NOTE: This functionality wil be added in a future release.
+NOTE: This functionality will be added in a future release.
 
 ##### Custom config files
 A default config file ships with the grifter python package.
@@ -150,7 +150,7 @@ This file can be customized with your required parameters by creating a
  Parameters in a users `config.yml` file will be merged with the default 
  `config.yml` file.
 
-NOTE: This functionality wil be added in a future release.
+NOTE: This functionality will be added in a future release.
 
 ## Usage
 
