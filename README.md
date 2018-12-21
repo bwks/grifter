@@ -22,7 +22,7 @@ The command line utility for managing the lifecycle of virtual machines
 ```
 
 ## Vagrant Libvirt
-What is Vagrant Libvirt? From the vagrant-libvirt github [page](https://github.com/vagrant-libvirt/vagrant-libvirt) 
+What is Vagrant Libvirt? From the `vagrant-libvirt` github [page](https://github.com/vagrant-libvirt/vagrant-libvirt) 
 ```
 A Vagrant plugin that adds a Libvirt provider to Vagrant, 
 allowing Vagrant to control and provision machines via Libvirt toolkit.
