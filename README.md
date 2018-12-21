@@ -18,7 +18,7 @@ Currently only a vagrant-libvirt compatible Vagrantfile will be generated.
 [![Build Status](https://travis-ci.org/bobthebutcher/grifter.svg?branch=master)](https://travis-ci.org/bobthebutcher/grifter.svg?branch=master)
 [![Coverage Status](https://coveralls.io/repos/github/bobthebutcher/grifter/badge.svg?branch=master)](https://coveralls.io/github/bobthebutcher/grifter?branch=master)
 
-#### Installation
+## Installation
 Create and activate virtualenv.
 ```
 mkdir ~/test && cd ~/test
@@ -30,9 +30,30 @@ Install `grifter` with `pip`
 ```
 pip install https://github.com/bobthebutcher/grifter/archive/master.zip
 ```
-#### Config File
+## Config File
 A file name `config.yml` is required to define the base settings of the 
-grifter environment.
+grifter environment. The default `config.yml` file can be found
+[here](grifter/config.yml)
+
+#### Box Naming
+Grifter expects Vagrant boxes to be named according to the following list.
+- arista/veos
+- cisco/csr1000v
+- cisco/iosv
+- cisco/xrv
+- CumulusCommunity/cumulus-vx
+- juniper/vmx-vcp
+- juniper/vmx-vfp
+- juniper/vqfx-pfe
+- juniper/vqfx-re
+- juniper/vsrx
+- juniper/vsrx-packetmode
+- centos/7
+- generic/ubuntu1804
+- opensuse/openSUSE-15.0-x86_64
+
+In a future release support will be added for boxes named according to user 
+defined values.
 
 The `guest_config` section defines characteristics about the Vagrant boxes 
 used with grifter.
@@ -41,6 +62,7 @@ used with grifter.
 - `data_interface_offset`
 - `max_data_interfaces`
 - `management_interface`
+
 ```yaml
 guest_config:
   example/box:
@@ -67,8 +89,11 @@ guest_config:
     management_interface: "fxp0.0"
     reserved_interfaces: 0
 ```
+
+
+
 ##### Custom config files (TODO)
-A default config file is stored with the grifter python package.
+A default config file is ships with the grifter python package.
 This file can be customized with your required parameters by creating a 
 `config.yml` file in the following locations.
  - `/opt/grifter/`
@@ -76,7 +101,7 @@ This file can be customized with your required parameters by creating a
  - `./` 
 
 
-#### Example Usage
+## Example Usage
 ```
 grifter create guests.yml
 ```
