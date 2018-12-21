@@ -67,7 +67,7 @@ pip install https://github.com/bobthebutcher/grifter/archive/master.zip
 ```
 
 ## Config File
-A file name `config.yml` is required to define the base settings of 
+A file named `config.yml` is required to define the base settings of 
 each box managed within the grifter environment. The default `config.yml` 
 file can be found [here](grifter/config.yml)
 
