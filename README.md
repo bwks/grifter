@@ -18,7 +18,7 @@ guaranteed. Breaking API changes can be expected.
 ## Vagrant
 What is Vagrant? From the Vagrant [website](https://www.vagrantup.com/docs/index.html)
 ```
-The command line utility for managing the lifecycle of virtual machines
+A command line utility for managing the lifecycle of virtual machines
 ```
 
 ## Vagrant Libvirt
