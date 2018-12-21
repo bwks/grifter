@@ -582,3 +582,77 @@ end
 ## Example Files
 Examples of the `config.yml`, `guests-defaults.yml` and `guests.yml` files 
 can be found [here](grifter/examples)
+
+
+## Interfaces
+There are 3 types of interfaces that can be defined.
+
+- internal_interfaces
+- data_interfaces
+- reserved_interfaces
+
+#### Internal Interfaces
+Config location: `guests.yml`  
+Used for an inter-vm communication channel for multi-vm boxes.  
+Known examples are the vMX and vQFX.
+
+#### data_interfaces
+Config location: `guests.yml`  
+Revenue ports that are used to pass data traffic.
+
+#### reserved_interfaces
+Config location: `config.yml`  
+Interfaces that need to be defined because 'reasons' but cannot be 
+used. The only known example is the `juniper/vqfx-re`. The number of 
+reserved_interfaces is defined per-box type in the `config.yml` file. 
+Grifter builds out the interface definitions automatically as a 
+blackhole interfaces.
+
+#### Blackhole Interfaces
+Interfaces defined in the Vagratfile relate to interfaces 
+on the guest vm on a first to last basis. This can be undesirable when 
+trying to accurately simulate a production environment when devices 
+can have 48+ ports.  
+
+Grifter will automatically create `blackhole interfaces` to fill out 
+undefined `data_interfaces` ports up to the box types 
+`max_data_interfaces` parameter in the `config.yml` file. 
+
+#### Vagrantfile Interface Order
+Interfaces are added to the Vagrantfile in the following order.
+- internal_interfaces
+- reserved_interfaces
+- data_interfaces
+
+Interfaces are configured using the udp tunneling type. This 
+will create a 'pseudo-wire' layer 1 connection between VM ports.
+
+##### Example interface definition
+```yaml
+  data_interfaces:
+    - local_port: 1
+      remote_guest: "sw02"
+      remote_port: 1
+```
+##### Rendered Vagrantfile interface
+```ruby
+    node.vm.network :private_network,
+      # sw01-eth1 <--> sw02-eth1
+      :mac => "#{get_mac()}",
+      :libvirt__tunnel_type => "udp",
+      :libvirt__tunnel_local_ip => "127.255.255.1",
+      :libvirt__tunnel_local_port => 10001,
+      :libvirt__tunnel_ip => "127.255.255.2",
+      :libvirt__tunnel_port => 10001,
+      :libvirt__iface_name => "sw01-eth1-#{domain_uuid}",
+      auto_config: false
+```
+
+#### NIC Adapter Count
+Config location: `guests.yml`  
+Defines the total number of Network Interface Cards excluding 
+the management port permitted on the VM.
+
+The total is calculated against the sum of the `internal_interfaces`, `
+reserved_interfaces` and `data_interfaces` parameters after blackhole 
+interfaces have been added.
