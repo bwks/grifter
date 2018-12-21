@@ -23,6 +23,8 @@ from grifter.api import (
     update_guest_additional_storage,
     int_to_port_map,
     generate_int_to_port_mappings,
+    create_reserved_interfaces,
+    update_reserved_interfaces,
 )
 
 from .mock_data import (
@@ -315,3 +317,12 @@ def test_generate_int_to_port_mappings():
 
     result = generate_int_to_port_mappings(data)
     assert result == expected
+
+
+def test_create_reserved_interfaces():
+    expected = [{
+        'local_port': 1,
+        'remote_guest': 'blackhole',
+        'remote_port': 666
+    }]
+    assert create_reserved_interfaces(1) == expected

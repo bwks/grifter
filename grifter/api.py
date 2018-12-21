@@ -100,11 +100,12 @@ def generate_guest_interface_mappings(config_file=DEFAULT_CONFIG_FILE):
     return mappings
 
 
-def generate_connections_map(guests, int_map):
+def generate_connections_map(guests, int_map, keep_duplicates=False):
     """
     Generate a map of interface connections.
     :param guests: Dict of guests data
     :param int_map: Dict of interface mappings
+    :param keep_duplicates: Keep duplicate connection between guests
     :return: List of Dicts of connections between guests
     """
     dict_keys = ('local_guest', 'local_port', 'remote_guest', 'remote_port')
@@ -118,8 +119,9 @@ def generate_connections_map(guests, int_map):
                 remote_box = box_map[i['remote_guest']]
                 remote_int = int_map[remote_box]['data_interfaces'][i['remote_port']]
                 connections.append((k, local_int, i['remote_guest'], remote_int))
-    reduced = remove_duplicates(connections)
-    return [dict(zip(dict_keys, i)) for i in reduced]
+    if not keep_duplicates:
+        return [dict(zip(dict_keys, i)) for i in remove_duplicates(connections)]
+    return [dict(zip(dict_keys, i)) for i in connections]
 
 
 def create_reserved_interfaces(num_reserved_interfaces):

@@ -113,3 +113,10 @@ def test_number_of_internal_interfaces():
     data['sw01']['internal_interfaces'] = [1, 2]
     with pytest.raises(AttributeError):
         validate_guest_interfaces(data, config, interface_mappings)
+
+
+def test_validate_guest_interfaces_with_valid_data_returns_true():
+    data = guest_data()
+    result = validate_guest_interfaces(data, config, interface_mappings)
+    assert result is True
+
