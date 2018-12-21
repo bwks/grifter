@@ -1,6 +1,6 @@
 # Grifter
 Python library to build large scale Vagrant topologies for the networking 
-space, but can also be used the build small scale labs for non-networking 
+space. Can also be used the build small scale labs for networking/compute 
 devices.
 
 [![Build Status](https://travis-ci.org/bobthebutcher/grifter.svg?branch=master)](https://travis-ci.org/bobthebutcher/grifter.svg?branch=master)
