@@ -77,7 +77,7 @@ guest_config:
     data_interface_base: "xe-0/0/"
     data_interface_offset: 0
     internal_interfaces: 1
-    max_data_interfaces: 10
+    max_data_interfaces: 12
     management_interface: "em0.0"
     reserved_interfaces: 1
 
