@@ -288,7 +288,7 @@ def update_guest_interfaces(guest_data, config):
         else:
             data['data_interfaces'] = add_blackhole_interfaces(
                 config['guest_config'][guest_box]['data_interface_offset'],
-                config['guest_config'][guest_box]['max_data_interfaces'],
+                data['provider_config']['nic_adapter_count'],
                 data['data_interfaces']
             )
             updated_guest_dict.update({guest: data})
