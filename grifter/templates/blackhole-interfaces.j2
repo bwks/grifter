@@ -1,0 +1,5 @@
+blackhole_interfaces = [
+{% for interface in blackhole_interfaces %}
+  "{{ interface }}",
+{% endfor %}
+]

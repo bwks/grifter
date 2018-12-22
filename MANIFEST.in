@@ -2,3 +2,4 @@ include grifter/templates/*
 include grifter/examples/*
 include grifter/schemas/*
 include grifter/defaults.yml
+include grifter/config.yml

@@ -1,23 +1,22 @@
 import pytest
 from unittest import mock
 
+from grifter.utils import get_uuid
 from grifter.constants import (
     BASE_DIR,
 )
-
 from grifter.constants import TEMPLATES_DIR
-
 from grifter.custom_filters import (
     explode_port,
 )
-
 from grifter.loaders import (
     render_from_template,
     load_data
 )
-
-from grifter.api import generate_loopbacks
-
+from grifter.api import (
+    generate_loopbacks,
+    generate_guest_interface_mappings,
+)
 from .mock_data import (
     mock_vagrantfile,
     mock_guest_data,
@@ -27,16 +26,21 @@ custom_filters = [
     explode_port,
 ]
 
+interface_mappings = generate_guest_interface_mappings()
+
 
 @mock.patch('random.randint', return_value=255)
-def test_render_from_template(mock_random):
-    loopbacks = generate_loopbacks(mock_guest_data['guests'])
+@mock.patch('uuid.uuid5', return_value="688c29aa-e657-5d27-b4bb-d745aad2812e")
+def test_render_from_template(mock_random, mock_uuid):
+    loopbacks = generate_loopbacks(mock_guest_data)
     vagrantfile = render_from_template(
         template_name='guest.j2',
         template_directory=TEMPLATES_DIR,
         custom_filters=custom_filters,
-        guests=mock_guest_data['guests'],
-        loopbacks=loopbacks
+        guests=mock_guest_data,
+        loopbacks=loopbacks,
+        interface_mappings=interface_mappings,
+        domain_uuid=get_uuid()
     )
     assert vagrantfile == mock_vagrantfile
 

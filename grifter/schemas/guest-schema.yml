@@ -1,9 +1,4 @@
 ---
-name:
-  type: "string"
-  required: True
-  empty: False
-
 vagrant_box:
   type: "dict"
   required: True
@@ -108,20 +103,50 @@ provider_config:
     management_network_mac:
       type: "string"
 
-interfaces:
+internal_interfaces:
   type: "list"
   schema:
     type: "dict"
     schema:
-      name:
-        type: "string"
       local_port:
         type: "integer"
-        min: 1
+        min: 0
+        max: 2
+      remote_guest:
+        type: "string"
+      remote_port:
+        type: "integer"
+        min: 0
+        max: 2
+
+reserved_interfaces:
+  type: "list"
+  schema:
+    type: "dict"
+    schema:
+      local_port:
+        type: "integer"
+        min: 0
+        max: 5
+      remote_guest:
+        type: "string"
+      remote_port:
+        type: "integer"
+        min: 0
+        max: 5
+
+data_interfaces:
+  type: "list"
+  schema:
+    type: "dict"
+    schema:
+      local_port:
+        type: "integer"
+        min: 0
         max: 96
       remote_guest:
         type: "string"
       remote_port:
         type: "integer"
-        min: 1
+        min: 0
         max: 96

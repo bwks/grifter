@@ -1,0 +1,213 @@
+# Network VMs
+arista/veos:
+  vagrant_box:
+    version: "4.20.1F"
+    guest_type: "tinycore"
+  ssh:
+    insert_key: False
+  synced_folder:
+    enabled: False
+  provider_config:
+    driver: "kvm"
+    cpus: 2
+    memory: 2048
+    disk_bus: "ide"
+
+cisco/xrv:
+  vagrant_box:
+    version: "6.1.3"
+    guest_type: "tinycore"
+    boot_timeout: 180
+  ssh:
+    username: "vagrant"
+    password: "vagrant"
+    insert_key: False
+  synced_folder:
+    enabled: False
+  provider_config:
+    driver: "kvm"
+    cpus: 1
+    memory: 4096
+    disk_bus: "ide"
+    nic_model_type: "e1000"
+
+cisco/iosv:
+  vagrant_box:
+    version: "15.6-1-T"
+    guest_type: "tinycore"
+  ssh:
+    insert_key: False
+  synced_folder:
+    enabled: False
+  provider_config:
+    driver: "kvm"
+    cpus: 1
+    memory: 512
+    nic_model_type: "e1000"
+
+cisco/iosv-l2:
+  vagrant_box:
+    version: "15.2"
+    guest_type: "tinycore"
+  ssh:
+    insert_key: False
+  synced_folder:
+    enabled: False
+  provider_config:
+    driver: "kvm"
+    cpus: 1
+    memory: 1024
+    nic_model_type: "e1000"
+
+cisco/csr1000v:
+  vagrant_box:
+    version: "03.15.00.S-155-2-S"
+    guest_type: "tinycore"
+  ssh:
+    insert_key: False
+  synced_folder:
+    enabled: False
+  provider_config:
+    nic_adapter_count: 8
+    cpus: 2
+    memory: 2048
+
+CumulusCommunity/cumulus-vx:
+  vagrant_box:
+    version: "3.7.1"
+    provider: "libvirt"
+  ssh:
+    insert_key: False
+  synced_folder:
+    enabled: False
+  provider_config:
+    nic_adapter_count: 52
+    cpus: 1
+    memory: 1024
+
+juniper/vqfx-re:
+  vagrant_box:
+    version: "17.4R1.16"
+    provider: "libvirt"
+    guest_type: "tinycore"
+  ssh:
+    insert_key: False
+  synced_folder:
+    enabled: False
+  provider_config:
+    nic_adapter_count: 11
+    nic_model_type: "e1000"
+    disk_bus: "ide"
+    cpus: 1
+    memory: 1024
+
+juniper/vqfx-pfe:
+  vagrant_box:
+    version: "17.4R1.16"
+    provider: "libvirt"
+    guest_type: "tinycore"
+  ssh:
+    insert_key: False
+  synced_folder:
+    enabled: False
+  provider_config:
+    nic_adapter_count: 1
+    nic_model_type: "e1000"
+    disk_bus: "ide"
+    cpus: 1
+    memory: 2048
+
+juniper/vmx-vcp:
+  vagrant_box:
+    version: "18.2R1.9"
+    provider: "libvirt"
+    guest_type: "tinycore"
+  ssh:
+    insert_key: False
+  synced_folder:
+    enabled: False
+  provider_config:
+    nic_adapter_count: 1
+    disk_bus: "ide"
+    cpus: 1
+    memory: 1024
+    additional_storage_volumes:
+      - location: "/opt/vagrant/storage/vmx-vcp-hdb-18.2R1.9-base.qcow2"
+        type: "qcow2"
+        bus: "ide"
+        device: "hdb"
+      - location: "/opt/vagrant/storage/vmx-vcp-hdc-18.2R1.9-base.img"
+        type: "raw"
+        bus: "ide"
+        device: "hdc"
+
+juniper/vmx-vfp:
+  vagrant_box:
+    version: "18.2R1.9"
+    provider: "libvirt"
+    guest_type: "tinycore"
+  ssh:
+    username: "root"
+    insert_key: False
+  synced_folder:
+    enabled: False
+  provider_config:
+    nic_adapter_count: 11
+    disk_bus: "ide"
+    cpus: 3
+    memory: 4096
+
+juniper/vsrx-packetmode:
+  vagrant_box:
+    version: "18.3R1-S1.4"
+    provider: "libvirt"
+    guest_type: "tinycore"
+  ssh:
+    insert_key: False
+  synced_folder:
+    enabled: False
+  provider_config:
+    nic_adapter_count: 2
+    disk_bus: "ide"
+    cpus: 2
+    memory: 4096
+
+# Linux VMs
+centos/7:
+  vagrant_box:
+    version: "1811.02"
+    provider: "libvirt"
+  ssh:
+    insert_key: False
+  synced_folder:
+    enabled: False
+  provider_config:
+    nic_adapter_count: 2
+    cpus: 1
+    memory: 1024
+
+generic/ubuntu1804:
+  vagrant_box:
+    version: "1.8.52"
+    provider: "libvirt"
+  ssh:
+    insert_key: False
+  synced_folder:
+    enabled: False
+  provider_config:
+    nic_adapter_count: 2
+    cpus: 1
+    memory: 1024
+
+opensuse/openSUSE-15.0-x86_64:
+  vagrant_box:
+    version: "1.0.6.20181025"
+    provider: "libvirt"
+  ssh:
+    insert_key: False
+  synced_folder:
+    enabled: False
+  provider_config:
+    nic_adapter_count: 2
+    cpus: 1
+    memory: 1024

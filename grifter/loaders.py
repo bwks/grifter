@@ -9,7 +9,7 @@ def render_from_template(
         trim_blocks=True, lstrip_blocks=True, **kwargs
         ):
     """
-    Render template with customer filters
+    Render template with custom filters
     """
     loader = FileSystemLoader(template_directory)
     env = Environment(loader=loader, trim_blocks=trim_blocks, lstrip_blocks=lstrip_blocks)

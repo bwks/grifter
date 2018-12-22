@@ -10,7 +10,9 @@ end
 cwd = Dir.pwd.split("/").last
 username = ENV['USER']
 domain_prefix = "#{username}_#{cwd}"
+domain_uuid = "688c29aa-e657-5d27-b4bb-d745aad2812e"
 
+Vagrant.require_version ">= 2.1.0"
 Vagrant.configure("2") do |config|
 
   config.vm.define "sw01" do |node|
@@ -29,25 +31,25 @@ Vagrant.configure("2") do |config|
     end
 
     node.vm.network :private_network,
-      # sw01-int1 <--> sw02-int1
+      # sw01-eth1 <--> sw02-eth1
       :mac => "#{get_mac()}",
       :libvirt__tunnel_type => "udp",
       :libvirt__tunnel_local_ip => "127.255.255.1",
       :libvirt__tunnel_local_port => 10001,
       :libvirt__tunnel_ip => "127.255.255.2",
       :libvirt__tunnel_port => 10001,
-      :libvirt__iface_name => "eth1",
+      :libvirt__iface_name => "sw01-eth1-#{domain_uuid}",
       auto_config: false
 
     node.vm.network :private_network,
-      # sw01-int2 <--> sw02-int2
+      # sw01-eth2 <--> sw02-eth2
       :mac => "#{get_mac()}",
       :libvirt__tunnel_type => "udp",
       :libvirt__tunnel_local_ip => "127.255.255.1",
       :libvirt__tunnel_local_port => 10002,
       :libvirt__tunnel_ip => "127.255.255.2",
       :libvirt__tunnel_port => 10002,
-      :libvirt__iface_name => "eth2",
+      :libvirt__iface_name => "sw01-eth2-#{domain_uuid}",
       auto_config: false
 
   end
@@ -67,25 +69,25 @@ Vagrant.configure("2") do |config|
     end
 
     node.vm.network :private_network,
-      # sw02-int1 <--> sw01-int1
+      # sw02-eth1 <--> sw01-eth1
       :mac => "#{get_mac()}",
       :libvirt__tunnel_type => "udp",
       :libvirt__tunnel_local_ip => "127.255.255.2",
       :libvirt__tunnel_local_port => 10001,
       :libvirt__tunnel_ip => "127.255.255.1",
       :libvirt__tunnel_port => 10001,
-      :libvirt__iface_name => "eth1",
+      :libvirt__iface_name => "sw02-eth1-#{domain_uuid}",
       auto_config: false
 
     node.vm.network :private_network,
-      # sw02-int2 <--> sw01-int2
+      # sw02-eth2 <--> sw01-eth2
       :mac => "#{get_mac()}",
       :libvirt__tunnel_type => "udp",
       :libvirt__tunnel_local_ip => "127.255.255.2",
       :libvirt__tunnel_local_port => 10002,
       :libvirt__tunnel_ip => "127.255.255.1",
       :libvirt__tunnel_port => 10002,
-      :libvirt__iface_name => "eth2",
+      :libvirt__iface_name => "sw02-eth2-#{domain_uuid}",
       auto_config: false
 
   end

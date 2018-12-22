@@ -1,75 +1,65 @@
 ---
-guests:
-  - name: "sw01"
-    vagrant_box:
-      name: "arista/veos"
-      version: ""
-      url: ""
-      provider: "libvirt"
-      guest_type: ""
-
-    ssh:
-      username: ""
-      password: ""
-      insert_key: False
-
-    synced_folder:
-      enabled: False
-
-    provider_config:
-      random_hostname: False
-      nic_adapter_count: 2
-      disk_bus: "ide"
-      cpus: 2
-      memory: 2048
-      huge_pages: False
-      nic_model_type: ""
-      management_network_mac: ""
-      additional_storage_volumes: []
-
-    interfaces:
-      - name: "eth1"
-        local_port: 1
-        remote_guest: "sw02"
-        remote_port: 1
-      - name: "eth2"
-        local_port: 2
-        remote_guest: "sw02"
-        remote_port: 2
-
-  - name: "sw02"
-    vagrant_box:
-      name: "arista/veos"
-      version: ""
-      url: ""
-      provider: "libvirt"
-      guest_type: ""
-
-    ssh:
-      username: ""
-      password: ""
-      insert_key: False
-
-    synced_folder:
-      enabled: False
-
-    provider_config:
-      random_hostname: False
-      nic_adapter_count: 2
-      disk_bus: "ide"
-      cpus: 2
-      memory: 2048
-      huge_pages: False
-      nic_model_type: ""
-      management_network_mac: ""
-      additional_storage_volumes: []
-
-    interfaces:
-      - name: "eth1"
-        local_port: 1
-        remote_guest: "sw01"
-        remote_port: 1
-      - name: "eth2"
-        local_port: 2
-        remote_guest: "sw01"
-        remote_port: 2
+sw01:
+  vagrant_box:
+    name: "arista/veos"
+    version: ""
+    url: ""
+    provider: "libvirt"
+    guest_type: ""
+  ssh:
+    username: ""
+    password: ""
+    insert_key: False
+  synced_folder:
+    enabled: False
+  provider_config:
+    random_hostname: False
+    nic_adapter_count: 2
+    disk_bus: "ide"
+    cpus: 2
+    memory: 2048
+    huge_pages: False
+    nic_model_type: ""
+    management_network_mac: ""
+    additional_storage_volumes: []
+  internal_interfaces: []
+  reserved_interfaces: []
+  data_interfaces:
+    - local_port: 1
+      remote_guest: "sw02"
+      remote_port: 1
+    - local_port: 2
+      remote_guest: "sw02"
+      remote_port: 2
+sw02:
+  vagrant_box:
+    name: "arista/veos"
+    version: ""
+    url: ""
+    provider: "libvirt"
+    guest_type: ""
+  ssh:
+    username: ""
+    password: ""
+    insert_key: False
+  synced_folder:
+    enabled: False
+  provider_config:
+    random_hostname: False
+    nic_adapter_count: 2
+    disk_bus: "ide"
+    cpus: 2
+    memory: 2048
+    huge_pages: False
+    nic_model_type: ""
+    management_network_mac: ""
+    additional_storage_volumes: []
+  internal_interfaces: []
+  reserved_interfaces: []
+  data_interfaces:
+    - local_port: 1
+      remote_guest: "sw01"
+      remote_port: 1
+    - local_port: 2
+      remote_guest: "sw01"
+      remote_port: 2

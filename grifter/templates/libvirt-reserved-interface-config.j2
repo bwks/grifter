@@ -1,0 +1,13 @@
+    {% set local_int_map = interface_mappings[data['vagrant_box']['name']]['data_interfaces'] %}
+    node.vm.network :private_network,
+      # {{ guest }}-reserved-{{ interface.local_port }} <--> blackhole-666
+      :mac => "#{get_mac()}",
+      :libvirt__tunnel_type => "udp",
+      :libvirt__tunnel_local_ip => "{{ loopbacks[guest] }}",
+      :libvirt__tunnel_local_port => {{ interface.local_port|explode_port(base_port=12000) }},
+      :libvirt__tunnel_ip => "{{ loopbacks[interface.remote_guest] }}",
+      :libvirt__tunnel_port => {{ interface.remote_port|explode_port(base_port=12000) }},
+      :libvirt__iface_name => "{{ guest }}-reserved-{{ interface.local_port }}-#{domain_uuid}",
+      auto_config: false
+
+      {#  #}

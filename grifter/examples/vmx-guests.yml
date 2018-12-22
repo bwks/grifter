@@ -1,0 +1,63 @@
+r01:
+  vagrant_box:
+    name: "juniper/vmx-vcp"
+
+  provider_config:
+    nic_adapter_count: 1
+
+  internal_interfaces:
+    - local_port: 1
+      remote_guest: "r01-vfp"
+      remote_port: 1
+
+r01-vfp:
+  vagrant_box:
+    name: "juniper/vmx-vfp"
+
+  provider_config:
+    nic_adapter_count: 10
+
+  internal_interfaces:
+    - local_port: 1
+      remote_guest: "r01"
+      remote_port: 1
+
+  data_interfaces:
+    - local_port: 1
+      remote_guest: "r02-vfp"
+      remote_port: 1
+    - local_port: 2
+      remote_guest: "r02-vfp"
+      remote_port: 2
+
+r02:
+  vagrant_box:
+    name: "juniper/vmx-vcp"
+
+  provider_config:
+    nic_adapter_count: 1
+
+  internal_interfaces:
+    - local_port: 1
+      remote_guest: "r02-vfp"
+      remote_port: 1
+
+r02-vfp:
+  vagrant_box:
+    name: "juniper/vmx-vfp"
+
+  provider_config:
+    nic_adapter_count: 10
+
+  internal_interfaces:
+    - local_port: 1
+      remote_guest: "r02"
+      remote_port: 1
+
+  data_interfaces:
+    - local_port: 1
+      remote_guest: "r01-vfp"
+      remote_port: 1
+    - local_port: 2
+      remote_guest: "r01-vfp"
+      remote_port: 2

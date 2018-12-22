@@ -1,2 +1,3 @@
-guests:
-  - name: ""
+sw01:
+  vagrant_box:
+    name: ""
