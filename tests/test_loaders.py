@@ -1,9 +1,11 @@
+import time
 import pytest
 from unittest import mock
 
 from grifter.utils import get_uuid
 from grifter.constants import (
     BASE_DIR,
+    TIMESTAMP_FORMAT,
 )
 from grifter.constants import TEMPLATES_DIR
 from grifter.custom_filters import (
@@ -31,7 +33,9 @@ interface_mappings = generate_guest_interface_mappings()
 
 @mock.patch('random.randint', return_value=255)
 @mock.patch('uuid.uuid5', return_value="688c29aa-e657-5d27-b4bb-d745aad2812e")
-def test_render_from_template(mock_random, mock_uuid):
+@mock.patch('time.strftime', return_value='2018-12-26--17-58-55')
+def test_render_from_template(mock_random, mock_uuid, mock_time):
+    time_now = time.strftime(TIMESTAMP_FORMAT)
     loopbacks = generate_loopbacks(mock_guest_data)
     vagrantfile = render_from_template(
         template_name='guest.j2',
@@ -40,7 +44,8 @@ def test_render_from_template(mock_random, mock_uuid):
         guests=mock_guest_data,
         loopbacks=loopbacks,
         interface_mappings=interface_mappings,
-        domain_uuid=get_uuid()
+        domain_uuid=get_uuid(),
+        creation_time=time_now,
     )
     assert vagrantfile == mock_vagrantfile
 

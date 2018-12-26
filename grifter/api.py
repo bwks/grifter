@@ -25,6 +25,7 @@ from .constants import (
     GUEST_DEFAULTS_DIRS,
     DEFAULT_CONFIG_FILE,
     VAGRANTFILE_BACKUP_DIR,
+    TIMESTAMP_FORMAT,
 )
 
 logger = logging.getLogger(__name__)
@@ -347,7 +348,7 @@ def generate_vagrant_file(
     :param template_directory: Template directory location
     :return: 
     """
-    time_now = time.strftime("%Y-%m-%d--%H-%M-%S")
+    time_now = time.strftime(TIMESTAMP_FORMAT)
     current_vagrantfile = pathlib.Path('Vagrantfile')
     if current_vagrantfile.exists():
         backup_dir = pathlib.Path(VAGRANTFILE_BACKUP_DIR)
@@ -365,6 +366,7 @@ def generate_vagrant_file(
             guests=guest_data,
             loopbacks=loopbacks,
             interface_mappings=generate_guest_interface_mappings(),
-            domain_uuid=get_uuid()
+            domain_uuid=get_uuid(),
+            creation_time=time_now
         )
         f.write(vagrantfile)

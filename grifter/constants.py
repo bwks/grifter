@@ -5,7 +5,7 @@ BASE_DIR = os.path.join(os.path.dirname(__file__))
 
 TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
 
-VAGRANTFILE_BACKUP_DIR = 'Vagrantfile-backup'
+VAGRANTFILE_BACKUP_DIR = 'vagrantfile-backup'
 
 EXAMPLES_DIR = os.path.join(BASE_DIR, 'examples')
 GROUPS_EXAMPLE_FILE = f'{EXAMPLES_DIR}/groups-example.yml'
@@ -35,3 +35,4 @@ DATA_INTERFACES_BASE_PORT = 10000
 INTERNAL_INTERFACES_BASE_PORT = 11000
 RESERVED_INTERFACES_BASE_PORT = 12000
 
+TIMESTAMP_FORMAT = '%Y-%m-%d--%H-%M-%S'
