@@ -1,7 +1,9 @@
     blackhole_interfaces = {{ blackhole_interfaces.get(guest)|replace("'", '"') }}
-    blackhole_interfaces.each do |interface|
-      node.trigger.after :up do |trigger|
-        trigger.info = "Shutting down #{guest_name}-#{interface}"
+
+    node.trigger.after :up do |trigger|
+      trigger.name = "shutdown-blackhole-interfaces"
+      trigger.info = "Shutting down #{guest_name} blackhole interfaces"
+      blackhole_interfaces.each do |interface|
         trigger.run = {inline: "virsh domif-setlink #{domain_prefix}_#{guest_name} #{guest_name}-#{interface}-#{domain_uuid} down"}
       end
     end
