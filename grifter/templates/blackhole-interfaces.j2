@@ -6,7 +6,7 @@
     blackhole_interfaces.each do |i|
       node.trigger.after :up do |trigger|
         trigger.name = "shutdown-blackhole-interfaces"
-        trigger.info = "Shutting down blackhole interfaces"
+        trigger.info = "Shutting down {{ guest }} blackhole interfaces"
         trigger.run = {inline: i}
       end
     end
