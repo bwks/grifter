@@ -52,7 +52,7 @@ def display_connections(connections, guest=''):
 
 
 @click.group(context_settings={'help_option_names': ['-h', '--help']})
-@click.version_option(version='0.2.1')
+@click.version_option(version='0.2.2')
 def cli():
     """Create a Vagrantfile from a YAML data input file."""
     pass

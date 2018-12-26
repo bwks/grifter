@@ -184,7 +184,7 @@ This file can be named anything, but the recommended naming convention is
 `guests.yml`.
 
 #### Guest Schema
-Jinja2 is used a the templating engine to generate the Vagranfiles.
+Jinja2 is used a the templating engine to generate the Vagrantfiles.
 Guests definition within a guests file must use the following 
 schema as it is required to ensure templates render correctly and 
 without errors. The guest data will be validated against the schema 

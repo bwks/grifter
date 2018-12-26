@@ -1,4 +1,5 @@
 import copy
+import time
 
 from unittest import mock
 
@@ -9,7 +10,9 @@ from grifter.api import (
     generate_guest_interface_mappings,
 )
 from grifter.loaders import render_from_template
-from grifter.constants import TEMPLATES_DIR
+from grifter.constants import (
+    TEMPLATES_DIR,
+    TIMESTAMP_FORMAT)
 from grifter.custom_filters import (
     explode_port,
 )
@@ -27,7 +30,10 @@ custom_filters = [
 @mock.patch('os.path.getsize', return_value='10000')
 @mock.patch('random.randint', return_value=255)
 @mock.patch('uuid.uuid5', return_value="688c29aa-e657-5d27-b4bb-d745aad2812e")
-def test_render_vagrantfile_with_additional_storage_interfaces(mock_storage_size, mock_random, mock_uuid):
+@mock.patch('time.strftime', return_value='2018-12-26--17-58-55')
+def test_render_vagrantfile_with_additional_storage_interfaces(mock_storage_size, mock_random,
+                                                               mock_uuid, mock_time):
+    time_now = time.strftime(TIMESTAMP_FORMAT)
     guest_data = copy.deepcopy(mock_guest_data)
     loopbacks = generate_loopbacks(guest_data)
     guest_data['sw01']['provider_config']['additional_storage_volumes'] = mock_additional_storage_volumes
@@ -41,6 +47,7 @@ def test_render_vagrantfile_with_additional_storage_interfaces(mock_storage_size
         loopbacks=loopbacks,
         interface_mappings=generate_guest_interface_mappings(),
         domain_uuid=get_uuid(),
+        creation_time=time_now,
     )
 
     assert mock_vagrantfile_with_additional_storage_volumes == vagrantfile

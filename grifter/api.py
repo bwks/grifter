@@ -2,6 +2,8 @@ import os
 import copy
 import logging
 import random
+import pathlib
+import time
 
 from .utils import (
     get_uuid,
@@ -22,6 +24,8 @@ from .constants import (
     GUEST_SCHEMA_FILE,
     GUEST_DEFAULTS_DIRS,
     DEFAULT_CONFIG_FILE,
+    VAGRANTFILE_BACKUP_DIR,
+    TIMESTAMP_FORMAT,
 )
 
 logger = logging.getLogger(__name__)
@@ -334,18 +338,27 @@ def validate_data(guest_data):
 
 def generate_vagrant_file(
         guest_data, loopbacks, template_name='guest.j2',
-        template_directory=f'{TEMPLATES_DIR}/', vagrantfile_location='.'
+        template_directory=f'{TEMPLATES_DIR}/'
         ):
     """
-    Generate a vagrant file
+    Generate a Vagrantfile in the current directory.
     :param guest_data: Dictionary of data to apply to Jinja2 template.
     :param loopbacks: Dictionary of loopback addresses.
     :param template_name: Name of Jinja2 template
     :param template_directory: Template directory location
-    :param vagrantfile_location: location to save the Vagrantfile.
     :return: 
     """
-    with open(f'{vagrantfile_location}/Vagrantfile', 'w') as f:
+    time_now = time.strftime(TIMESTAMP_FORMAT)
+    current_vagrantfile = pathlib.Path('Vagrantfile')
+    if current_vagrantfile.exists():
+        backup_dir = pathlib.Path(VAGRANTFILE_BACKUP_DIR)
+        if not backup_dir.exists():
+            backup_dir.mkdir()
+        dest_file = pathlib.Path(f'{VAGRANTFILE_BACKUP_DIR}/Vagrantfile-{time_now}')
+        src_file = pathlib.Path('Vagrantfile')
+        src_file.replace(dest_file)
+
+    with open('Vagrantfile', 'w') as f:
         vagrantfile = render_from_template(
             template_name=template_name,
             template_directory=template_directory,
@@ -353,7 +366,7 @@ def generate_vagrant_file(
             guests=guest_data,
             loopbacks=loopbacks,
             interface_mappings=generate_guest_interface_mappings(),
-            domain_uuid=get_uuid()
+            domain_uuid=get_uuid(),
+            creation_time=time_now
         )
-
         f.write(vagrantfile)
