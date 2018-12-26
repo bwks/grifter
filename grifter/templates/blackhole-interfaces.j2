@@ -1,4 +1,4 @@
-    blackhole_interfaces = {{ blackhole_interfaces.get(guest) }}
+    blackhole_interfaces = {{ blackhole_interfaces.get(guest)|replace("'", '"') }}
     blackhole_interfaces.each do |interface|
       node.trigger.after :up do |trigger|
         trigger.info = "Shutting down {{ guest }} blackhole interface"
