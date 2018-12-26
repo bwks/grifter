@@ -1,12 +1,10 @@
-    blackhole_interfaces = [
-    {% for interface in blackhole_interfaces.get(guest) %}
-      "virsh domif-setlink #{domain_prefix}_{{ guest }} {{ guest }}-{{ interface }}-#{domain_uuid} down"{{ "," if not loop.last }}
-    {% endfor %}
-    ]
-    blackhole_interfaces.each do |i|
+    blackhole_interfaces = {
+      {{ guest }}: {{ blackhole_interfaces.get(guest) }}
+    }
+    blackhole_interfaces['{{ guest }}'].each do |interface|
       node.trigger.after :up do |trigger|
         trigger.info = "Shutting down {{ guest }} blackhole interface"
-        trigger.run = {inline: i}
+        trigger.run = {inline: "virsh domif-setlink #{domain_prefix}_{{ guest }} {{ guest }}-{{ interface }}-#{domain_uuid} down"}
       end
     end
     {#  #}
