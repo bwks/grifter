@@ -2,10 +2,8 @@
 sw01:
   vagrant_box:
     name: "CumulusCommunity/cumulus-vx"
-
   provider_config:
     nic_adapter_count: 12
-
   data_interfaces:
     - local_port: 1
       remote_guest: "sw02"
@@ -17,10 +15,8 @@ sw01:
 sw02:
   vagrant_box:
     name: "CumulusCommunity/cumulus-vx"
-
   provider_config:
     nic_adapter_count: 12
-
   data_interfaces:
     - local_port: 1
       remote_guest: "sw01"
