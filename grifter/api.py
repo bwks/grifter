@@ -348,6 +348,15 @@ def generate_vagrant_file(
     :return: 
     """
     time_now = time.strftime("%Y-%m-%d--%H-%M-%S")
+    current_vagrantfile = pathlib.Path('Vagrantfile')
+    if current_vagrantfile.exists():
+        backup_dir = pathlib.Path(VAGRANTFILE_BACKUP_DIR)
+        if not backup_dir.exists():
+            backup_dir.mkdir()
+        dest_file = pathlib.Path(f'{VAGRANTFILE_BACKUP_DIR}/Vagrantfile-{time_now}')
+        src_file = pathlib.Path('Vagrantfile')
+        src_file.replace(dest_file)
+
     with open('Vagrantfile', 'w') as f:
         vagrantfile = render_from_template(
             template_name=template_name,
@@ -358,13 +367,4 @@ def generate_vagrant_file(
             interface_mappings=generate_guest_interface_mappings(),
             domain_uuid=get_uuid()
         )
-        current_vagrantfile = pathlib.Path('Vagrantfile')
-        if current_vagrantfile.exists():
-            backup_dir = pathlib.Path(VAGRANTFILE_BACKUP_DIR)
-            if not backup_dir.exists():
-                backup_dir.mkdir()
-            dest_file = pathlib.Path(f'{VAGRANTFILE_BACKUP_DIR}/Vagrantfile-{time_now}')
-            src_file = pathlib.Path('Vagrantfile')
-            src_file.replace(dest_file)
-
         f.write(vagrantfile)
