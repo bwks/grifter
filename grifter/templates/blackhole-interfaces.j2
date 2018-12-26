@@ -1,7 +1,12 @@
-{% if blackhole_interfaces %}
-blackhole_interfaces = [
-{% for interface in blackhole_interfaces %}
-  "virsh domif-setlink #{domain_prefix}_{{ interface.guest }} {{ interface.guest }}-{{ interface.interface }}-#{domain_uuid} down"{{ "," if not loop.last }}
-{% endfor %}
-]
-{% endif %}
+    blackhole_interfaces = [
+    {% for interface in blackhole_interfaces.get(guest) %}
+      "virsh domif-setlink #{domain_prefix}_{{ guest }} {{ guest }}-{{ interface }}-#{domain_uuid} down"{{ "," if not loop.last }}
+    {% endfor %}
+    ]
+    blackhole_interfaces.each do |i|
+      node.trigger.after :up do |trigger|
+        trigger.name = "shutdown-blackhole-interfaces"
+        trigger.info = "Shutting down blackhole interfaces"
+        trigger.run = {inline: i}
+      end
+    end

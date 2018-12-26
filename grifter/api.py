@@ -132,16 +132,16 @@ def create_reserved_interfaces(num_reserved_interfaces):
     return [blackhole_interface_config(i) for i in range(1, num_reserved_interfaces + 1)]
 
 
-def generate_blackhole_interface_list(guests, int_map):
-    blackhole_interfaces = []
+def generate_blackhole_interface_map(guests, int_map):
+    blackhole_interfaces = {}
     for guest, data in guests.items():
+        blackhole_interfaces.update({guest: []})
         guest_box = data['vagrant_box']['name']
         for interface in data['data_interfaces']:
             if interface['remote_guest'] == 'blackhole':
-                blackhole_interfaces.append({
-                    'guest': guest,
-                    'interface': int_map[guest_box]['data_interfaces'][interface['local_port']]
-                })
+                blackhole_interfaces[guest].append(
+                    int_map[guest_box]['data_interfaces'][interface['local_port']]
+                )
     return blackhole_interfaces
 
 
@@ -372,7 +372,7 @@ def generate_vagrant_file(
         src_file.replace(dest_file)
 
     interface_map = generate_guest_interface_mappings()
-    blackhole_interface_list=generate_blackhole_interface_list(guest_data, interface_map)
+    blackhole_interface_map = generate_blackhole_interface_map(guest_data, interface_map)
     with open('Vagrantfile', 'w') as f:
         vagrantfile = render_from_template(
             template_name=template_name,
@@ -383,6 +383,6 @@ def generate_vagrant_file(
             interface_mappings=interface_map,
             domain_uuid=get_uuid(),
             creation_time=time_now,
-            blackhole_interfaces=blackhole_interface_list,
+            blackhole_interfaces=blackhole_interface_map,
         )
         f.write(vagrantfile)

@@ -45,6 +45,9 @@
     {% for interface in data.data_interfaces %}
     {% include 'libvirt-data-interface-config.j2' %}
     {% endfor %}
+    {% if blackhole_interfaces.get(guest) %}
+    {% include 'blackhole-interface.j2' %}
+    {% endfor %}
   end
   {% endfor %}
 {% endblock guest_config %}
