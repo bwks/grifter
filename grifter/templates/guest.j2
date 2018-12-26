@@ -47,7 +47,7 @@
     {% endfor %}
     {% if blackhole_interfaces.get(guest) %}
     {% include 'blackhole-interface.j2' %}
-    {% endfor %}
+    {% endif %}
   end
   {% endfor %}
 {% endblock guest_config %}
