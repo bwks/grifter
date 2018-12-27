@@ -41,11 +41,15 @@ def sort_nicely(the_list):
     Adapted from: https://blog.codinghorror.com/sorting-for-humans-natural-sort-order/
     :param the_list: The list to sort.
     """
+    if not isinstance(the_list, list):
+        raise AttributeError('the_list must be of the type list')
+    if not the_list:
+        return the_list
+
     def convert(text):
         return int(text) if text.isdigit() else text
 
     def alphanum_key(key):
         return [convert(c) for c in re.split('([0-9]+)', key)]
 
-    if the_list:
-        return sorted(the_list, key=alphanum_key)
+    return sorted(the_list, key=alphanum_key)
