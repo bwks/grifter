@@ -15,6 +15,7 @@ from .api import (
     update_guest_additional_storage,
     generate_guest_interface_mappings,
     update_reserved_interfaces,
+    generate_connections_map,
 )
 from .validators import (
     validate_guests_in_guest_config,
@@ -35,17 +36,17 @@ def display_errors(errors_list):
         click.echo(error)
 
 
-def display_connections(connections, guest=''):
+def display_connections(connections_list, guest=''):
     """
     Output a list of connections
-    :param connections: List of dicts containing connection information ie:
+    :param connections_list: List of dicts containing connection information ie:
       [{'local_guest': 'p1sw1',
         'local_port': 'swp7',
         'remote_guest': 'p1r7',
         'remote_port': 'ge-0/0/9'}]
     :param guest: Display connections for guest. TODO
     """
-    for i in connections:
+    for i in connections_list:
         click.echo(
             f"{i['local_guest']}-{i['local_port']} <--> {i['remote_guest']}-{i['remote_port']}"
         )
@@ -102,3 +103,17 @@ def example(guest, group):
     if group:
         with open(GROUPS_EXAMPLE_FILE, 'r') as f:
             click.echo(f.read())
+
+
+@click.argument('datafile')
+@click.option('--show-duplicates', is_flag=True, default=False)
+def connections(datafile):
+    """Show device to device connections."""
+    guest_data = load_data(datafile)
+    errors = validate_data(guest_data)
+
+    if not errors:
+        mappings = generate_connections_map(guest_data, interface_mappings)
+        display_connections(mappings)
+    else:
+        display_errors(errors)
