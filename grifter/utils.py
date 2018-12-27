@@ -38,10 +38,14 @@ def remove_duplicates(list_of_tuples):
 def sort_nicely(the_list):
     """
     Sort the given list in the way that humans expect.
-    from: https://blog.codinghorror.com/sorting-for-humans-natural-sort-order/
+    Adapted from: https://blog.codinghorror.com/sorting-for-humans-natural-sort-order/
     :param the_list: The list to sort.
     """
+    def convert(text):
+        return int(text) if text.isdigit() else text
+
+    def alphanum_key(key):
+        return [convert(c) for c in re.split('([0-9]+)', key)]
+
     if the_list:
-        convert = lambda text: int(text) if text.isdigit() else text
-        alphanum_key = lambda key: [convert(c) for c in re.split('([0-9]+)', key)]
         the_list.sort(key=alphanum_key)
