@@ -1,4 +1,5 @@
 import click
+import sys
 
 from .constants import (
     GUESTS_EXAMPLE_FILE,
@@ -25,6 +26,20 @@ from .validators import (
 
 config = load_data(DEFAULT_CONFIG_FILE)
 interface_mappings = generate_guest_interface_mappings()
+
+
+def load_data_file(datafile):
+    """
+    Load data file.
+    :param datafile: Name of datafile
+    :return: Dict of guest data.
+    """
+    try:
+        guest_data = load_data(datafile)
+    except FileNotFoundError:
+        click.echo(f'Datafile: {datafile} not found.')
+        sys.exit(1)
+    return guest_data
 
 
 def display_errors(errors_list):
@@ -77,7 +92,8 @@ def cli():
 @click.argument('datafile')
 def create(datafile):
     """Create a Vagrantfile."""
-    guest_data = load_data(datafile)
+
+    guest_data = load_data_file(datafile)
 
     errors = validate_data(guest_data)
 
@@ -125,11 +141,7 @@ def example(guest, group):
 @click.option('--show-duplicates', is_flag=True, default=False)
 def connections(datafile, guest, show_duplicates):
     """Show device to device connections."""
-    try:
-        guest_data = load_data(datafile)
-    except FileNotFoundError:
-        click.echo(f'{datafile} not found.')
-        exit(1)
+    guest_data = load_data_file(datafile)
 
     errors = validate_data(guest_data)
 
