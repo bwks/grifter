@@ -62,19 +62,19 @@ def display_connections(connections_list, guest=''):
     :param guest: Display connections for guest. TODO
     """
     guest_connections = []
+
+    def make_link(i):
+        return f"{i['local_guest']}-{i['local_port']} <--> {i['remote_guest']}-{i['remote_port']}"
+
     if guest:
         for i in connections_list:
             if i['local_guest'] == guest:
-                guest_connections.append(
-                    f"{i['local_guest']}-{i['local_port']} <--> {i['remote_guest']}-{i['remote_port']}"
-                )
+                guest_connections.append(make_link(i))
         for i in guest_connections:
             click.echo(i)
     else:
         for i in connections_list:
-            click.echo(
-                f"{i['local_guest']}-{i['local_port']} <--> {i['remote_guest']}-{i['remote_port']}"
-            )
+            click.echo(make_link(i))
 
 
 @click.group(context_settings={'help_option_names': ['-h', '--help']})
