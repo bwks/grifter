@@ -1,7 +1,7 @@
 import random
 import uuid
 import string
-
+import re
 
 def get_mac(oui='28:b7:ad'):
     """
@@ -33,3 +33,13 @@ def remove_duplicates(list_of_tuples):
         if not (i[2], i[3], i[0], i[1]) in reduced:
             reduced.add(i)
     return list(reduced)
+
+
+def sort_nicely(the_list):
+    """
+    Sort the given list in the way that humans expect.
+    from: https://blog.codinghorror.com/sorting-for-humans-natural-sort-order/
+    """
+    convert = lambda text: int(text) if text.isdigit() else text
+    alphanum_key = lambda key: [convert(c) for c in re.split('([0-9]+)', key)]
+    the_list.sort(key=alphanum_key)

@@ -22,6 +22,7 @@ from .validators import (
     validate_guests_in_guest_config,
     validate_guest_interfaces,
 )
+from .utils import sort_nicely
 
 
 config = load_data(DEFAULT_CONFIG_FILE)
@@ -70,7 +71,7 @@ def display_connections(connections_list, guest=''):
         for i in connections_list:
             if i['local_guest'] == guest:
                 guest_connections.append(make_link(i))
-        for i in guest_connections:
+        for i in sort_nicely(guest_connections):
             click.echo(i)
     else:
         for i in connections_list:
