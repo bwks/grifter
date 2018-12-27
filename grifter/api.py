@@ -116,13 +116,14 @@ def generate_connections_map(guests, int_map, unique=False):
     connections = []
     box_map = {k: v['vagrant_box']['name'] for k, v in guests.items()}
     for k, v in guests.items():
-        for i in v.get('data_interfaces'):
-            if not i['remote_guest'] == 'blackhole':
-                local_box = box_map[k]
-                local_int = int_map[local_box]['data_interfaces'][i['local_port']]
-                remote_box = box_map[i['remote_guest']]
-                remote_int = int_map[remote_box]['data_interfaces'][i['remote_port']]
-                connections.append((k, local_int, i['remote_guest'], remote_int))
+        if v.get('data_interfaces'):
+            for i in v['data_interfaces']:
+                if not i['remote_guest'] == 'blackhole':
+                    local_box = box_map[k]
+                    local_int = int_map[local_box]['data_interfaces'][i['local_port']]
+                    remote_box = box_map[i['remote_guest']]
+                    remote_int = int_map[remote_box]['data_interfaces'][i['remote_port']]
+                    connections.append((k, local_int, i['remote_guest'], remote_int))
     if unique:
         return [dict(zip(dict_keys, i)) for i in remove_duplicates(connections)]
     return [dict(zip(dict_keys, i)) for i in connections]
