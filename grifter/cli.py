@@ -118,7 +118,7 @@ def connections(datafile, show_duplicates):
     errors = validate_data(guest_data)
 
     if not errors:
-        mappings = generate_connections_map(guest_data, interface_mappings)
+        mappings = generate_connections_map(guest_data, interface_mappings, show_duplicates)
         display_connections(mappings)
     else:
         display_errors(errors)
