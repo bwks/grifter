@@ -64,8 +64,8 @@ def display_connections(connections_list, guest=''):
     """
     guest_connections = []
 
-    def make_link(i):
-        return f"{i['local_guest']}-{i['local_port']} <--> {i['remote_guest']}-{i['remote_port']}"
+    def make_link(x):
+        return f"{x['local_guest']}-{x['local_port']} <--> {x['remote_guest']}-{x['remote_port']}"
 
     if guest:
         for i in connections_list:
@@ -75,7 +75,7 @@ def display_connections(connections_list, guest=''):
         for i in connections_list:
             guest_connections.append(make_link(i))
 
-    for i in sorted(guest_connections):
+    for i in sort_nicely(guest_connections):
         click.echo(i)
 
 
