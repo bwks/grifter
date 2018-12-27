@@ -105,6 +105,11 @@ def example(guest, group):
             click.echo(f.read())
 
 
+@cli.command(help='''
+    Show device to device connections.
+
+    DATAFILE - Location of DATAFILE.
+    ''')
 @click.argument('datafile')
 @click.option('--show-duplicates', is_flag=True, default=False)
 def connections(datafile):
