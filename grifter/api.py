@@ -116,7 +116,7 @@ def generate_connections_map(guests, int_map, unique=False):
     connections = []
     box_map = {k: v['vagrant_box']['name'] for k, v in guests.items()}
     for k, v in guests.items():
-        for i in v['data_interfaces']:
+        for i in v.get('data_interfaces'):
             if not i['remote_guest'] == 'blackhole':
                 local_box = box_map[k]
                 local_int = int_map[local_box]['data_interfaces'][i['local_port']]
