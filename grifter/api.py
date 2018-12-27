@@ -104,7 +104,7 @@ def generate_guest_interface_mappings(config_file=DEFAULT_CONFIG_FILE):
     return mappings
 
 
-def generate_connections_map(guests, int_map, unique=False):
+def generate_connections_list(guests, int_map, unique=False):
     """
     Generate a map of interface connections.
     :param guests: Dict of guests data

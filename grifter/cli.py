@@ -16,7 +16,7 @@ from .api import (
     update_guest_additional_storage,
     generate_guest_interface_mappings,
     update_reserved_interfaces,
-    generate_connections_map,
+    generate_connections_list,
 )
 from .validators import (
     validate_guests_in_guest_config,
@@ -146,7 +146,7 @@ def connections(datafile, guest, unique):
     errors = validate_data(guest_data)
 
     if not errors:
-        mappings = generate_connections_map(guest_data, interface_mappings, unique)
-        display_connections(mappings, guest)
+        connections_list = generate_connections_list(guest_data, interface_mappings, unique)
+        display_connections(connections_list, guest)
     else:
         display_errors(errors)
