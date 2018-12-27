@@ -46,6 +46,7 @@ def test_render_from_template(mock_random, mock_uuid, mock_time):
         interface_mappings=interface_mappings,
         domain_uuid=get_uuid(),
         creation_time=time_now,
+        blackhole_interfaces={},
     )
     assert vagrantfile == mock_vagrantfile
 

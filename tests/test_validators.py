@@ -45,7 +45,7 @@ def test_validate_missing_required_key_vagrant_box_name_raises_attribute_error()
     guest = guest_data()
     guest['sw01']['vagrant_box'].pop('name')
     with pytest.raises(AttributeError):
-        validate_required_keys(guest)
+        validate_required_keys(guest['sw01'])
 
 
 def test_validate_empty_required_vagrant_box_name_raises_value_error():

@@ -48,6 +48,7 @@ def test_render_vagrantfile_with_additional_storage_interfaces(mock_storage_size
         interface_mappings=generate_guest_interface_mappings(),
         domain_uuid=get_uuid(),
         creation_time=time_now,
+        blackhole_interfaces={},
     )
 
     assert mock_vagrantfile_with_additional_storage_volumes == vagrantfile
