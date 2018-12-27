@@ -59,7 +59,7 @@ def display_connections(connections_list, guest=''):
         'local_port': 'swp7',
         'remote_guest': 'p1r7',
         'remote_port': 'ge-0/0/9'}]
-    :param guest: Display connections for guest. TODO
+    :param guest: Display connections for guest.
     """
     guest_connections = []
 
