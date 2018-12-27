@@ -71,11 +71,12 @@ def display_connections(connections_list, guest=''):
         for i in connections_list:
             if i['local_guest'] == guest:
                 guest_connections.append(make_link(i))
-        for i in guest_connections:
-            click.echo(i)
     else:
         for i in connections_list:
-            click.echo(make_link(i))
+            guest_connections.append(make_link(i))
+
+    for i in sorted(guest_connections):
+        click.echo(i)
 
 
 @click.group(context_settings={'help_option_names': ['-h', '--help']})
