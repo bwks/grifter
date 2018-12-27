@@ -125,7 +125,12 @@ def example(guest, group):
 @click.option('--show-duplicates', is_flag=True, default=False)
 def connections(datafile, guest, show_duplicates):
     """Show device to device connections."""
-    guest_data = load_data(datafile)
+    try:
+        guest_data = load_data(datafile)
+    except FileNotFoundError:
+        click.echo(f'{datafile} not found.')
+        exit(1)
+
     errors = validate_data(guest_data)
 
     if not errors:
