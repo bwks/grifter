@@ -75,8 +75,7 @@ def display_connections(connections_list, guest=''):
         for i in connections_list:
             guest_connections.append(make_link(i))
 
-    sort_nicely(guest_connections)
-    for i in guest_connections:
+    for i in sort_nicely(guest_connections):
         click.echo(i)
 
 

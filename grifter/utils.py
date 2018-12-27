@@ -48,4 +48,4 @@ def sort_nicely(the_list):
         return [convert(c) for c in re.split('([0-9]+)', key)]
 
     if the_list:
-        the_list.sort(key=alphanum_key)
+        return sorted(the_list, key=alphanum_key)
