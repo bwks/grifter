@@ -71,7 +71,7 @@ def display_connections(connections_list, guest=''):
         for i in connections_list:
             if i['local_guest'] == guest:
                 guest_connections.append(make_link(i))
-        for i in sort_nicely(guest_connections):
+        for i in guest_connections:
             click.echo(i)
     else:
         for i in connections_list:
