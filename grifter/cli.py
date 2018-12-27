@@ -87,7 +87,7 @@ def cli():
 @cli.command(help='''
     Create a Vagrantfile.
     
-    DATAFILE - Location of DATAFILE.
+    DATAFILE - Name of DATAFILE.
     ''')
 @click.argument('datafile')
 def create(datafile):
@@ -134,19 +134,19 @@ def example(guest, group):
 @cli.command(help='''
     Show device to device connections.
 
-    DATAFILE - Location of DATAFILE.
+    DATAFILE - Name of DATAFILE.
     ''')
 @click.argument('datafile')
 @click.argument('guest', default='')
-@click.option('--show-duplicates', is_flag=True, default=False)
-def connections(datafile, guest, show_duplicates):
+@click.option('--unique', is_flag=True, default=False)
+def connections(datafile, guest, unique):
     """Show device to device connections."""
     guest_data = load_data_file(datafile)
 
     errors = validate_data(guest_data)
 
     if not errors:
-        mappings = generate_connections_map(guest_data, interface_mappings, show_duplicates)
-        display_connections(mappings)
+        mappings = generate_connections_map(guest_data, interface_mappings, unique)
+        display_connections(mappings, guest)
     else:
         display_errors(errors)
