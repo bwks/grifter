@@ -1,10 +1,9 @@
-from grifter.constants import (
-    BASE_DIR,
-)
+import pytest
 
 from grifter.utils import (
     get_mac,
     remove_duplicates,
+    sort_nicely,
 )
 
 
@@ -20,3 +19,30 @@ def test_remote_duplicates():
     data = [(0, 1, 2, 3), (2, 3, 0, 1)]
     expected = [(0, 1, 2, 3)]
     assert remove_duplicates(data) == expected
+
+
+def test_sort_nicely():
+    data = [
+        'p1r50-ge-0/0/9 <--> p1sw10-swp5',
+        'p1r1-ge-0/0/2 <--> p1r2-ge-0/0/1',
+        'p1r5-ge-0/0/9 <--> p1sw1-swp5',
+        'p1r2-ge-0/0/9 <--> p1sw1-swp2',
+    ]
+    expected = [
+        'p1r1-ge-0/0/2 <--> p1r2-ge-0/0/1',
+        'p1r2-ge-0/0/9 <--> p1sw1-swp2',
+        'p1r5-ge-0/0/9 <--> p1sw1-swp5',
+        'p1r50-ge-0/0/9 <--> p1sw10-swp5',
+    ]
+    assert expected == sort_nicely(data)
+
+
+def test_sort_nicely_empty_list_returns_empty_list():
+    data = []
+    expected = []
+    assert expected == sort_nicely(data)
+
+
+def test_sort_nicely_non_list_type_raises_attribute_error():
+    with pytest.raises(AttributeError):
+        sort_nicely('')

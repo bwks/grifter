@@ -22,6 +22,7 @@ from .validators import (
     validate_guests_in_guest_config,
     validate_guest_interfaces,
 )
+from .utils import sort_nicely
 
 
 config = load_data(DEFAULT_CONFIG_FILE)
@@ -63,22 +64,23 @@ def display_connections(connections_list, guest=''):
     """
     guest_connections = []
 
-    def make_link(i):
-        return f"{i['local_guest']}-{i['local_port']} <--> {i['remote_guest']}-{i['remote_port']}"
+    def make_link(x):
+        return f"{x['local_guest']}-{x['local_port']} <--> {x['remote_guest']}-{x['remote_port']}"
 
     if guest:
         for i in connections_list:
             if i['local_guest'] == guest:
                 guest_connections.append(make_link(i))
-        for i in guest_connections:
-            click.echo(i)
     else:
         for i in connections_list:
-            click.echo(make_link(i))
+            guest_connections.append(make_link(i))
+
+    for i in sort_nicely(guest_connections):
+        click.echo(i)
 
 
 @click.group(context_settings={'help_option_names': ['-h', '--help']})
-@click.version_option(version='0.2.4')
+@click.version_option(version='0.2.5')
 def cli():
     """Create a Vagrantfile from a YAML data input file."""
     pass
