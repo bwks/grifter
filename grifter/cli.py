@@ -121,8 +121,9 @@ def example(guest, group):
     DATAFILE - Location of DATAFILE.
     ''')
 @click.argument('datafile')
+@click.argument('guest', default='')
 @click.option('--show-duplicates', is_flag=True, default=False)
-def connections(datafile, show_duplicates):
+def connections(datafile, guest, show_duplicates):
     """Show device to device connections."""
     guest_data = load_data(datafile)
     errors = validate_data(guest_data)
