@@ -104,26 +104,27 @@ def generate_guest_interface_mappings(config_file=DEFAULT_CONFIG_FILE):
     return mappings
 
 
-def generate_connections_map(guests, int_map, keep_duplicates=False):
+def generate_connections_list(guests, int_map, unique=False):
     """
     Generate a map of interface connections.
     :param guests: Dict of guests data
     :param int_map: Dict of interface mappings
-    :param keep_duplicates: Keep duplicate connection between guests
+    :param unique: Remove duplicate connection between guests
     :return: List of Dicts of connections between guests
     """
     dict_keys = ('local_guest', 'local_port', 'remote_guest', 'remote_port')
     connections = []
     box_map = {k: v['vagrant_box']['name'] for k, v in guests.items()}
     for k, v in guests.items():
-        for i in v['data_interfaces']:
-            if not i['remote_guest'] == 'blackhole':
-                local_box = box_map[k]
-                local_int = int_map[local_box]['data_interfaces'][i['local_port']]
-                remote_box = box_map[i['remote_guest']]
-                remote_int = int_map[remote_box]['data_interfaces'][i['remote_port']]
-                connections.append((k, local_int, i['remote_guest'], remote_int))
-    if not keep_duplicates:
+        if v.get('data_interfaces'):
+            for i in v['data_interfaces']:
+                if not i['remote_guest'] == 'blackhole':
+                    local_box = box_map[k]
+                    local_int = int_map[local_box]['data_interfaces'][i['local_port']]
+                    remote_box = box_map[i['remote_guest']]
+                    remote_int = int_map[remote_box]['data_interfaces'][i['remote_port']]
+                    connections.append((k, local_int, i['remote_guest'], remote_int))
+    if unique:
         return [dict(zip(dict_keys, i)) for i in remove_duplicates(connections)]
     return [dict(zip(dict_keys, i)) for i in connections]
 

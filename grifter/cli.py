@@ -1,4 +1,5 @@
 import click
+import sys
 
 from .constants import (
     GUESTS_EXAMPLE_FILE,
@@ -15,6 +16,7 @@ from .api import (
     update_guest_additional_storage,
     generate_guest_interface_mappings,
     update_reserved_interfaces,
+    generate_connections_list,
 )
 from .validators import (
     validate_guests_in_guest_config,
@@ -26,6 +28,20 @@ config = load_data(DEFAULT_CONFIG_FILE)
 interface_mappings = generate_guest_interface_mappings()
 
 
+def load_data_file(datafile):
+    """
+    Load data file.
+    :param datafile: Name of datafile
+    :return: Dict of guest data.
+    """
+    try:
+        guest_data = load_data(datafile)
+    except FileNotFoundError:
+        click.echo(f'Datafile: {datafile} not found.')
+        sys.exit(1)
+    return guest_data
+
+
 def display_errors(errors_list):
     """
     Outputs a list of errors
@@ -35,24 +51,34 @@ def display_errors(errors_list):
         click.echo(error)
 
 
-def display_connections(connections, guest=''):
+def display_connections(connections_list, guest=''):
     """
     Output a list of connections
-    :param connections: List of dicts containing connection information ie:
+    :param connections_list: List of dicts containing connection information ie:
       [{'local_guest': 'p1sw1',
         'local_port': 'swp7',
         'remote_guest': 'p1r7',
         'remote_port': 'ge-0/0/9'}]
-    :param guest: Display connections for guest. TODO
+    :param guest: Display connections for guest.
     """
-    for i in connections:
-        click.echo(
-            f"{i['local_guest']}-{i['local_port']} <--> {i['remote_guest']}-{i['remote_port']}"
-        )
+    guest_connections = []
+
+    def make_link(i):
+        return f"{i['local_guest']}-{i['local_port']} <--> {i['remote_guest']}-{i['remote_port']}"
+
+    if guest:
+        for i in connections_list:
+            if i['local_guest'] == guest:
+                guest_connections.append(make_link(i))
+        for i in guest_connections:
+            click.echo(i)
+    else:
+        for i in connections_list:
+            click.echo(make_link(i))
 
 
 @click.group(context_settings={'help_option_names': ['-h', '--help']})
-@click.version_option(version='0.2.3')
+@click.version_option(version='0.2.4')
 def cli():
     """Create a Vagrantfile from a YAML data input file."""
     pass
@@ -61,12 +87,13 @@ def cli():
 @cli.command(help='''
     Create a Vagrantfile.
     
-    DATAFILE - Location of DATAFILE.
+    DATAFILE - Name of DATAFILE.
     ''')
 @click.argument('datafile')
 def create(datafile):
     """Create a Vagrantfile."""
-    guest_data = load_data(datafile)
+
+    guest_data = load_data_file(datafile)
 
     errors = validate_data(guest_data)
 
@@ -102,3 +129,24 @@ def example(guest, group):
     if group:
         with open(GROUPS_EXAMPLE_FILE, 'r') as f:
             click.echo(f.read())
+
+
+@cli.command(help='''
+    Show device to device connections.
+
+    DATAFILE - Name of DATAFILE.
+    ''')
+@click.argument('datafile')
+@click.argument('guest', default='')
+@click.option('--unique', is_flag=True, default=False)
+def connections(datafile, guest, unique):
+    """Show device to device connections."""
+    guest_data = load_data_file(datafile)
+
+    errors = validate_data(guest_data)
+
+    if not errors:
+        connections_list = generate_connections_list(guest_data, interface_mappings, unique)
+        display_connections(connections_list, guest)
+    else:
+        display_errors(errors)
