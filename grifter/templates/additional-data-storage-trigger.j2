@@ -1,3 +1,4 @@
+    {#  #}
     add_volumes = [
       {% for volume in data.provider_config.additional_storage_volumes %}
       "virsh vol-create-as {{ data.provider_config.storage_pool|default('default', True) }} #{domain_prefix}-#{guest_name}-#{domain_uuid}-{{ volume.location.split('/')[-1] }} {{ volume.size }}",

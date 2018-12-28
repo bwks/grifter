@@ -35,11 +35,9 @@
 
     {% include 'libvirt-config.j2' %}
     {% if data.provider_config.additional_storage_volumes %}
-
     {% include 'additional-data-storage-trigger.j2' %}
     {% endif %}
     {% if blackhole_interfaces.get(guest) %}
-
     {% include 'blackhole-interfaces-trigger.j2' %}
     {% endif %}
 
