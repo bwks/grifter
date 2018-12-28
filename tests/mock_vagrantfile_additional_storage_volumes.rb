@@ -33,6 +33,7 @@ Vagrant.configure("2") do |config|
       domain.storage :file, :path => "#{domain_prefix}-#{guest_name}-#{domain_uuid}-volume1.qcow2", :size => "10000", :type => "qcow2", :bus => "ide", :device => "hdb", :allow_existing => true
       domain.storage :file, :path => "#{domain_prefix}-#{guest_name}-#{domain_uuid}-volume2.img", :size => "10000", :type => "raw", :bus => "ide", :device => "hdc", :allow_existing => true
     end
+
     add_volumes = [
       "virsh vol-create-as default #{domain_prefix}-#{guest_name}-#{domain_uuid}-volume1.qcow2 10000",
       "sleep 1",
