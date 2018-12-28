@@ -29,6 +29,30 @@ config = load_data(DEFAULT_CONFIG_FILE)
 interface_mappings = generate_guest_interface_mappings()
 
 
+def validate_guest_data(guest_data):
+    """
+    Validate and update guest data if validation is successful.
+    :param guest_data: Dict of guest data
+    :return: Dict of updated data.
+    """
+    errors = validate_data(guest_data)
+    if not errors:
+        merged_data = update_guest_data(guest_data)
+        update_guest_interfaces(merged_data, config)
+        update_reserved_interfaces(merged_data, config)
+        update_guest_additional_storage(merged_data)
+
+        try:
+            validate_guests_in_guest_config(merged_data, config)
+            validate_guest_interfaces(merged_data, config, interface_mappings)
+        except AttributeError as e:
+            errors.append(e)
+        if not errors:
+            return merged_data
+    if errors:
+        display_errors(errors)
+
+
 def load_data_file(datafile):
     """
     Load data file.
@@ -50,6 +74,7 @@ def display_errors(errors_list):
     """
     for error in errors_list:
         click.echo(error)
+    exit(1)
 
 
 def display_connections(connections_list, guest=''):
@@ -80,7 +105,7 @@ def display_connections(connections_list, guest=''):
 
 
 @click.group(context_settings={'help_option_names': ['-h', '--help']})
-@click.version_option(version='0.2.5')
+@click.version_option(version='0.2.6')
 def cli():
     """Create a Vagrantfile from a YAML data input file."""
     pass
@@ -96,28 +121,9 @@ def create(datafile):
     """Create a Vagrantfile."""
 
     guest_data = load_data_file(datafile)
-
-    errors = validate_data(guest_data)
-
-    if not errors:
-        loopbacks = generate_loopbacks(guest_data)
-        merged_data = update_guest_data(guest_data)
-        update_guest_interfaces(merged_data, config)
-        update_reserved_interfaces(merged_data, config)
-        update_guest_additional_storage(merged_data)
-
-        try:
-            validate_guests_in_guest_config(merged_data, config)
-            validate_guest_interfaces(merged_data, config, interface_mappings)
-        except AttributeError as e:
-            errors.append(e)
-
-        if not errors:
-            return generate_vagrant_file(merged_data, loopbacks)
-        else:
-            display_errors(errors)
-    else:
-        display_errors(errors)
+    validated_guest_data = validate_guest_data(guest_data)
+    loopbacks = generate_loopbacks(guest_data)
+    return generate_vagrant_file(validated_guest_data, loopbacks)
 
 
 @cli.command(help='Print example file declaration.')
@@ -140,15 +146,10 @@ def example(guest, group):
     ''')
 @click.argument('datafile')
 @click.argument('guest', default='')
-@click.option('--unique', is_flag=True, default=False)
+@click.option('--unique', is_flag=True, default=False, help='Remove duplicate connections.')
 def connections(datafile, guest, unique):
     """Show device to device connections."""
     guest_data = load_data_file(datafile)
-
-    errors = validate_data(guest_data)
-
-    if not errors:
-        connections_list = generate_connections_list(guest_data, interface_mappings, unique)
-        display_connections(connections_list, guest)
-    else:
-        display_errors(errors)
+    validated_guest_data = validate_guest_data(guest_data)
+    connections_list = generate_connections_list(validated_guest_data, interface_mappings, unique)
+    display_connections(connections_list, guest)
