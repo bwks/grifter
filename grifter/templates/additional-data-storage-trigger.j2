@@ -1,4 +1,3 @@
-    {% if data.provider_config.additional_storage_volumes %}
     add_volumes = [
       {% for volume in data.provider_config.additional_storage_volumes %}
       "virsh vol-create-as {{ data.provider_config.storage_pool|default('default', True) }} #{username}-#{guest_name}-{{ volume.location.split('/')[-1] }} {{ volume.size }}",
@@ -27,4 +26,4 @@
         trigger.run = {inline: i}
       end
     end
-    {% endif %}
+    {#  #}

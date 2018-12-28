@@ -34,7 +34,9 @@
     {% endif %}
 
     {% include 'libvirt-config.j2' %}
-    {% include 'triggers.j2' %}
+    {% if data.provider_config.additional_storage_volumes %}
+    {% include 'additional-data-storage-trigger.j2' %}
+    {% endif %}
 
     {% for interface in data.internal_interfaces %}
     {% include 'libvirt-internal-interface-config.j2' %}
@@ -46,7 +48,7 @@
     {% include 'libvirt-data-interface-config.j2' %}
     {% endfor %}
     {% if blackhole_interfaces.get(guest) %}
-    {% include 'blackhole-interfaces.j2' %}
+    {% include 'blackhole-interfaces-trigger.j2' %}
     {% endif %}
   end
   {% endfor %}
