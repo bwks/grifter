@@ -1,5 +1,0 @@
----
-# This can be deleted after tests are passing
-guests:
-  type: "dict"
-  empty: False

@@ -335,15 +335,22 @@ def update_guest_additional_storage(guest_data):
     return updated_guest_dict
 
 
-def validate_data(guest_data):
+def validate_data(guest_data, guest_default_data=False):
     """
     Validate data conforms to required schema
     :param guest_data: Guest data dict
-    :return: errors dict
+    :param guest_default_data: True if validating guest defaults
+    :return: errors list
     """
     errors = []
+    schema = load_data(GUEST_SCHEMA_FILE)
+    # Guest default schema should be the same as a guest
+    # schema apart from the vagrant box name attribute.
+    if guest_default_data:
+        schema['vagrant_box']['schema'].pop('name')
+
     for guest, data in guest_data.items():
-        result = validate_schema(data, load_data(GUEST_SCHEMA_FILE))
+        result = validate_schema(data, schema)
         if result.errors:
             errors.append(result.errors)
 
