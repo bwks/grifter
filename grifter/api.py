@@ -22,7 +22,7 @@ from .constants import (
     BLACKHOLE_LOOPBACK_MAP,
     ALL_GUEST_DEFAULTS,
     GUEST_SCHEMA_FILE,
-    GUEST_DEFAULTS_DIRS,
+    DEFAULT_CONFIG_DIRS,
     DEFAULT_CONFIG_FILE,
     VAGRANTFILE_BACKUP_DIR,
     TIMESTAMP_FORMAT,
@@ -184,28 +184,28 @@ def update_context(source, target):
     return new_context
 
 
-def load_guest_defaults(guest_defaults_file):
+def load_config_file(config_file):
     """
-    Load guest_defaults_file from the following locations top to
+    Load config_file from the following locations top to
     bottom least to most preferred. Value are overwritten not merged:
       - /opt/grifter/
       - ~/.grifter/
       - ./
-    :param guest_defaults_file: Guest defaults filename
+    :param config_file: Guest defaults filename
     :return: Dict of guest default data or empty dict
     """
-    guest_defaults = {}
+    config = {}
 
-    for directory in GUEST_DEFAULTS_DIRS:
+    for directory in DEFAULT_CONFIG_DIRS:
         try:
-            guest_defaults = load_data(f'{directory}/{guest_defaults_file}')
-            logger.info(f'File: "{directory}/{guest_defaults_file}" found')
+            config = load_data(f'{directory}/{config_file}')
+            logger.info(f'File: "{directory}/{config_file}" found')
         except FileNotFoundError:
-            logger.warning(f'File: "{directory}/{guest_defaults_file}" not found')
+            logger.warning(f'File: "{directory}/{config_file}" not found')
         except PermissionError:
-            logger.error(f'File: "{directory}/{guest_defaults_file}" permission denied')
+            logger.error(f'File: "{directory}/{config_file}" permission denied')
 
-    return guest_defaults
+    return config
 
 
 def update_guest_data(
@@ -221,7 +221,7 @@ def update_guest_data(
     :return: Updated Dict of guest data
     """
 
-    guest_defaults = load_guest_defaults(guest_defaults_file)
+    guest_defaults = load_config_file(guest_defaults_file)
 
     new_guest_data = {}
     for guest, data in guest_data.items():

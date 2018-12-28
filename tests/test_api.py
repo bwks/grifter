@@ -19,12 +19,11 @@ from grifter.api import (
     update_guest_data,
     update_context,
     validate_data,
-    load_guest_defaults,
+    load_config_file,
     update_guest_additional_storage,
     int_to_port_map,
     generate_int_to_port_mappings,
     create_reserved_interfaces,
-    update_reserved_interfaces,
 )
 
 from .mock_data import (
@@ -150,7 +149,7 @@ def test_update_context_with_non_dict():
     assert expected == update_context(seed_data, default_data)
 
 
-@mock.patch('grifter.api.load_guest_defaults', side_effect=mock_data)
+@mock.patch('grifter.api.load_config_file', side_effect=mock_data)
 def test_create_guest_with_group_vars(mock_data):
     seed_data = {'sw01': {'vagrant_box': {'name': 'arista/veos'}}}
 
@@ -252,10 +251,10 @@ def test_validate_data_with_invalid_data_returns_list_of_errors():
     assert result
 
 
-@mock.patch('grifter.api.load_guest_defaults', side_effect=mock_data)
-def test_load_guest_defaults_with_file_error_returns_empty_dict(mock_data):
+@mock.patch('grifter.api.load_config_file', side_effect=mock_data)
+def test_load_config_file_with_file_error_returns_empty_dict(mock_data):
     expected = {}
-    assert expected == load_guest_defaults('blah.yml')
+    assert expected == load_config_file('blah.yml')
 
 
 # noinspection PyPep8Naming

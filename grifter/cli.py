@@ -17,7 +17,7 @@ from .api import (
     generate_guest_interface_mappings,
     update_reserved_interfaces,
     generate_connections_list,
-    load_guest_defaults,
+    load_config_file,
 )
 from .validators import (
     validate_guests_in_guest_config,
@@ -36,7 +36,7 @@ def validate_guest_data(guest_data):
     :param guest_data: Dict of guest data
     :return: Dict of updated data.
     """
-    guest_defaults = load_guest_defaults('guest-defaults.yml')
+    guest_defaults = load_config_file('guest-defaults.yml')
     errors = []
 
     guest_errors = validate_data(guest_data)
