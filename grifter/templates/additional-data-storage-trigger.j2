@@ -1,8 +1,8 @@
     add_volumes = [
       {% for volume in data.provider_config.additional_storage_volumes %}
-      "virsh vol-create-as {{ data.provider_config.storage_pool|default('default', True) }} #{username}-#{guest_name}-{{ volume.location.split('/')[-1] }} {{ volume.size }}",
+      "virsh vol-create-as {{ data.provider_config.storage_pool|default('default', True) }} #{domain_prefix}-#{guest_name}-#{domain_uuid}-{{ volume.location.split('/')[-1] }} {{ volume.size }}",
       "sleep 1",
-      "virsh vol-upload --pool {{ data.provider_config.storage_pool|default('default', True) }} #{username}-#{guest_name}-{{ volume.location.split('/')[-1] }} {{ volume.location }}",
+      "virsh vol-upload --pool {{ data.provider_config.storage_pool|default('default', True) }} #{domain_prefix}-#{guest_name}-#{domain_uuid}-{{ volume.location.split('/')[-1] }} {{ volume.location }}",
       "sleep 1"{{ "," if not loop.last }}
       {% endfor %}
     ]
@@ -16,7 +16,7 @@
 
     delete_volumes = [
       {% for volume in data.provider_config.additional_storage_volumes %}
-      "virsh vol-delete #{username}-#{guest_name}-{{ volume.location.split('/')[-1] }} {{ data.provider_config.storage_pool|default('default', True) }}"{{ "," if not loop.last }}
+      "virsh vol-delete #{domain_prefix}-#{guest_name}-#{domain_uuid}-{{ volume.location.split('/')[-1] }} {{ data.provider_config.storage_pool|default('default', True) }}"{{ "," if not loop.last }}
       {% endfor %}
     ]
     delete_volumes.each do |i|
