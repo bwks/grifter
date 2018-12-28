@@ -650,9 +650,9 @@ will create a 'pseudo' layer 1 connection between VM ports.
 
 #### NIC Adapter Count
 Config location: `guests.yml`  
-Defines the total number of Network Interface Cards excluding 
-the management port permitted on the VM.
+Defines the total number of `data_interfaces` to create on the VM. 
+Any undefined `data_interfaces` will be added as a blackhole interface.
 
 The total is calculated against the sum of the `internal_interfaces`, `
 reserved_interfaces` and `data_interfaces` parameters after blackhole 
-interfaces have been added.
+interfaces have been added automatically by the template system.
