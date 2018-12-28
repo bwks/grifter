@@ -17,6 +17,7 @@ from .api import (
     generate_guest_interface_mappings,
     update_reserved_interfaces,
     generate_connections_list,
+    load_guest_defaults,
 )
 from .validators import (
     validate_guests_in_guest_config,
@@ -35,7 +36,18 @@ def validate_guest_data(guest_data):
     :param guest_data: Dict of guest data
     :return: Dict of updated data.
     """
-    errors = validate_data(guest_data)
+    guest_defaults = load_guest_defaults('guest-defaults.yml')
+    errors = []
+
+    guest_errors = validate_data(guest_data)
+    if guest_errors:
+        errors += guest_errors
+
+    if guest_defaults:
+        guest_defaults_errors = validate_data(guest_defaults, guest_default_data=True)
+        if guest_defaults_errors:
+            errors += guest_defaults_errors
+
     if not errors:
         merged_data = update_guest_data(guest_data)
         update_guest_interfaces(merged_data, config)
