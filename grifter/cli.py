@@ -19,6 +19,7 @@ from .api import (
     update_reserved_interfaces,
     generate_connections_list,
     merge_user_config,
+    generate_dot_file,
 )
 from .validators import (
     validate_guests_in_guest_config,
@@ -176,3 +177,19 @@ def connections(datafile, guest, unique):
     validated_guest_data = validate_guest_data(guest_data, guest_config)
     connections_list = generate_connections_list(validated_guest_data, interface_mappings, unique)
     display_connections(connections_list, guest)
+
+
+@cli.command(help='''
+    Create DOT file.
+
+    DATAFILE - Name of DATAFILE.
+    ''')
+@click.argument('datafile')
+def dotfile(datafile):
+    """Show device to device connections."""
+    guest_config = merge_user_config()
+    validate_guest_config(guest_config)
+    guest_data = load_data_file(datafile)
+    validated_guest_data = validate_guest_data(guest_data, guest_config)
+    connections_list = generate_connections_list(validated_guest_data, interface_mappings, unique=True)
+    return generate_dot_file(connections_list)

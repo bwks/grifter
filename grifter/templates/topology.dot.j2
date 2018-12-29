@@ -1,0 +1,5 @@
+graph G {
+  {% for i in connections %}
+  "{{ i.local_guest }}":"{{ i.local_port }}" -- "{{ i.remote_guest }}":"{{ i.remote_port }}";
+  {% endfor %}
+}
