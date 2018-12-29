@@ -7,26 +7,21 @@ from grifter.constants import (
     BASE_DIR,
     DEFAULT_CONFIG_FILE,
 )
-
 from grifter.loaders import (
     load_data,
+    load_config_file,
 )
-
 from grifter.api import (
     generate_loopbacks,
     update_guest_interfaces,
     add_blackhole_interfaces,
     update_guest_data,
     update_context,
-    validate_data,
-    load_guest_defaults,
     update_guest_additional_storage,
     int_to_port_map,
     generate_int_to_port_mappings,
     create_reserved_interfaces,
-    update_reserved_interfaces,
 )
-
 from .mock_data import (
     mock_guest_data,
     mock_guest_interfaces,
@@ -150,7 +145,7 @@ def test_update_context_with_non_dict():
     assert expected == update_context(seed_data, default_data)
 
 
-@mock.patch('grifter.api.load_guest_defaults', side_effect=mock_data)
+@mock.patch('grifter.api.load_config_file', side_effect=mock_data)
 def test_create_guest_with_group_vars(mock_data):
     seed_data = {'sw01': {'vagrant_box': {'name': 'arista/veos'}}}
 
@@ -235,27 +230,10 @@ def test_create_guest_without_group_vars():
     assert expected == update_guest_data(seed_data, 'does-not-exist.yml')
 
 
-def test_validate_data_returns_list():
-    result = validate_data({'guests': {}})
-    assert isinstance(result, list)
-
-
-def test_validate_data_with_valid_data_returns_no_errors_in_empty_list():
-    result = validate_data(mock_guest_data)
-    assert not result
-
-
-def test_validate_data_with_invalid_data_returns_list_of_errors():
-    # missing vagrant box name field value
-    data = {'sw01': {'vagrant_box': {'name': ''}}}
-    result = validate_data(data)
-    assert result
-
-
-@mock.patch('grifter.api.load_guest_defaults', side_effect=mock_data)
-def test_load_guest_defaults_with_file_error_returns_empty_dict(mock_data):
+@mock.patch('grifter.api.load_config_file', side_effect=mock_data)
+def test_load_config_file_with_file_error_returns_empty_dict(mock_data):
     expected = {}
-    assert expected == load_guest_defaults('blah.yml')
+    assert expected == load_config_file('blah.yml')
 
 
 # noinspection PyPep8Naming
@@ -317,6 +295,16 @@ def test_generate_int_to_port_mappings():
 
     result = generate_int_to_port_mappings(data)
     assert result == expected
+
+
+def test_generate_int_to_port_mappings_empty_interfaces_returns_empty_dict():
+    expected = {
+        'data_interfaces': {},
+        'internal_interfaces': {},
+        'management_interface': 'mgmt',
+        'reserved_interfaces': {}
+    }
+    assert generate_int_to_port_mappings({}) == expected
 
 
 def test_create_reserved_interfaces():

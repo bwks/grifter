@@ -1,7 +1,18 @@
 import yaml
 import json
+import logging
+import os
 
 from jinja2 import Environment, FileSystemLoader
+
+logger = logging.getLogger(__name__)
+
+USER_HOME = os.path.expanduser('~')
+DEFAULT_CONFIG_DIRS = [
+    '/opt/grifter',
+    f'{USER_HOME}/.grifter',
+    '.',
+]
 
 
 def render_from_template(
@@ -38,3 +49,27 @@ def load_data(location, data_type='yaml'):
             return yaml.safe_load(f)
         elif data_type.lower() == 'json':
             return json.load(f)
+
+
+def load_config_file(config_file):
+    """
+    Load config_file from the following locations top to
+    bottom least to most preferred. Value are overwritten not merged:
+      - /opt/grifter/
+      - ~/.grifter/
+      - ./
+    :param config_file: Guest defaults filename
+    :return: Dict of guest default data or empty dict
+    """
+    config = {}
+
+    for directory in DEFAULT_CONFIG_DIRS:
+        try:
+            config = load_data(f'{directory}/{config_file}')
+            logger.info(f'File: "{directory}/{config_file}" found')
+        except FileNotFoundError:
+            logger.warning(f'File: "{directory}/{config_file}" not found')
+        except PermissionError:
+            logger.error(f'File: "{directory}/{config_file}" permission denied')
+
+    return config

@@ -3,6 +3,7 @@ import uuid
 import string
 import re
 
+
 def get_mac(oui='28:b7:ad'):
     """
     Generate a random MAC address.

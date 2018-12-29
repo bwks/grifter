@@ -3,8 +3,10 @@ import pytest
 
 from .mock_data import mock_guest_data
 
-from grifter.api import generate_guest_interface_mappings
-
+from grifter.api import (
+    generate_guest_interface_mappings,
+    get_default_config
+)
 from grifter.constants import (
     GUEST_SCHEMA_FILE,
     DEFAULT_CONFIG_FILE,
@@ -17,7 +19,9 @@ from grifter.validators import (
     validate_required_values,
     validate_schema,
     validate_guests_in_guest_config,
-    validate_guest_interfaces
+    validate_guest_interfaces,
+    validate_data,
+    validate_config,
 )
 
 config = load_data(DEFAULT_CONFIG_FILE)
@@ -120,3 +124,25 @@ def test_validate_guest_interfaces_with_valid_data_returns_true():
     result = validate_guest_interfaces(data, config, interface_mappings)
     assert result is True
 
+
+def test_validate_data_returns_list():
+    result = validate_data({'guests': {}})
+    assert isinstance(result, list)
+
+
+def test_validate_data_with_valid_data_returns_no_errors_in_empty_list():
+    result = validate_data(mock_guest_data)
+    assert not result
+
+
+def test_validate_data_with_invalid_data_returns_list_of_errors():
+    # missing vagrant box name field value
+    data = {'sw01': {'vagrant_box': {'name': ''}}}
+    result = validate_data(data)
+    assert result
+
+
+def test_validate_config_default_config_returns_no_errors():
+    default_config = get_default_config()
+    result = validate_config(default_config)
+    assert not result

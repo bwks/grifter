@@ -1,7 +1,57 @@
 from cerberus import Validator
+from grifter.loaders import load_data
+from grifter.constants import (
+    GUEST_SCHEMA_FILE,
+    GUEST_CONFIG_SCHEMA,
+    GUEST_PAIRS_SCHEMA,
 
-
+)
 required_keys = ['vagrant_box']
+
+
+def validate_config(guest_config):
+    errors = []
+
+    def _validate(config, schema):
+        validation_errors = []
+        for key, data in config.items():
+            result = validate_schema(data, schema)
+            if result.errors:
+                validation_errors.append(result.errors)
+        return validation_errors
+
+    guest_config_result = _validate(guest_config['guest_config'], load_data(GUEST_CONFIG_SCHEMA))
+    guest_pairs_result = _validate(guest_config['guest_pairs'], load_data(GUEST_PAIRS_SCHEMA))
+
+    if guest_config_result:
+        errors += guest_config_result
+
+    if guest_pairs_result:
+        errors += guest_pairs_result
+
+    return errors
+
+
+def validate_data(guest_data, guest_default_data=False):
+    """
+    Validate data conforms to required schema
+    :param guest_data: Guest data dict
+    :param guest_default_data: True if validating guest defaults
+    :return: errors list
+    """
+    errors = []
+    schema = load_data(GUEST_SCHEMA_FILE)
+    # Guest default schema should be the same as a guest
+    # schema apart from the vagrant box name attribute.
+    if guest_default_data:
+        schema['vagrant_box']['schema'].pop('name')
+
+    for guest, data in guest_data.items():
+        result = validate_schema(data, schema)
+        if result.errors:
+            errors.append(result.errors)
+
+    return errors
 
 
 def validate_guests_in_guest_config(guests, config):
