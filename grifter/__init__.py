@@ -8,9 +8,9 @@ import logging
 #     update_guest_interfaces,
 #     generate_vagrant_file,
 # )
-# from .cli import (
-#     cli,
-# )
+from .cli import (
+    cli,
+)
 # from .loaders import (
 #     load_data,
 #     render_from_template,
