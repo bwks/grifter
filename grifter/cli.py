@@ -170,7 +170,9 @@ def example(guest, group):
 @click.option('--unique', is_flag=True, default=False, help='Remove duplicate connections.')
 def connections(datafile, guest, unique):
     """Show device to device connections."""
+    guest_config = merge_user_config()
+    validate_guest_config(guest_config)
     guest_data = load_data_file(datafile)
-    validated_guest_data = validate_guest_data(guest_data)
+    validated_guest_data = validate_guest_data(guest_data, guest_config)
     connections_list = generate_connections_list(validated_guest_data, interface_mappings, unique)
     display_connections(connections_list, guest)
