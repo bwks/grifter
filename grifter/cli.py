@@ -6,7 +6,10 @@ from .constants import (
     GROUPS_EXAMPLE_FILE,
     DEFAULT_CONFIG_FILE,
 )
-from .loaders import load_data
+from .loaders import (
+    load_data,
+    load_config_file,
+)
 from .api import (
     generate_loopbacks,
     update_guest_interfaces,
@@ -17,14 +20,12 @@ from .api import (
     generate_guest_interface_mappings,
     update_reserved_interfaces,
     generate_connections_list,
-    load_config_file,
 )
 from .validators import (
     validate_guests_in_guest_config,
     validate_guest_interfaces,
 )
 from .utils import sort_nicely
-
 
 config = load_data(DEFAULT_CONFIG_FILE)
 interface_mappings = generate_guest_interface_mappings()

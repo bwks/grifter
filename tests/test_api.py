@@ -7,11 +7,10 @@ from grifter.constants import (
     BASE_DIR,
     DEFAULT_CONFIG_FILE,
 )
-
 from grifter.loaders import (
     load_data,
+    load_config_file,
 )
-
 from grifter.api import (
     generate_loopbacks,
     update_guest_interfaces,
@@ -19,13 +18,11 @@ from grifter.api import (
     update_guest_data,
     update_context,
     validate_data,
-    load_config_file,
     update_guest_additional_storage,
     int_to_port_map,
     generate_int_to_port_mappings,
     create_reserved_interfaces,
 )
-
 from .mock_data import (
     mock_guest_data,
     mock_guest_interfaces,

@@ -16,13 +16,13 @@ from .custom_filters import (
 from .loaders import (
     render_from_template,
     load_data,
+    load_config_file,
 )
 from .constants import (
     TEMPLATES_DIR,
     BLACKHOLE_LOOPBACK_MAP,
     ALL_GUEST_DEFAULTS,
     GUEST_SCHEMA_FILE,
-    DEFAULT_CONFIG_DIRS,
     DEFAULT_CONFIG_FILE,
     VAGRANTFILE_BACKUP_DIR,
     TIMESTAMP_FORMAT,
@@ -182,30 +182,6 @@ def update_context(source, target):
                 new_context[k] = source[k]
 
     return new_context
-
-
-def load_config_file(config_file):
-    """
-    Load config_file from the following locations top to
-    bottom least to most preferred. Value are overwritten not merged:
-      - /opt/grifter/
-      - ~/.grifter/
-      - ./
-    :param config_file: Guest defaults filename
-    :return: Dict of guest default data or empty dict
-    """
-    config = {}
-
-    for directory in DEFAULT_CONFIG_DIRS:
-        try:
-            config = load_data(f'{directory}/{config_file}')
-            logger.info(f'File: "{directory}/{config_file}" found')
-        except FileNotFoundError:
-            logger.warning(f'File: "{directory}/{config_file}" not found')
-        except PermissionError:
-            logger.error(f'File: "{directory}/{config_file}" permission denied')
-
-    return config
 
 
 def update_guest_data(

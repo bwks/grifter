@@ -1,7 +1,6 @@
 import os
-from .loaders import load_data
 
-USER_HOME = os.path.expanduser('~')
+from .loaders import load_data
 
 BASE_DIR = os.path.join(os.path.dirname(__file__))
 
@@ -16,12 +15,6 @@ GUESTS_EXAMPLE_FILE = f'{EXAMPLES_DIR}/guests-example.yml'
 DEFAULT_CONFIG_FILE = f'{BASE_DIR}/config.yml'
 GUEST_DEFAULTS_FILE = f'{BASE_DIR}/defaults.yml'
 ALL_GUEST_DEFAULTS = load_data(GUEST_DEFAULTS_FILE)
-
-DEFAULT_CONFIG_DIRS = [
-    '/opt/grifter',
-    f'{USER_HOME}/.grifter',
-    '.',
-]
 
 TESTS_DIR = os.path.join(BASE_DIR, '../tests')
 
