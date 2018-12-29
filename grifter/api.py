@@ -355,6 +355,7 @@ def generate_vagrant_file(
             blackhole_interfaces=blackhole_interface_map,
         )
         f.write(vagrantfile)
+        logger.info('Vagrantfile created')
 
 
 def generate_dot_file(connections_list):
@@ -365,3 +366,4 @@ def generate_dot_file(connections_list):
             connections_list=connections_list,
         )
         f.write(dot_file)
+        logger.info('topology.dot file created')

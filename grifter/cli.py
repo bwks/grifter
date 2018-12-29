@@ -180,7 +180,7 @@ def connections(datafile, guest, unique):
 
 
 @cli.command(help='''
-    Create DOT file.
+    Create topology.dot file.
 
     DATAFILE - Name of DATAFILE.
     ''')
@@ -196,4 +196,4 @@ def dotfile(datafile):
     validated_guest_data = validate_guest_data(guest_data, guest_config)
     unsorted_connections = generate_connections_list(validated_guest_data, interface_mappings, unique=True)
     connections_list = [dotfile_link(i) for i in unsorted_connections]
-    return generate_dot_file(sort_nicely(sort_nicely(connections_list)))
+    return generate_dot_file(sort_nicely(connections_list))
