@@ -192,4 +192,4 @@ def dotfile(datafile):
     guest_data = load_data_file(datafile)
     validated_guest_data = validate_guest_data(guest_data, guest_config)
     connections_list = generate_connections_list(validated_guest_data, interface_mappings, unique=True)
-    return generate_dot_file(connections_list)
+    return generate_dot_file(sort_nicely(connections_list))
