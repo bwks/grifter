@@ -20,6 +20,8 @@ TESTS_DIR = os.path.join(BASE_DIR, '../tests')
 
 SCHEMAS_DIR = os.path.join(BASE_DIR, 'schemas')
 GUEST_SCHEMA_FILE = f'{SCHEMAS_DIR}/guest-schema.yml'
+GUEST_CONFIG_SCHEMA = f'{SCHEMAS_DIR}/guest-config-schema.yml'
+GUEST_PAIRS_SCHEMA = f'{SCHEMAS_DIR}/guest-pairs-schema.yml'
 
 BLACKHOLE_LOOPBACK_MAP = {'blackhole': '127.6.6.6'}
 

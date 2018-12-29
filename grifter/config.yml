@@ -50,7 +50,7 @@ guest_config:
     reserved_interfaces: 0
 
   juniper/vmx-vcp:
-    data_interface_base: ""
+    data_interface_base: "NA"
     data_interface_offset: 0
     internal_interfaces: 1
     max_data_interfaces: 0
@@ -66,7 +66,7 @@ guest_config:
     reserved_interfaces: 0
 
   juniper/vqfx-pfe:
-    data_interface_base: ""
+    data_interface_base: "NA"
     data_interface_offset: 0
     internal_interfaces: 1
     max_data_interfaces: 0

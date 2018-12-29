@@ -1,3 +1,5 @@
+from unittest import mock
+
 from click.testing import CliRunner
 
 from grifter.constants import (
@@ -32,6 +34,7 @@ def test_cli_example_group_output():
     assert result.output == f'{expected}\n'
 
 
+# @mock.patch('os.', return_value='10000')
 def test_cli_create_with_invalid_data_output():
     runner = CliRunner()
     result = runner.invoke(cli, ['create', mock_invalid_guest_data_file])

@@ -4,7 +4,6 @@ import sys
 from .constants import (
     GUESTS_EXAMPLE_FILE,
     GROUPS_EXAMPLE_FILE,
-    DEFAULT_CONFIG_FILE,
 )
 from .loaders import (
     load_data,
@@ -15,23 +14,30 @@ from .api import (
     update_guest_interfaces,
     generate_vagrant_file,
     update_guest_data,
-    validate_data,
     update_guest_additional_storage,
     generate_guest_interface_mappings,
     update_reserved_interfaces,
     generate_connections_list,
+    merge_user_config,
 )
 from .validators import (
     validate_guests_in_guest_config,
     validate_guest_interfaces,
+    validate_data,
+    validate_config,
 )
 from .utils import sort_nicely
 
-config = load_data(DEFAULT_CONFIG_FILE)
 interface_mappings = generate_guest_interface_mappings()
 
 
-def validate_guest_data(guest_data):
+def validate_guest_config(config):
+    errors = validate_config(config)
+    if errors:
+        display_errors(errors)
+
+
+def validate_guest_data(guest_data, config):
     """
     Validate and update guest data if validation is successful.
     :param guest_data: Dict of guest data
@@ -133,8 +139,10 @@ def cli():
 def create(datafile):
     """Create a Vagrantfile."""
 
+    guest_config = merge_user_config()
+    validate_guest_config(guest_config)
     guest_data = load_data_file(datafile)
-    validated_guest_data = validate_guest_data(guest_data)
+    validated_guest_data = validate_guest_data(guest_data, guest_config)
     loopbacks = generate_loopbacks(guest_data)
     return generate_vagrant_file(validated_guest_data, loopbacks)
 

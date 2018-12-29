@@ -9,7 +9,6 @@ from .utils import (
     get_uuid,
     remove_duplicates,
 )
-from .validators import validate_schema
 from .custom_filters import (
     explode_port,
 )
@@ -22,7 +21,6 @@ from .constants import (
     TEMPLATES_DIR,
     BLACKHOLE_LOOPBACK_MAP,
     ALL_GUEST_DEFAULTS,
-    GUEST_SCHEMA_FILE,
     DEFAULT_CONFIG_FILE,
     VAGRANTFILE_BACKUP_DIR,
     TIMESTAMP_FORMAT,
@@ -35,7 +33,7 @@ custom_filters = [
 ]
 
 
-def get_config(config=DEFAULT_CONFIG_FILE):
+def get_default_config(config=DEFAULT_CONFIG_FILE):
     return load_data(config)
 
 
@@ -97,7 +95,7 @@ def generate_guest_interface_mappings(config_file=DEFAULT_CONFIG_FILE):
     :param config_file: Path to config file
     :return: Dictionary of guest type interface port mappings.
     """
-    config = get_config(config_file)
+    config = get_default_config(config_file)
     mappings = {}
     for k, v in config['guest_config'].items():
         mappings[k] = generate_int_to_port_mappings(config['guest_config'][k])
@@ -182,6 +180,15 @@ def update_context(source, target):
                 new_context[k] = source[k]
 
     return new_context
+
+
+def merge_user_config():
+    default_config = copy.deepcopy(get_default_config())
+    user_config = load_config_file('config.yml')
+    if user_config:
+        merged_config = update_context(user_config, default_config)
+        return merged_config
+    return default_config
 
 
 def update_guest_data(
@@ -309,28 +316,6 @@ def update_guest_additional_storage(guest_data):
             updated_guest_dict.update({guest: data})
 
     return updated_guest_dict
-
-
-def validate_data(guest_data, guest_default_data=False):
-    """
-    Validate data conforms to required schema
-    :param guest_data: Guest data dict
-    :param guest_default_data: True if validating guest defaults
-    :return: errors list
-    """
-    errors = []
-    schema = load_data(GUEST_SCHEMA_FILE)
-    # Guest default schema should be the same as a guest
-    # schema apart from the vagrant box name attribute.
-    if guest_default_data:
-        schema['vagrant_box']['schema'].pop('name')
-
-    for guest, data in guest_data.items():
-        result = validate_schema(data, schema)
-        if result.errors:
-            errors.append(result.errors)
-
-    return errors
 
 
 def generate_vagrant_file(

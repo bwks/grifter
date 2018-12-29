@@ -73,4 +73,3 @@ def load_config_file(config_file):
             logger.error(f'File: "{directory}/{config_file}" permission denied')
 
     return config
-
