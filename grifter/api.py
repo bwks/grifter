@@ -183,7 +183,7 @@ def update_context(source, target):
 
 
 def merge_user_config():
-    default_config = copy.deepcopy(get_default_config())
+    default_config = get_default_config()
     user_config = load_config_file('config.yml')
     if user_config:
         merged_config = update_context(user_config, default_config)

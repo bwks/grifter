@@ -122,9 +122,9 @@ guest_config:
     reserved_interfaces: 0
 
   unknown/unknown:
-    data_interface_base: "eth"
+    data_interface_base: "int"
     data_interface_offset: 1
     internal_interfaces: 0
     max_data_interfaces: 8
-    management_interface: "eth0"
+    management_interface: "int0"
     reserved_interfaces: 0

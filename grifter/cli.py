@@ -40,7 +40,8 @@ def validate_guest_config(config):
 def validate_guest_data(guest_data, config):
     """
     Validate and update guest data if validation is successful.
-    :param guest_data: Dict of guest data
+    :param guest_data: Dict of guest data.
+    :param config: Dict of config data.
     :return: Dict of updated data.
     """
     guest_defaults = load_config_file('guest-defaults.yml')
@@ -138,7 +139,6 @@ def cli():
 @click.argument('datafile')
 def create(datafile):
     """Create a Vagrantfile."""
-
     guest_config = merge_user_config()
     validate_guest_config(guest_config)
     guest_data = load_data_file(datafile)

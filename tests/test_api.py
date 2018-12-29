@@ -297,6 +297,16 @@ def test_generate_int_to_port_mappings():
     assert result == expected
 
 
+def test_generate_int_to_port_mappings_empty_interfaces_returns_empty_dict():
+    expected = {
+        'data_interfaces': {},
+        'internal_interfaces': {},
+        'management_interface': 'mgmt',
+        'reserved_interfaces': {}
+    }
+    assert generate_int_to_port_mappings({}) == expected
+
+
 def test_create_reserved_interfaces():
     expected = [{
         'local_port': 1,
