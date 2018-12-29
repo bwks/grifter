@@ -1,5 +1,5 @@
 graph G {
-  {% for i in connections_list %}
-  "{{ i.local_guest }}":"{{ i.local_port }}" -- "{{ i.remote_guest }}":"{{ i.remote_port }}";
+  {% for connection in connections_list %}
+  {{ connection }}
   {% endfor %}
 }

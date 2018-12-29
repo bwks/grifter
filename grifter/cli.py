@@ -187,9 +187,13 @@ def connections(datafile, guest, unique):
 @click.argument('datafile')
 def dotfile(datafile):
     """Show device to device connections."""
+    def dotfile_link(x):
+        return f'''"{x['local_guest']}":"{x['local_port']}" -- "{x['remote_guest']}":"{x['remote_port']}";'''
+
     guest_config = merge_user_config()
     validate_guest_config(guest_config)
     guest_data = load_data_file(datafile)
     validated_guest_data = validate_guest_data(guest_data, guest_config)
-    connections_list = generate_connections_list(validated_guest_data, interface_mappings, unique=True)
-    return generate_dot_file(sort_nicely(connections_list))
+    unsorted_connections = generate_connections_list(validated_guest_data, interface_mappings, unique=True)
+    connections_list = [dotfile_link(i) for i in unsorted_connections]
+    return generate_dot_file(sort_nicely(sort_nicely(connections_list)))
