@@ -62,7 +62,6 @@ def load_config_file(config_file):
     :return: Dict of guest default data or empty dict
     """
     config = {}
-
     for directory in DEFAULT_CONFIG_DIRS:
         try:
             config = load_data(f'{directory}/{config_file}')

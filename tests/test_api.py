@@ -21,10 +21,12 @@ from grifter.api import (
     int_to_port_map,
     generate_int_to_port_mappings,
     create_reserved_interfaces,
+    generate_connection_strings,
 )
 from .mock_data import (
     mock_guest_data,
     mock_guest_interfaces,
+    mock_connection_data,
 )
 
 config = load_data(DEFAULT_CONFIG_FILE)
@@ -314,3 +316,12 @@ def test_create_reserved_interfaces():
         'remote_port': 666
     }]
     assert create_reserved_interfaces(1) == expected
+
+
+@pytest.mark.parametrize('data ,expected, dotfile', [
+    (mock_connection_data, ['sw1-swp7 <--> r7-ge-0/0/9'], False),
+    (mock_connection_data, ['"sw1":"swp7" -- "r7":"ge-0/0/9";'], True),
+
+])
+def test_generate_connection_strings_return_expected_string_list(data, expected, dotfile):
+    assert generate_connection_strings(data, dotfile) == expected
