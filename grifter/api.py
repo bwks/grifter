@@ -180,8 +180,12 @@ def generate_loopbacks(guest_dict=None):
     elif not guest_dict:
         raise ValueError('dict of guests is empty')
 
-    network = f'127.{random.randint(2, 254)}.{random.randint(2, 254)}'
-
+    def generate_network():
+        net = f'127.{random.randint(2, 254)}.{random.randint(2, 254)}'
+        if net == '127.6.6':
+            generate_network()
+        return net
+    network = generate_network()
     guests = list(guest_dict.keys())
     loopbacks = [f'{network}.{i}' for i in range(1, len(guests) + 1)]
     guest_to_loopback_map = dict(zip(guests, loopbacks))
