@@ -352,7 +352,6 @@ def generate_vagrant_file(
     :param loopbacks: Dictionary of loopback addresses.
     :param template_name: Name of Jinja2 template
     :param template_directory: Template directory location
-    :return: 
     """
     time_now = time.strftime(TIMESTAMP_FORMAT)
     current_vagrantfile = pathlib.Path('Vagrantfile')
@@ -383,6 +382,10 @@ def generate_vagrant_file(
 
 
 def generate_dotfile(connections_list):
+    """
+    Generate undirected dotfile.
+    :param connections_list: List of connections strings
+    """
     with open('topology.dot', 'w') as f:
         dotfile = render_from_template(
             template_name='topology.dot.j2',

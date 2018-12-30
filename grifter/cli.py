@@ -138,7 +138,11 @@ def create(datafile):
     guest_data = load_data_file(datafile)
     validated_guest_data = validate_guest_data(guest_data, guest_config)
     loopbacks = generate_loopbacks(guest_data)
-    return generate_vagrant_file(validated_guest_data, loopbacks)
+    generate_vagrant_file(validated_guest_data, loopbacks)
+    unsorted_connections = generate_connections_list(validated_guest_data, interface_mappings,
+                                                     unique=True)
+    connections_list = generate_connection_strings(unsorted_connections, dotfile=True)
+    generate_dotfile(connections_list)
 
 
 @cli.command(help='Print example file declaration.')
@@ -179,12 +183,11 @@ def connections(datafile, guest, unique):
     ''')
 @click.argument('datafile')
 def dotfile(datafile):
-    """Show device to device connections."""
-
+    """Generate undirected dotfile."""
     guest_config = merge_user_config()
     validate_guest_config(guest_config)
     guest_data = load_data_file(datafile)
     validated_guest_data = validate_guest_data(guest_data, guest_config)
     unsorted_connections = generate_connections_list(validated_guest_data, interface_mappings, unique=True)
     connections_list = generate_connection_strings(unsorted_connections, dotfile=True)
-    return generate_dotfile(connections_list)
+    generate_dotfile(connections_list)
