@@ -178,7 +178,7 @@ This file can be customized with your required parameters by creating a
  - `./` 
  
  Parameters in a users `config.yml` file will be merged with the default 
- `config.yml` file.
+ `config.yml` file with the user-defined parameters taking preference.
 
 ## Usage
 
