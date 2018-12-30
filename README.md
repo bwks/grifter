@@ -34,7 +34,7 @@ frustrating, error riddled process especially for those not familiar
 with Vagrant. Grifter aims to help simplify that process.
 
 ##### Additional project goals
-- Generate graphviz/PTM topologies files
+- Generate topology.dot files for use with PTM :heavy_check_mark:
 - Generate Inventory files for tools such as Ansible, Nornir
 
 NOTE: Only a `vagrant-libvirt` compatible `Vagrantfile` for 
@@ -64,8 +64,37 @@ source .venv/bin/activate
 
 Install `grifter` with `pip`
 ```
+# Install the master branch.
 pip install https://github.com/bobthebutcher/grifter/archive/master.zip
 ```
+
+Releases are distributed via Github Releases.
+```
+# Install the latest release.
+pip install https://github.com/bobthebutcher/grifter/releases/tag/v0.2.9
+```
+
+## Quick Start
+Create a `guests.yml` file.
+``` 
+tee guests.yml > /dev/null << "EOF"
+srv01:
+  vagrant_box: 
+    name: "centos/7"
+EOF
+```
+
+Generate a Vagrantfile
+``` 
+grifter create guests.yml
+```
+
+Let Vagrant do its magic
+``` 
+vagrant up
+```
+
+
 
 ## Config File
 A file named `config.yml` is required to define the base settings of 
@@ -93,9 +122,6 @@ Grifter expects Vagrant boxes to be named according to the following list.
 - generic/ubuntu1804
 - opensuse/openSUSE-15.0-x86_64
 
-In a future release support will be added for boxes named according to user 
-defined values.
-
 #### guest_config
 The `guest_config` section defines characteristics about the Vagrant boxes 
 used with grifter.
@@ -104,6 +130,10 @@ used with grifter.
 - data_interface_offset
 - max_data_interfaces
 - management_interface
+
+Note: `data_interface_base` cannot be an empty string. If the box does not 
+have any data interfaces the suggested value is "NA". This field will be 
+ignored so it can be anything as long as it is not empty.
 
 ```yaml
 guest_config:
@@ -149,8 +179,6 @@ This file can be customized with your required parameters by creating a
  
  Parameters in a users `config.yml` file will be merged with the default 
  `config.yml` file.
-
-NOTE: This functionality will be added in a future release.
 
 ## Usage
 
