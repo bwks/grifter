@@ -298,11 +298,12 @@ def update_guest_interfaces(guest_data, config):
         if not data.get('data_interfaces'):
             updated_guest_dict.update({guest: data})
         else:
-            data['data_interfaces'] = add_blackhole_interfaces(
+            updated_interfaces = add_blackhole_interfaces(
                 config['guest_config'][guest_box]['data_interface_offset'],
                 data['provider_config']['nic_adapter_count'],
-                data['data_interfaces']
+                copy.deepcopy(data['data_interfaces'])
             )
+            data['data_interfaces'] = updated_interfaces
             updated_guest_dict.update({guest: data})
 
     return updated_guest_dict
