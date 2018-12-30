@@ -2,9 +2,9 @@
     add_volumes = [
       {% for volume in data.provider_config.additional_storage_volumes %}
       "virsh vol-create-as {{ data.provider_config.storage_pool|default('default', True) }} #{domain_prefix}-#{guest_name}-#{domain_uuid}-{{ volume.location.split('/')[-1] }} {{ volume.size }}",
-      "sleep 3",
+      "sleep 1",
       "virsh vol-upload --pool {{ data.provider_config.storage_pool|default('default', True) }} #{domain_prefix}-#{guest_name}-#{domain_uuid}-{{ volume.location.split('/')[-1] }} {{ volume.location }}",
-      "sleep 3"{{ "," if not loop.last }}
+      "sleep 1"{{ "," if not loop.last }}
       {% endfor %}
     ]
     add_volumes.each do |i|
