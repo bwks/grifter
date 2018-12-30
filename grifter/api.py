@@ -9,6 +9,7 @@ from .utils import (
     get_uuid,
     remove_duplicates,
     sort_nicely,
+    dict_merge,
 )
 from .custom_filters import (
     explode_port,
@@ -179,8 +180,12 @@ def generate_loopbacks(guest_dict=None):
     elif not guest_dict:
         raise ValueError('dict of guests is empty')
 
-    network = f'127.{random.randint(2, 254)}.{random.randint(2, 254)}'
-
+    def generate_network():
+        net = f'127.{random.randint(2, 254)}.{random.randint(2, 254)}'
+        if net == '127.6.6':
+            generate_network()
+        return net
+    network = generate_network()
     guests = list(guest_dict.keys())
     loopbacks = [f'{network}.{i}' for i in range(1, len(guests) + 1)]
     guest_to_loopback_map = dict(zip(guests, loopbacks))
@@ -188,29 +193,11 @@ def generate_loopbacks(guest_dict=None):
     return {**guest_to_loopback_map, **BLACKHOLE_LOOPBACK_MAP}
 
 
-def update_context(source, target):
-    """
-    Take a source dict and update it with target data
-    :param source: Source data dictionary
-    :param target: Target data dictionary to update
-    :return: Return new dict with merged data
-    """
-    new_context = copy.deepcopy(target)
-    for k, v in source.items():
-        if k in target:
-            if isinstance(target[k], dict):
-                new_context[k].update(source[k])
-            else:
-                new_context[k] = source[k]
-
-    return new_context
-
-
 def merge_user_config():
     default_config = get_default_config()
     user_config = load_config_file('config.yml')
     if user_config:
-        merged_config = update_context(user_config, default_config)
+        merged_config = dict_merge(copy.deepcopy(default_config), user_config)
         return merged_config
     return default_config
 
@@ -238,11 +225,11 @@ def update_guest_data(
         if guest_defaults and data['vagrant_box'].get('name') in guest_defaults:
             # Merge group vars with host vars
             group_context = guest_defaults.get(data['vagrant_box']['name'])
-            new_context = update_context(group_context, default_context)
-            new_guest_data.update({guest: (update_context(data, new_context))})
+            new_context = dict_merge(default_context, group_context)
+            new_guest_data.update({guest: (dict_merge(new_context, data))})
         else:
             # No group vars found, just merge host vars
-            new_guest_data.update({guest: (update_context(data, default_context))})
+            new_guest_data.update({guest: (dict_merge(default_context, data))})
     return new_guest_data
 
 
@@ -311,11 +298,12 @@ def update_guest_interfaces(guest_data, config):
         if not data.get('data_interfaces'):
             updated_guest_dict.update({guest: data})
         else:
-            data['data_interfaces'] = add_blackhole_interfaces(
+            updated_interfaces = add_blackhole_interfaces(
                 config['guest_config'][guest_box]['data_interface_offset'],
                 data['provider_config']['nic_adapter_count'],
-                data['data_interfaces']
+                copy.deepcopy(data['data_interfaces'])
             )
+            data['data_interfaces'] = updated_interfaces
             updated_guest_dict.update({guest: data})
 
     return updated_guest_dict

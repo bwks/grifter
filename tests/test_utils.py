@@ -4,6 +4,7 @@ from grifter.utils import (
     get_mac,
     remove_duplicates,
     sort_nicely,
+    dict_merge
 )
 
 
@@ -46,3 +47,10 @@ def test_sort_nicely_empty_list_returns_empty_list():
 def test_sort_nicely_non_list_type_raises_attribute_error():
     with pytest.raises(AttributeError):
         sort_nicely('')
+
+
+def test_dict_merge():
+    a = {1: {"a": "A"}, 2: {"b": "B", "c": "C"}, 3: [{1: 2}]}
+    b = {1: {"a": "A"}, 2: {"b": "D"}, 3: [{4: 5}], 4: {'x': 'y'}, 5: 6}
+    expected = {1: {'a': 'A'}, 2: {'b': 'D', 'c': 'C'}, 3: [{4: 5}], 4: {'x': 'y'}, 5: 6}
+    assert dict_merge(a, b) == expected

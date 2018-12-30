@@ -71,7 +71,7 @@ pip install https://github.com/bobthebutcher/grifter/archive/master.zip
 Releases are distributed via Github Releases.
 ```
 # Install the latest release.
-pip install https://github.com/bobthebutcher/grifter/archive/v0.2.9.zip
+pip install https://github.com/bobthebutcher/grifter/archive/v0.2.10.zip
 ```
 
 ## Quick Start

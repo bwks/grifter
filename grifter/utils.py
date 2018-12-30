@@ -54,3 +54,19 @@ def sort_nicely(the_list):
         return [convert(c) for c in re.split('([0-9]+)', key)]
 
     return sorted(the_list, key=alphanum_key)
+
+
+def dict_merge(a, b):
+    """
+    Merge dict-like "b" into dict-like "a". In case keys between them
+    are the same, merge their sub-dictionaries where possible. Otherwise,
+    values in "b" overwrite "a". This function mutates "a", deepcopy "a"
+    if you want to preserve the original "a" dict.
+    # Shamelessly adapted from: https://stackoverflow.com/a/49060237
+    """
+    for key in b:
+        if key in a and isinstance(a[key], dict) and isinstance(b[key], dict):
+            a[key] = dict_merge(a[key], b[key])
+        else:
+            a[key] = b[key]
+    return a

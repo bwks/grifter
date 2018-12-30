@@ -16,7 +16,6 @@ from grifter.api import (
     update_guest_interfaces,
     add_blackhole_interfaces,
     update_guest_data,
-    update_context,
     update_guest_additional_storage,
     int_to_port_map,
     generate_int_to_port_mappings,
@@ -127,24 +126,6 @@ def test_update_interfaces_with_blackhole_interfaces():
     expected_intefaces = mock_guest_interfaces + blackhole_interfaces
 
     assert add_blackhole_interfaces(1, 4, mock_guest_interfaces) == expected_intefaces
-
-
-def test_update_context_with_dict():
-    default_data = {'guest': {'name': ''}, 'insert_ssh_key': False}
-    seed_data = {'guest': {'name': 'sw01'}}
-
-    expected = {'guest': {'name': 'sw01'}, 'insert_ssh_key': False}
-
-    assert expected == update_context(seed_data, default_data)
-
-
-def test_update_context_with_non_dict():
-    default_data = {'guest': {'name': ''}, 'insert_ssh_key': False}
-    seed_data = {'guest': {'name': 'sw01'}, 'insert_ssh_key': True}
-
-    expected = {'guest': {'name': 'sw01'}, 'insert_ssh_key': True}
-
-    assert expected == update_context(seed_data, default_data)
 
 
 @mock.patch('grifter.api.load_config_file', side_effect=mock_data)
