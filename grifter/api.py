@@ -8,6 +8,7 @@ import time
 from .utils import (
     get_uuid,
     remove_duplicates,
+    sort_nicely,
 )
 from .custom_filters import (
     explode_port,
@@ -35,6 +36,29 @@ custom_filters = [
 
 def get_default_config(config=DEFAULT_CONFIG_FILE):
     return load_data(config)
+
+
+def generate_connection_strings(connections, dotfile=False):
+    """
+    Generate a list of connection strings. The format of connections
+    is the output from the 'generate_int_to_port_mappings' function.
+    :param connections: List of dicts containing connection information ie:
+      [{'local_guest': 'p1sw1',
+        'local_port': 'swp7',
+        'remote_guest': 'p1r7',
+        'remote_port': 'ge-0/0/9'}]
+    :param dotfile: Generate a dotfile format undirected link
+    :return: List of connection strings
+    """
+    def make_link(x):
+        if dotfile:
+            return f'''"{x['local_guest']}":"{x['local_port']}" -- "{x['remote_guest']}":"{x['remote_port']}";'''
+        else:
+            return f"{x['local_guest']}-{x['local_port']} <--> {x['remote_guest']}-{x['remote_port']}"
+    connections_list = []
+    for connection in connections:
+        connections_list.append(make_link(connection))
+    return sort_nicely(connections_list)
 
 
 def int_to_port_map(name, offset, number_of_interfaces):
@@ -358,12 +382,12 @@ def generate_vagrant_file(
         logger.info('Vagrantfile created')
 
 
-def generate_dot_file(connections_list):
+def generate_dotfile(connections_list):
     with open('topology.dot', 'w') as f:
-        dot_file = render_from_template(
+        dotfile = render_from_template(
             template_name='topology.dot.j2',
             template_directory=f'{TEMPLATES_DIR}/',
             connections_list=connections_list,
         )
-        f.write(dot_file)
+        f.write(dotfile)
         logger.info('topology.dot file created')

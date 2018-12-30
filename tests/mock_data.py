@@ -112,3 +112,7 @@ with open(f'{TESTS_DIR}/mock_vagrantfile_additional_storage_volumes.rb', 'r') as
     mock_vagrantfile_with_additional_storage_volumes = f.read()
 
 mock_invalid_guest_data_file = f'{TESTS_DIR}/mock_invalid_guest_data.yml'
+
+
+mock_connection_data = [{'local_guest': 'sw1', 'local_port': 'swp7',
+                    'remote_guest': 'r7', 'remote_port': 'ge-0/0/9'}]

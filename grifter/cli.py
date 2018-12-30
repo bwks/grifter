@@ -19,7 +19,8 @@ from .api import (
     update_reserved_interfaces,
     generate_connections_list,
     merge_user_config,
-    generate_dot_file,
+    generate_dotfile,
+    generate_connection_strings,
 )
 from .validators import (
     validate_guests_in_guest_config,
@@ -27,7 +28,6 @@ from .validators import (
     validate_data,
     validate_config,
 )
-from .utils import sort_nicely
 
 interface_mappings = generate_guest_interface_mappings()
 
@@ -95,33 +95,26 @@ def display_errors(errors_list):
     """
     for error in errors_list:
         click.echo(error)
-    exit(1)
+    sys.exit(1)
 
 
-def display_connections(connections_list, guest=''):
+def display_connections(connections, guest=''):
     """
     Output a list of connections
-    :param connections_list: List of dicts containing connection information ie:
+    :param connections: List of dicts containing connection information ie:
       [{'local_guest': 'p1sw1',
         'local_port': 'swp7',
         'remote_guest': 'p1r7',
         'remote_port': 'ge-0/0/9'}]
     :param guest: Display connections for guest.
     """
-    guest_connections = []
-
-    def make_link(x):
-        return f"{x['local_guest']}-{x['local_port']} <--> {x['remote_guest']}-{x['remote_port']}"
-
     if guest:
-        for i in connections_list:
-            if i['local_guest'] == guest:
-                guest_connections.append(make_link(i))
+        guest_connections = [i for i in connections if i['local_guest'] == guest]
+        connections_list = generate_connection_strings(guest_connections)
     else:
-        for i in connections_list:
-            guest_connections.append(make_link(i))
+        connections_list = generate_connection_strings(connections)
 
-    for i in sort_nicely(guest_connections):
+    for i in connections_list:
         click.echo(i)
 
 
@@ -187,13 +180,11 @@ def connections(datafile, guest, unique):
 @click.argument('datafile')
 def dotfile(datafile):
     """Show device to device connections."""
-    def dotfile_link(x):
-        return f'''"{x['local_guest']}":"{x['local_port']}" -- "{x['remote_guest']}":"{x['remote_port']}";'''
 
     guest_config = merge_user_config()
     validate_guest_config(guest_config)
     guest_data = load_data_file(datafile)
     validated_guest_data = validate_guest_data(guest_data, guest_config)
     unsorted_connections = generate_connections_list(validated_guest_data, interface_mappings, unique=True)
-    connections_list = [dotfile_link(i) for i in unsorted_connections]
-    return generate_dot_file(sort_nicely(connections_list))
+    connections_list = generate_connection_strings(unsorted_connections, dotfile=True)
+    return generate_dotfile(connections_list)
