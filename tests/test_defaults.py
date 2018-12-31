@@ -7,7 +7,8 @@ expected_guest_defaults = {
         'url': '',
         'provider': 'libvirt',
         'guest_type': '',
-        'boot_timeout': 0
+        'boot_timeout': 0,
+        'throttle_cpu': False
     },
     'ssh': {
         'username': '',
@@ -35,13 +36,13 @@ expected_guest_defaults = {
 }
 
 expected_guest_config_defaults = {
-      'data_interface_base': '',
-      'data_interface_offset': 0,
-      'internal_interfaces': 0,
-      'max_data_interfaces': 8,
-      'management_interface': 'mgmt',
-      'reserved_interfaces': 0,
-    }
+    'data_interface_base': '',
+    'data_interface_offset': 0,
+    'internal_interfaces': 0,
+    'max_data_interfaces': 8,
+    'management_interface': 'mgmt',
+    'reserved_interfaces': 0,
+}
 
 
 def test_default_values():

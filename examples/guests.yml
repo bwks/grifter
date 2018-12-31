@@ -6,6 +6,7 @@ sw01:
     url: ""
     provider: "libvirt"
     guest_type: ""
+    throttle_cpu: False
   ssh:
     username: ""
     password: ""
@@ -38,6 +39,7 @@ sw02:
     url: ""
     provider: "libvirt"
     guest_type: ""
+    throttle_cpu: False
   ssh:
     username: ""
     password: ""

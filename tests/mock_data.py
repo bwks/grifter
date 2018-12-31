@@ -30,7 +30,7 @@ mock_guest_data = {
             'memory': 2048,
             'huge_pages': False,
             'nic_adapter_count': 2,
-            'additional_storage_volumes': []
+            'additional_storage_volumes': [],
         },
         'synced_folder': {
             'enabled': False,
@@ -41,6 +41,7 @@ mock_guest_data = {
             'version': '',
             'url': '',
             'guest_type': '',
+            'throttle_cpu': False
         }
     },
     'sw02': {
@@ -72,7 +73,7 @@ mock_guest_data = {
             'memory': 2048,
             'huge_pages': False,
             'nic_adapter_count': 2,
-            'additional_storage_volumes': []
+            'additional_storage_volumes': [],
         },
         'synced_folder': {
             'enabled': False,
@@ -83,6 +84,7 @@ mock_guest_data = {
             'version': '',
             'url': '',
             'guest_type': '',
+            'throttle_cpu': False
         }
     }
 }
@@ -90,19 +92,19 @@ mock_guest_data = {
 mock_guest_interfaces = mock_guest_data['sw01']['data_interfaces']
 
 mock_additional_storage_volumes = [
-        {
-            'location': '/fake/location/volume1.qcow2',
-            'type': 'qcow2',
-            'bus': 'ide',
-            'device': 'hdb',
-        },
-        {
-            'location': '/fake/location/volume2.img',
-            'type': 'raw',
-            'bus': 'ide',
-            'device': 'hdc',
-        }
-    ]
+    {
+        'location': '/fake/location/volume1.qcow2',
+        'type': 'qcow2',
+        'bus': 'ide',
+        'device': 'hdb',
+    },
+    {
+        'location': '/fake/location/volume2.img',
+        'type': 'raw',
+        'bus': 'ide',
+        'device': 'hdc',
+    }
+]
 
 
 with open(f'{TESTS_DIR}/mock_vagrantfile.rb', 'r') as f:
@@ -115,4 +117,4 @@ mock_invalid_guest_data_file = f'{TESTS_DIR}/mock_invalid_guest_data.yml'
 
 
 mock_connection_data = [{'local_guest': 'sw1', 'local_port': 'swp7',
-                    'remote_guest': 'r7', 'remote_port': 'ge-0/0/9'}]
+                         'remote_guest': 'r7', 'remote_port': 'ge-0/0/9'}]
