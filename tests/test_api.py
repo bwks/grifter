@@ -83,7 +83,7 @@ def test_guest_without_interfaces():
                 'memory': 2048,
                 'huge_pages': False,
                 'nic_adapter_count': 2,
-                'additional_storage_volumes': []
+                'additional_storage_volumes': [],
             },
             'synced_folder': {
                 'enabled': False,
@@ -94,6 +94,7 @@ def test_guest_without_interfaces():
                 'version': '',
                 'url': '',
                 'guest_type': '',
+                'throttle_cpu': 0
             }
         }
     }
@@ -152,7 +153,7 @@ def test_create_guest_with_group_vars(mock_data):
                 'huge_pages': False,
                 'nic_adapter_count': 8,
                 'storage_pool': '',
-                'additional_storage_volumes': []
+                'additional_storage_volumes': [],
             },
             'synced_folder': {
                 'enabled': False
@@ -163,7 +164,8 @@ def test_create_guest_with_group_vars(mock_data):
                 'provider': 'libvirt',
                 'guest_type': '',
                 'version': '4.20.1F',
-                'url': ''
+                'url': '',
+                'throttle_cpu': 0
             }
         }
     }
@@ -194,7 +196,7 @@ def test_create_guest_without_group_vars():
                 'huge_pages': False,
                 'nic_adapter_count': 0,
                 'storage_pool': '',
-                'additional_storage_volumes': []
+                'additional_storage_volumes': [],
             },
             'synced_folder': {
                 'enabled': False
@@ -205,7 +207,8 @@ def test_create_guest_without_group_vars():
                 'provider': 'libvirt',
                 'guest_type': '',
                 'version': '',
-                'url': ''
+                'url': '',
+                'throttle_cpu': 0
             }
         }
     }

@@ -71,7 +71,7 @@ pip install https://github.com/bobthebutcher/grifter/archive/master.zip
 Releases are distributed via Github Releases.
 ```
 # Install the latest release.
-pip install https://github.com/bobthebutcher/grifter/archive/v0.2.10.zip
+pip install https://github.com/bobthebutcher/grifter/archive/v0.2.11.zip
 ```
 
 ## Quick Start
@@ -227,6 +227,7 @@ some-guest: # guest name
     provider: # string - optional | default: "libvirt"
     guest_type: # string - optional | default: ""
     boot_timeout: # integer - optional | default: 0
+    throttle_cpu: # integer - optional | default: 0
 
   ssh: # dict - optional
     username: # string - optional | default: ""
