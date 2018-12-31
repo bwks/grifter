@@ -33,10 +33,10 @@
     node.ssh.password = "{{ data.ssh.password }}"
     {% endif %}
 
+    {% include 'libvirt-config.j2' %}
     {% if data.vagrant_box.throttle_cpu %}
     {% include 'throttle-cpu-trigger.j2' %}
     {% endif %}
-    {% include 'libvirt-config.j2' %}
     {% if data.provider_config.additional_storage_volumes %}
     {% include 'additional-data-storage-trigger.j2' %}
     {% endif %}
