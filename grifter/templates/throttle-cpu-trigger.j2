@@ -1,3 +1,4 @@
+
     node.trigger.after :up do |trigger|
       trigger.info = "Throttling #{domain_prefix}_#{guest_name} CPU"
       trigger.run = {inline: "virsh schedinfo #{domain_prefix}_#{guest_name} --set vcpu_quota=33000"}
