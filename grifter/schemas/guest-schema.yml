@@ -22,8 +22,9 @@ vagrant_box:
       min: 0
       max: 300
     throttle_cpu:
-      type: "boolean"
-
+      type: "integer"
+      min: 0
+      max: 99
 ssh:
   type: "dict"
   schema:

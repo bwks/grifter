@@ -41,7 +41,7 @@ mock_guest_data = {
             'version': '',
             'url': '',
             'guest_type': '',
-            'throttle_cpu': False
+            'throttle_cpu': 0
         }
     },
     'sw02': {
@@ -84,7 +84,7 @@ mock_guest_data = {
             'version': '',
             'url': '',
             'guest_type': '',
-            'throttle_cpu': False
+            'throttle_cpu': 0
         }
     }
 }

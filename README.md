@@ -227,7 +227,7 @@ some-guest: # guest name
     provider: # string - optional | default: "libvirt"
     guest_type: # string - optional | default: ""
     boot_timeout: # integer - optional | default: 0
-    throttle_cpu: # boolean - optional | default: False
+    throttle_cpu: # integer - optional | default: 0
 
   ssh: # dict - optional
     username: # string - optional | default: ""

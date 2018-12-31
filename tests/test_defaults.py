@@ -8,7 +8,7 @@ expected_guest_defaults = {
         'provider': 'libvirt',
         'guest_type': '',
         'boot_timeout': 0,
-        'throttle_cpu': False
+        'throttle_cpu': 0
     },
     'ssh': {
         'username': '',

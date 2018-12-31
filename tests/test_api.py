@@ -94,7 +94,7 @@ def test_guest_without_interfaces():
                 'version': '',
                 'url': '',
                 'guest_type': '',
-                'throttle_cpu': False
+                'throttle_cpu': 0
             }
         }
     }
@@ -165,7 +165,7 @@ def test_create_guest_with_group_vars(mock_data):
                 'guest_type': '',
                 'version': '4.20.1F',
                 'url': '',
-                'throttle_cpu': False
+                'throttle_cpu': 0
             }
         }
     }
@@ -208,7 +208,7 @@ def test_create_guest_without_group_vars():
                 'guest_type': '',
                 'version': '',
                 'url': '',
-                'throttle_cpu': False
+                'throttle_cpu': 0
             }
         }
     }
