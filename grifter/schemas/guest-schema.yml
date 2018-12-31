@@ -21,10 +21,14 @@ vagrant_box:
       type: "integer"
       min: 0
       max: 300
+      forbidden:
+       - 1
     throttle_cpu:
       type: "integer"
       min: 0
       max: 99
+      forbidden:
+       - 1
 ssh:
   type: "dict"
   schema:
