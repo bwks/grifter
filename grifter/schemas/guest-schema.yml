@@ -107,6 +107,7 @@ provider_config:
       allowed:
         - "virtio"
         - "e1000"
+        - "vmxnet3"
     management_network_mac:
       type: "string"
 

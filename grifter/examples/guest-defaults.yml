@@ -61,7 +61,7 @@ cisco/iosv-l2:
 
 cisco/csr1000v:
   vagrant_box:
-    version: "03.15.00.S-155-2-S"
+    version: "16.11.01a"
     guest_type: "tinycore"
   ssh:
     insert_key: False
@@ -70,7 +70,8 @@ cisco/csr1000v:
   provider_config:
     nic_adapter_count: 8
     cpus: 2
-    memory: 2048
+    memory: 4096
+    nic_model_type: "vmxnet3"
 
 CumulusCommunity/cumulus-vx:
   vagrant_box:
